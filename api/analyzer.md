@@ -21,7 +21,7 @@
 - **오류 응답**
   400 형식 오류
   401 토큰 불일치
-- **비고**: FNC-A-024. 최대 2,000건
+- **비고**: FNC-A-024. 호출하는 기능: FNC-S-006. 최대 2,000건
 
 ### PATCH /internal/v1/cameras/{id}/status — 캠 상태 보고
 
@@ -36,7 +36,7 @@
   {"status": "PREPARING", "progress": 45, "errorMessage": null}
 - **Response**: 204
 - **오류 응답**: 401 / 404
-- **비고**: FNC-A-025
+- **비고**: FNC-A-025. 호출하는 기능: FNC-S-007·009·012
 
 ### POST /internal/v1/recordings — 녹화 등록
 
@@ -55,7 +55,7 @@
 - **오류 응답**
   400 경로 규칙
   401 / 404
-- **비고**: FNC-A-026. 더미는 endedAt 없음
+- **비고**: FNC-A-026. 호출하는 기능: FNC-S-008·010. 더미는 endedAt 없음
 
 ### GET /internal/v1/cameras/desired — 가동 대상 캠 목록
 
@@ -68,7 +68,7 @@
   200
   [{"cameraId": 7, "sourceType": "LIVE", "sourceUri": "rtsp://…"}]
 - **오류 응답**: 401
-- **비고**: FNC-A-027
+- **비고**: FNC-A-027. 호출하는 기능: FNC-S-012
 
 ## 분석 서버(5000)
 
@@ -89,7 +89,7 @@
 - **오류 응답**
   400 SOURCE_NOT_FOUND
   401
-- **비고**: FNC-S-001. 타임아웃 5초
+- **비고**: FNC-S-001. 호출하는 기능: FNC-A-020. 타임아웃 5초
 
 ### POST /analyzer/v1/cameras/{id}/stop — 캠 정지
 
@@ -100,7 +100,7 @@
 - **Request**: -
 - **Response**: 200
 - **오류 응답**: 401
-- **비고**: FNC-S-002. 멱등
+- **비고**: FNC-S-002. 호출하는 기능: FNC-A-021·025. 멱등
 
 ### GET /analyzer/v1/cameras/{id}/live — 실시간 화면
 
@@ -111,7 +111,7 @@
 - **Request**: -
 - **Response**: 200 multipart/x-mixed-replace; boundary=frame
 - **오류 응답**: 401 / 404 작업 없음
-- **비고**: FNC-S-011. 외부 노출 금지(nginx만)
+- **비고**: FNC-S-011. 호출하는 기능: FNC-A-042(nginx 경유). 외부 노출 금지(nginx만)
 
 ### GET /analyzer/v1/cameras/{id}/snapshot — 카드 미리보기
 
@@ -122,7 +122,7 @@
 - **Request**: -
 - **Response**: 200 image/jpeg (Cache-Control: no-store)
 - **오류 응답**: 401 / 404 작업 없음
-- **비고**: FNC-S-011. 외부 노출 금지(nginx만)
+- **비고**: FNC-S-011. 호출하는 기능: FNC-A-042(nginx 경유). 외부 노출 금지(nginx만)
 
 ### GET /analyzer/v1/health — 상태 확인
 
