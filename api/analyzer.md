@@ -1,0 +1,138 @@
+# API 명세 — spring ↔ flask 내부 계약
+
+> 원본: 명세서 시트 'API 명세서'에서 옮김. 이후로는 이 파일이 원본이다.
+
+두 저장소(white-eyes-spring, white-eyes-flask)가 함께 맞춰야 하는 계약. 바꿀 때는 두 저장소를 같이 고친다.
+
+## 내부 API(관리자 앱 8082)
+
+### POST /internal/v1/results — 분석 결과 수신
+
+- **설명**: 1초 결과 묶음 수신
+- **관련 요구사항 ID**
+  vanly-006
+  stagg-001
+- **권한**: X-Internal-Token
+- **호출 주체**: 분석 서버
+- **Request**
+  Body
+  [{"cameraId": 7, "at": "2026-10-12T14:03:05+09:00", "personCount": 42, "in": {"N": 1, "E": 0, "S": 0, "W": 2}, "out": {…}, "dwellSec": [305.2, 41.0]}]
+- **Response**: 204
+- **오류 응답**
+  400 형식 오류
+  401 토큰 불일치
+- **비고**: FNC-A-024. 최대 2,000건
+
+### PATCH /internal/v1/cameras/{id}/status — 캠 상태 보고
+
+- **설명**: 상태·진행률·오류 보고
+- **관련 요구사항 ID**
+  caman-004~005
+  vanly-007
+- **권한**: X-Internal-Token
+- **호출 주체**: 분석 서버
+- **Request**
+  Body
+  {"status": "PREPARING", "progress": 45, "errorMessage": null}
+- **Response**: 204
+- **오류 응답**: 401 / 404
+- **비고**: FNC-A-025
+
+### POST /internal/v1/recordings — 녹화 등록
+
+- **설명**: 완성된 녹화 등록
+- **관련 요구사항 ID**
+  rec-001
+  rec-003~004
+- **권한**: X-Internal-Token
+- **호출 주체**: 분석 서버
+- **Request**
+  Body
+  {"cameraId": 7, "startedAt": "2026-10-12T14:03:00.000+09:00", "endedAt": "2026-10-12T14:04:00.000+09:00", "videoPath": "recordings/live/cam7/20261012/cam7_20261012_1403.mp4", "boxPath": "…json.gz"}
+- **Response**
+  201
+  {"id": 900}
+- **오류 응답**
+  400 경로 규칙
+  401 / 404
+- **비고**: FNC-A-026. 더미는 endedAt 없음
+
+### GET /internal/v1/cameras/desired — 가동 대상 캠 목록
+
+- **설명**: run_requested=1인 캠
+- **관련 요구사항 ID**: vanly-008
+- **권한**: X-Internal-Token
+- **호출 주체**: 분석 서버
+- **Request**: -
+- **Response**
+  200
+  [{"cameraId": 7, "sourceType": "LIVE", "sourceUri": "rtsp://…"}]
+- **오류 응답**: 401
+- **비고**: FNC-A-027
+
+## 분석 서버(5000)
+
+### POST /analyzer/v1/cameras/{id}/start — 캠 시작
+
+- **설명**: 캠 작업 시작
+- **관련 요구사항 ID**
+  caman-003
+  vanly-005
+- **권한**: X-Internal-Token
+- **호출 주체**: 관리자 앱
+- **Request**
+  Body
+  {"sourceType": "DUMMY", "sourceUri": "dummy/videos/a.mp4"}
+- **Response**
+  200
+  {"cameraId": 7, "status": "PREPARING"}
+- **오류 응답**
+  400 SOURCE_NOT_FOUND
+  401
+- **비고**: FNC-S-001. 타임아웃 5초
+
+### POST /analyzer/v1/cameras/{id}/stop — 캠 정지
+
+- **설명**: 캠 작업 정지
+- **관련 요구사항 ID**: caman-003
+- **권한**: X-Internal-Token
+- **호출 주체**: 관리자 앱
+- **Request**: -
+- **Response**: 200
+- **오류 응답**: 401
+- **비고**: FNC-S-002. 멱등
+
+### GET /analyzer/v1/cameras/{id}/live — 실시간 화면
+
+- **설명**: 박스를 그린 MJPEG
+- **관련 요구사항 ID**: live-001
+- **권한**: X-Internal-Token
+- **호출 주체**: nginx
+- **Request**: -
+- **Response**: 200 multipart/x-mixed-replace; boundary=frame
+- **오류 응답**: 401 / 404 작업 없음
+- **비고**: FNC-S-011. 외부 노출 금지(nginx만)
+
+### GET /analyzer/v1/cameras/{id}/snapshot — 카드 미리보기
+
+- **설명**: 박스를 그린 최신 프레임 JPEG 1장
+- **관련 요구사항 ID**: live-002
+- **권한**: X-Internal-Token
+- **호출 주체**: nginx
+- **Request**: -
+- **Response**: 200 image/jpeg (Cache-Control: no-store)
+- **오류 응답**: 401 / 404 작업 없음
+- **비고**: FNC-S-011. 외부 노출 금지(nginx만)
+
+### GET /analyzer/v1/health — 상태 확인
+
+- **설명**: 분석 서버 상태
+- **관련 요구사항 ID**: -
+- **권한**: X-Internal-Token
+- **호출 주체**: 관리자 앱·운영자
+- **Request**: -
+- **Response**
+  200
+  {"status": "UP", "cameras": [{"cameraId": 7, "state": "RUNNING", "lastResultAt": "…"}], "bufferSize": 0}
+- **오류 응답**: 401
+- **비고**: FNC-S-013
