@@ -19,6 +19,7 @@
 | code-conventions.md | Java·Python·JavaScript 코드 컨벤션, 로깅(Log4j2) |
 | package-structure.md | spring 멀티모듈(common/user/admin)·flask 패키지 구조, 계층·의존 규칙 |
 | commit-convention.md | 커밋 메시지 규칙(세 저장소 공통) |
+| severity.md | 1차 검수에서 '상'으로 판단한 항목과 현재 상태 |
 | decisions/ | 결정 기록 |
 
 ## ID 접두사 → 파일
