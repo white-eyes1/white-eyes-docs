@@ -16,9 +16,9 @@
   2. LIVE: 라이브 작업(FNC-S-007) 시작, 응답 status=RUNNING
   3. DUMMY: 캐시(FNC-S-009)가 있으면 재생 작업(FNC-S-010) 시작 → RUNNING / 없으면 준비 작업 시작 → PREPARING
   4. 200 {status}
-- **업무 규칙/검증**: 캠 작업은 캠마다 스레드 1개 + 정지 플래그. 동시 탐지는 모델 1개를 잠금으로 공유(CPU 1대 기준)
+- **업무 규칙/검증**: 캠 작업은 캠마다 스레드 1개 + 정지 플래그. 동시 탐지는 모델 1개를 잠금으로 공유(CPU 1대 기준). 이미 돌고 있는지 확인은 요청 내용(sourceType·sourceUri)보다 먼저 하고, DUMMY 경로는 MEDIA_ROOT 안의 파일만 허용
 - **정상 결과**: 200 {cameraId, status}
-- **예외 상황 및 처리**: 파일 없음(DUMMY): 400 SOURCE_NOT_FOUND → 관리자 앱이 ERROR로 저장 / 토큰 불일치: 401
+- **예외 상황 및 처리**: 파일 없음(DUMMY): 400 SOURCE_NOT_FOUND → 관리자 앱이 ERROR로 저장 / 본문 형식 오류: 400 INVALID_REQUEST / LIVE(2단계 구현 전): 501 SOURCE_TYPE_NOT_SUPPORTED / 토큰 불일치: 401
 - **후속 동작**: 이후 상태 변화는 상태 보고(PATCH /internal/v1/cameras/{id}/status)
 - **관련 요구사항 ID**
   caman-003
