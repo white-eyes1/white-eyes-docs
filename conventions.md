@@ -108,6 +108,7 @@
 | RESULT_RETRY_BUFFER_SEC | 300 | 분석 서버의 전송 실패 결과 보관 한도(vanly-006) |
 | ANALYZE_FPS | 5 | 분석 프레임 수(초당) |
 | DETECT_CONF / DETECT_IMGSZ / YOLO_WEIGHTS | 0.3 / 960 / yolo-crowd.pt | 탐지 신뢰도 하한·입력 크기·가중치 파일. YOLO-CROWD(사람 머리 탐지). VisDrone 사진 120장 측정: 입력 960에서 센 수는 실제의 약 30%, 상관계수 0.70. 1280은 약 43%, 0.73이지만 이미지당 약 0.5초(CPU)라 초당 5프레임을 못 맞춤. 실제 더미 영상으로 다시 재고 조정 |
+| MEDIA_ROOT | /srv/media | 분석 서버가 공유 폴더를 읽는 기준 경로. DUMMY 영상은 이 아래 dummy/videos/ 에 있음(FNC-S-001 파일 존재 확인). 경로가 이 폴더 밖(링크 포함)을 가리키면 SOURCE_NOT_FOUND |
 | EDGE_MARGIN_RATIO | 0.05 | 판정선 위치: 화면 각 변에서 안쪽으로 너비·높이의 5% |
 | RECORD_WIDTH / RECORD_HEIGHT / RECORD_FPS | 1280 / 720 / 10 | 라이브 녹화 해상도·프레임(rec-002 용량 조절) |
 | LIVE_RECONNECT_FAIL_SEC | 30 | 라이브 스트림이 이 시간 동안 다시 연결되지 않으면 ERROR 보고(vanly-007) |
