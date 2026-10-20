@@ -717,6 +717,7 @@
 - **Response**: 201 캠 정보(status=STOPPED)
 - **오류 응답**
   400 주소 규칙
+  404 ZONE_NOT_FOUND
   409 ZONE_HAS_CAMERA
 - **비고**: FNC-A-018
 
