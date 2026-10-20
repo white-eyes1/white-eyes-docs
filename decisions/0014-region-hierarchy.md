@@ -2,7 +2,7 @@
 
 - 상태: 채택
 - 기록: 2026-10-20
-- 관련: tables.md `region`, conventions.md `region.level`, FNC-A-012, FNC-C-008, FNC-C-014, loca-001, stagraph-002, white-eyes-spring [#7](https://github.com/white-eyes1/white-eyes-spring/issues/7)·[#100](https://github.com/white-eyes1/white-eyes-spring/pull/100), white-eyes1/white-eyes-docs#11(결정 0012)
+- 관련: tables.md `region`, conventions.md `region.level`, FNC-A-012, FNC-C-008, FNC-C-014, loca-001, stagraph-002, white-eyes-spring [#7](https://github.com/white-eyes1/white-eyes-spring/issues/7)·[#100](https://github.com/white-eyes1/white-eyes-spring/pull/100), white-eyes1/white-eyes-docs#11(결정 0012 제안. 이 기록으로 대체되어 닫음)
 
 ## 결정
 1. 계층은 3단계로 유지하되 통계청 행정구역 코드 체계에 맞춘다.
@@ -37,6 +37,9 @@
 
 ## 영향
 - 이 결정에 따라 white-eyes-spring `RegionGeoJsonParser`(자릿수 2/5/8, 상위 행 생성)와 `RegionLevel`(SIDO/SIGUNGU/EMD), 마이그레이션의 `level` 설명을 고친다.
-- 결정 0012(white-eyes1/white-eyes-docs#11)의 질문 1(파일 형식)·2(시 아래 구)에 이 기록이 답한다. 질문 3(파일에 없는 기존 지역 삭제)은 아직 결정하지 않았다.
+- 결정 0012(white-eyes1/white-eyes-docs#11, 구현 중 가정한 것을 모은 제안)는 이 기록으로 대체되어 PR을 닫았고, 0012는 빈 번호로 둔다. 질문 1(파일 형식)·2(시 아래 구)는 위 결정이 답한다. 질문 3은 아래 '남은 결정'으로 옮겼다. 구현자 판단(오류로 볼 기준, `isValid` 미검사, MultiPolygon 허용, 좌표 반올림, 작업 종료 방식)은 white-eyes-spring #100 본문과 코드 주석에 둔다.
 - 파일 버전을 고정한다. 행정구역 개편이 데이터에 반영된다(예: 이 버전에서 광주는 전남광주통합특별시).
 - 지역 비교 명세(FNC-C-014, stagraph-002)는 아직 그대로다.
+
+## 남은 결정
+- **파일에 없는 기존 지역을 지울지**: 지금 구현은 지우지 않고 같은 `code`만 덮어쓴다. 행정구역 개편으로 사라진 지역이 `region`에 남을 수 있다. 1단계에서는 지우지 않고(기존 `zone`이 가리키는 지역이 사라지지 않게), 확대·갱신 시점에 정한다. 정해지면 이 기록과 features/admin.md FNC-A-012에 반영한다.
