@@ -12,7 +12,7 @@
 | 사용자 앱(user) | Spring Boot, 포트 8080, 컨텍스트 경로 / | 외부 공개. nginx가 / 이하 요청을 전달 |
 | 관리자 앱(admin) | Spring Boot, 웹 포트 8081(컨텍스트 경로 /admin), 내부 통신 포트 8082 | 8082에는 /internal/** 만 연결하고 내부 토큰으로 확인. 포트별 접근 제한(VM별 방화벽)은 2순위 |
 | 공통 모듈(common) | Gradle 모듈, 단독 실행 없음 | 엔티티·리포지토리·통계 조회·공통 화면(Thymeleaf 템플릿·정적 파일)·작업 기록 저장·예외 처리·보안 공통 설정 |
-| 분석 서버(analyzer) | Flask, 포트 5000, 경로 /analyzer/v1/** | 관리자 앱(시작·정지 지시)과 웹 서버(실시간 화면)만 접근 |
+| 분석 서버(analyzer) | Flask, 포트 5000, 경로 /analyzer/v1/** | 관리자 앱(시작·정지 지시)과 웹 서버(실시간 화면)만 접근. WSGI 워커 1개로 실행한다(캠 작업은 프로세스 안의 스레드, 캠 작업 상태를 프로세스 메모리에 둠) |
 | 웹 서버(nginx) | 포트 80 | 외부에서 접근 가능한 유일한 입구 |
 | DB | MySQL 8, 포트 3306, 문자셋 utf8mb4, 시간대 Asia/Seoul | 사용자 앱·관리자 앱만 접근 |
 | 공유 스토리지 | NFS v4, 포트 2049, 내보내기 /srv/media(영상), /srv/backup(DB 백업) | 분석 서버: /srv/media 읽기·쓰기 / 웹 서버: /srv/media 읽기 전용 / DB 서버: /srv/backup 읽기·쓰기 |
@@ -108,6 +108,7 @@
 | RESULT_RETRY_BUFFER_SEC | 300 | 분석 서버의 전송 실패 결과 보관 한도(vanly-006) |
 | ANALYZE_FPS | 5 | 분석 프레임 수(초당) |
 | DETECT_CONF / DETECT_IMGSZ / YOLO_WEIGHTS | 0.3 / 960 / yolo-crowd.pt | 탐지 신뢰도 하한·입력 크기·가중치 파일. YOLO-CROWD(사람 머리 탐지). VisDrone 사진 120장 측정: 입력 960에서 센 수는 실제의 약 30%, 상관계수 0.70. 1280은 약 43%, 0.73이지만 이미지당 약 0.5초(CPU)라 초당 5프레임을 못 맞춤. 실제 더미 영상으로 다시 재고 조정 |
+| MEDIA_ROOT | /srv/media | 분석 서버가 공유 폴더를 읽는 기준 경로. DUMMY 영상은 이 아래 dummy/videos/ 에 있음(FNC-S-001 파일 존재 확인). 경로가 이 폴더 밖(링크 포함)을 가리키면 SOURCE_NOT_FOUND |
 | EDGE_MARGIN_RATIO | 0.05 | 판정선 위치: 화면 각 변에서 안쪽으로 너비·높이의 5% |
 | RECORD_WIDTH / RECORD_HEIGHT / RECORD_FPS | 1280 / 720 / 10 | 라이브 녹화 해상도·프레임(rec-002 용량 조절) |
 | LIVE_RECONNECT_FAIL_SEC | 30 | 라이브 스트림이 이 시간 동안 다시 연결되지 않으면 ERROR 보고(vanly-007) |
