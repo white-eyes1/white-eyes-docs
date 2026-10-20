@@ -64,7 +64,8 @@ white-eyes-spring/
 │       │   └── config/         사용자 앱 보안 설정, 세션 테이블 SPRING_SESSION_USER, 쿠키 USER_SESSION
 │       └── resources/
 │           ├── application.yml (+ application-local.yml, -dev, -prod)
-│           └── templates/user/ 가입·승인 대기·탈퇴 화면
+│           ├── templates/user/ 가입·승인 대기·탈퇴 화면
+│           └── static/js/user/ 사용자 화면 전용 JS
 │
 └── admin/
     └── src/main/
@@ -173,7 +174,9 @@ common/src/main/resources/static/js/
 ├── common/   api.js(fetch·CSRF·오류 처리), sse.js(EventSource 연결·재연결), format.js(날짜·숫자 표시)
 ├── map/      map-view.js 등 Leaflet 코드(이 폴더 밖에서 Leaflet을 직접 쓰지 않음)
 ├── chart/    Chart.js 코드
-└── pages/    화면별 진입 파일(dashboard.js, stats-graph.js, compare.js …)
+└── pages/    두 앱이 함께 쓰는 화면의 진입 파일(dashboard.js, stats-graph.js, compare.js …)
+user/src/main/resources/static/js/user/
+└── pages/    사용자 앱 전용 화면 진입 파일(signup.js …)
 admin/src/main/resources/static/js/admin/
 ├── pages/    운영 화면 진입 파일(camera-manage.js, event-log.js, playback.js …)
 └── …         관리자 전용 모듈(구역 그리기 등)
