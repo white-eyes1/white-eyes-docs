@@ -81,7 +81,7 @@
 | admin_account.role | ADMIN(관리자) / SUPER_ADMIN(최고 관리자) | 사용자 앱은 user_account로만, 관리자 앱은 admin_account로만 로그인(사용자에는 role이 없음) |
 | user_account.status | PENDING(미승인) / ACTIVE(정상) / WITHDRAWN(탈퇴) | 로그인 가능: ACTIVE, PENDING(승인 대기 화면만) |
 | admin_account.status | ACTIVE(정상) / DISABLED(비활성화) | 로그인 가능: ACTIVE. 최고 관리자는 비활성화 불가 |
-| region.level | SI / GU / DONG | - |
+| region.level | SIDO(시·도) / SIGUNGU(시·군·구) / EMD(읍·면·동) | 통계청 행정구역 코드 체계(2·5·8자리)를 따름. decisions/0014 |
 | camera.source_type | LIVE / DUMMY | - |
 | camera.status | STOPPED(정지) / PREPARING(준비 중) / RUNNING(가동 중) / ERROR(오류) | 화면 표시 이름은 괄호 안 |
 | 혼잡 단계 | 1 정상(초록 #3BC99B) / 2 주의(주황 #F59E0B) / 3 위험(빨강 #EF4D55) | 단계는 코드에 고정. 히트맵은 다른 색 계열(파랑 그라데이션) |
