@@ -1,6 +1,6 @@
 # 0015. 사람 탐지는 VisDrone YOLOv8m, 추적은 PointTracker
 
-- 상태: 채택(단, 아래 '열린 질문'의 라이선스·서버 속도는 확인 전)
+- 상태: 채택(단, 아래 '열린 질문'의 라이선스는 확인 전)
 - 기록: 2026-10-20
 - 관련: 0001(대체됨), overview.md '기술 스택·외부 연동 사양 > 분석 모델', 알려진 한계 16~18, conventions.md `DETECTOR / DETECT_CONF / DETECT_IMGSZ / YOLO_WEIGHTS / DETECT_DEDUPE_OVERLAP`, features/analyzer.md FNC-S-003
 
@@ -13,7 +13,7 @@
 - 탐지: VisDrone YOLOv8m(Ultralytics, 위에서 내려다본 사람 몸 박스). pedestrian·people 두 클래스를 사람 하나로 합친다. 입력 960, 신뢰도 0.3, NMS IoU 0.45, 같은 사람을 둘로 센 박스는 합친다(`DETECT_DEDUPE_OVERLAP` 0.25).
 - 추적: PointTracker. 박스가 겹치는지가 아니라 중심점 거리로 같은 사람을 잇는다(프로토타입 SkyCrowd에서 쓰던 방식을 다시 구현). 번호는 두 번 관측되면 부여한다.
 - YOLO-CROWD는 `DETECTOR=yolo-crowd`로 계속 고를 수 있게 코드에 남긴다.
-- 분석 프레임 수(`ANALYZE_FPS`)와 입력 크기는 바꾸지 않았다. 서버 속도를 재서 정한다(아래 '열린 질문').
+- 분석 프레임 수(`ANALYZE_FPS`)와 입력 크기는 바꾸지 않았다. 서버(VM)에 올려 느리면 그때 조정한다(PM 안내(2026-10-20): 서버 속도는 엄격하게 재지 않아도 된다).
 
 ## 근거 (2026-10-20 재측정)
 표본: VisDrone2019-DET **val** 분할에서 시드 20261020으로 무작위 120장(`random.Random(20261020).sample`, 파일 이름순 정렬), 사람 3,263명(pedestrian·people, 무시 영역 제외). 원본 사진은 저장소에 올리지 않는다. 데이터: `VisDrone2019-DET-val.zip` 81,638,851바이트, SHA-256 `ABEEA063037E5D20398837DEB11084E652402A34DDF4F207BDF541A6F2A35EF9`(공식 배포 파일, 받은 경로는 기록하지 못함). 측정은 이 PC(Intel i7-4790, CPU)에서 했다.
@@ -59,7 +59,7 @@
 
 ## 열린 질문 (PM 확인 필요)
 1. **라이선스**: Ultralytics YOLOv8은 AGPL-3.0이고, 가중치(`mshamrai/yolov8m-visdrone`, SHA-256 `C1A19706FE83E8282795FB6C6CEC6A5E2A6E515C9B5FE4F558863D987EE24F8B`, 52,006,688바이트)와 학습 데이터(VisDrone, 연구 목적 공개)의 상업적 이용 여부는 확인하지 못했다. 그래서 가중치를 white-eyes-assets에 올리지 않았다. 팀 안의 시연·학습 목적이면 지금처럼 써도 되는지, 배포 전에 어떤 확인이 필요한지 정해 달라.
-2. **서버 속도**: 입력 960은 이 PC에서 프레임당 약 0.5초라 `ANALYZE_FPS` 5(프레임당 0.2초)를 못 맞춘다. 더미 영상은 미리 분석해 캐시하니 준비 시간이 길어질 뿐이다(10분 영상, 초당 5프레임이면 약 25분). 실제 VM(4 vCPU)에서 재서 `ANALYZE_FPS`(2~3)와 `DETECT_IMGSZ`(640)를 정하자. VM에 접근하는 방법을 알려 달라.
+2. **서버 속도**(정리됨): 입력 960은 이 PC에서 프레임당 약 0.5초라 `ANALYZE_FPS` 5(프레임당 0.2초)를 못 맞춘다. 더미 영상은 미리 분석해 캐시하니 준비 시간이 길어질 뿐이다(10분 영상, 초당 5프레임이면 약 25분). PM 안내(2026-10-20): 서버 속도는 엄격하게 재지 않아도 된다. 서버(VM 4 vCPU)에 올려 느리면 `ANALYZE_FPS`(2~3)나 `DETECT_IMGSZ`(640)로 낮춘다.
 3. 라이브 캠이 늘면 공유 탐지기의 잠금 때문에 처리량이 합산된다(캠별 최신 프레임만 유지하는 큐 등은 라이브 구현 때 정한다).
 
 ## 표본 파일 목록 (VisDrone2019-DET val, 시드 20261020, 120장)
