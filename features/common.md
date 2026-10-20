@@ -168,9 +168,9 @@
   목적: 지도 탐색용 지역 트리 제공
   구현 위치: common(두 앱)
 - **사전 조건**: 통계 메인 화면
-- **입력 항목**: parentId(없으면 시 목록) 또는 dongId(구역 목록, 생략하면 전체 구역)
+- **입력 항목**: parentId(없으면 시·도 목록) 또는 dongId(구역 목록, 생략하면 전체 구역)
 - **처리 순서**
-  1. parentId가 없으면 level=SI 목록
+  1. parentId가 없으면 level=SIDO 목록
   2. parentId가 있으면 그 하위 region 목록
   3. 구역 목록: dongId가 있으면 그 동의, 없으면 전체의 삭제되지 않은 구역(zone.deleted_at IS NULL)
   4. 경계(GeoJSON)와 중심점 함께 반환

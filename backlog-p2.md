@@ -191,7 +191,7 @@
 
 | 컬럼명 | 키 | 타입 | 길이 | DEFAULT | NOT NULL | COMMENT | 비고 |
 |---|---|---|---|---|---|---|---|
-| region_id | PK, FK | BIGINT | - | - | Y | 날씨를 저장하는 구(region.id, GU) | 구역의 소속 구로 날씨 찾기 |
+| region_id | PK, FK | BIGINT | - | - | Y | 날씨를 저장하는 시·군·구(region.id, SIGUNGU) | 구역의 소속 시·군·구로 날씨 찾기 |
 | observed_at | PK | DATETIME | - | - | Y | 관측 시각(KST 정시) | 시간별 통계와 같은 시각으로 짝지음 |
 | temperature | - | DECIMAL | 4,1 | NULL | N | 기온(℃) | 그래프에 날씨 표시(stagraph-004) |
 | precipitation | - | DECIMAL | 5,1 | NULL | N | 1시간 강수량(mm) | 그래프 표시, 시연 데이터에서 비 오는 시간 인원 감소 |

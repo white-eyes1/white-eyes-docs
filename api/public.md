@@ -135,7 +135,7 @@
 
 ### GET /api/v1/regions — 하위 지역 목록
 
-- **설명**: 시 목록 또는 지역의 바로 아래 지역
+- **설명**: 시·도 목록 또는 지역의 바로 아래 지역
 - **관련 요구사항 ID**
   map-001
   loca-001
@@ -143,10 +143,10 @@
 - **호출 주체**: 브라우저
 - **Request**
   Query
-  parentId (없으면 시 목록)
+  parentId (없으면 시·도 목록)
 - **Response**
   200
-  [{"id": 3, "level": "DONG", "code": "3020011800", "name": "궁동", "centerLat": 36.36, "centerLng": 127.35, "boundary": {GeoJSON}}]
+  [{"id": 3, "level": "EMD", "code": "25020510", "name": "은행선화동", "centerLat": 36.33, "centerLng": 127.43, "boundary": {GeoJSON}}]
 - **오류 응답**: 404 REGION_NOT_FOUND
 - **비고**: FNC-C-008
 
