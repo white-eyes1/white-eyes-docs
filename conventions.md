@@ -121,7 +121,7 @@
 | COMPARE_MAX_CHILDREN | 10 | 여러 지역 비교 최대 개수(stagraph-002) |
 | SUPER_ADMIN_LOGIN_ID / SUPER_ADMIN_INITIAL_PASSWORD | (비밀값) | 최고 관리자 최초 등록용(perm-005) |
 | DB_URL / DB_USERNAME / DB_PASSWORD (DB 계정) | (비밀값) 앱마다 다른 DB 계정 | 사용자 앱 계정: admin_account·SPRING_SESSION_ADMIN 권한 없음, 테이블 변경(DDL) 권한 없음. 관리자 앱 계정: 전체 테이블 + Flyway 실행(DDL). 권한 부여(GRANT)는 DB 초기화 스크립트로 환경마다 같게 적용 |
-| ANALYZER_BASE_URL / ADMIN_INTERNAL_BASE_URL | http://{분석 서버 IP}:5000 / http://{관리자 앱 IP}:8082 | 서버 주소는 모두 환경변수(DMZ 전환 대비) |
+| ANALYZER_BASE_URL / ADMIN_INTERNAL_BASE_URL | http://{분석 서버 IP}:5000 / http://{관리자 앱 IP}:8082/admin | 서버 주소는 모두 환경변수(DMZ 전환 대비). 관리자 앱은 컨텍스트 경로가 /admin이라 8082 포트에서도 /admin까지가 기준 주소다. 분석 서버는 여기에 /internal/v1/…을 이어 붙인다 |
 
 ## 공유 폴더 구조(/srv/media)
 

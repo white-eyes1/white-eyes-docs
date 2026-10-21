@@ -6,6 +6,8 @@
 
 ## 내부 API(관리자 앱 8082)
 
+> 기준 주소는 환경변수 `ADMIN_INTERNAL_BASE_URL`(conventions.md)이고 `http://{관리자 앱 IP}:8082/admin`처럼 컨텍스트 경로 `/admin`까지 포함한다. 아래 경로(`/internal/v1/…`)는 이 주소 뒤에 붙인다. 예: `POST http://{관리자 앱 IP}:8082/admin/internal/v1/results`
+
 ### POST /internal/v1/results — 분석 결과 수신
 
 - **설명**: 1초 결과 묶음 수신
