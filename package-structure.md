@@ -151,14 +151,14 @@ white-eyes-flask/
 │   ├── camera/                     camera_controller.py(/analyzer/v1/cameras/*), camera_service.py(캠 작업 시작·정지·상태),
 │   │                               camera_job.py(캠마다 스레드 1개)(FNC-S-001·002·012)
 │   ├── analysis/                   detector.py(YOLO-CROWD), aerial_detector.py(VisDrone YOLOv8m), boxes.py(박스 정리·합치기),
-│   │                               point_tracker.py, tracker.py(캠 추적기), edge_counter.py(유입/유출), dwell.py(체류 시간)(FNC-S-003~005)
+│   │                               point_tracker.py, tracker.py(캠 추적기), edge_counter.py(유입/유출·체류 시간 계산)(FNC-S-003~005)
 │   ├── live/                       RTSP 읽기·재연결(FNC-S-007)
 │   ├── recording/                  1분 파일 녹화(ffmpeg)·좌표 파일·녹화 등록(FNC-S-008)
 │   ├── dummy/                      분석 준비(캐시 생성)·재생·반복 등록(FNC-S-009·010)
 │   ├── stream/                     MJPEG·스냅샷(FNC-S-011)
 │   ├── report/                     admin_client.py(관리자 앱 내부 API 호출), 1초 결과 전송·재전송 버퍼(FNC-S-006)
 │   └── health/                     상태 확인(FNC-S-013)
-├── third_party/yolov5/             YOLO-CROWD 모델 코드(DETECTOR=yolo-crowd일 때만 쓰는 외부 코드, 수정 금지)
+├── vendor/yolo_crowd/              YOLO-CROWD 모델 코드(DETECTOR=yolo-crowd일 때만 쓰는 외부 코드, 수정 금지)
 ├── ops/                            녹화 파일 정리·DB 백업 스크립트(FNC-S-014·015, 분석 서버 앱과 따로 실행)
 ├── tests/                          analyzer/와 같은 도메인 구조
 └── run.py
