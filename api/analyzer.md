@@ -91,6 +91,7 @@
   400 INVALID_INPUT (본문 형식 오류. fieldErrors의 field는 sourceType·sourceUri, 본문이 JSON 객체가 아니면 body)
   401
   501 SOURCE_TYPE_NOT_SUPPORTED (LIVE, 2단계 구현 전까지)
+  409 CAMERA_STOPPING (정지가 10초 안에 끝나지 않아 같은 캠의 옛 작업 스레드가 아직 살아 있음. 끝나면 다시 시작할 수 있음)
 - **비고**: FNC-S-001. 호출하는 기능: FNC-A-020. 타임아웃 5초. 이미 그 캠 작업이 돌고 있으면, 형식이 맞는 요청에 한해 sourceType·sourceUri 값과 상관없이 현재 상태로 200(형식이 틀린 본문은 먼저 400)
 
 ### POST /analyzer/v1/cameras/{id}/stop — 캠 정지
@@ -102,7 +103,7 @@
 - **Request**: -
 - **Response**: 200
 - **오류 응답**: 401
-- **비고**: FNC-S-002. 호출하는 기능: FNC-A-021·025. 멱등. 응답 본문 없음. 타임아웃 15초(분석 서버가 종료를 최대 10초 기다림). 10초 안에 끝나지 않아도 200을 돌려주고 분석 서버는 WARN 로그만 남김
+- **비고**: FNC-S-002. 호출하는 기능: FNC-A-021·025. 멱등. 응답 본문 없음. 타임아웃 15초(분석 서버가 종료를 최대 10초 기다림). 10초 안에 끝나지 않아도 200을 돌려주고 분석 서버는 WARN 로그만 남김(그 스레드가 끝날 때까지 같은 캠의 시작은 409 CAMERA_STOPPING)
 
 ### GET /analyzer/v1/cameras/{id}/live — 실시간 화면
 
