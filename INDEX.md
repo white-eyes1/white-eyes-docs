@@ -19,6 +19,7 @@
 | code-conventions.md | Java·Python·JavaScript 코드 컨벤션, 로깅(Log4j2) |
 | package-structure.md | spring 멀티모듈(common/user/admin)·flask 패키지 구조, 계층·의존 규칙 |
 | commit-convention.md | 커밋 메시지 규칙(세 저장소 공통) |
+| design/ | 화면 시안: 화면마다 정적 HTML·PNG, 공통 CSS(we.css). 모양의 기준(동작·데이터는 명세) |
 | decisions/ | 결정 기록 |
 | test-reports/ | 시험 보고서(날짜별 폴더의 README.md) |
 

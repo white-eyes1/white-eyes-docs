@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>통계 패널 — 모두 펼침</title>
+<link rel="stylesheet" href="../we.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&amp;display=swap">
+<style>body{margin:0}
+.acc{border:1px solid #253242;border-radius:10px;background:#111821;overflow:hidden}
+.acc-h{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 14px;font-size:13px;font-weight:700}
+.acc-b{padding:0 14px 14px;display:flex;flex-direction:column;gap:8px;font-size:11px}
+.src{color:#6c7888;font-size:10px}
+.acc.new{border-color:#3b3566}
+.row{display:flex;align-items:center;gap:8px}
+.bar{height:8px;border-radius:4px;background:#1f2a37;flex:1;overflow:hidden}
+.bar i{display:block;height:100%}
+</style>
+</head>
+<body>
+<div class="we" style="width: 420px; min-height: 2200px; padding: 14px; display: flex; flex-direction: column; gap: 10px; background: #0d131b">
+  <div style="display: flex; align-items: center; justify-content: space-between"><span style="font-size: 12px"><b>통계</b> <span style="color: #76a7ff">은행선화동 · 캠 3대</span></span></div>
+
+  <section class="acc"><div class="acc-h">시간대별 혼잡 단계<span class="chip off">2단계</span></div>
+    <div class="acc-b">
+      <div style="display: flex; align-items: flex-end; gap: 2px; height: 70px">
+        <span style="flex: 1; height: 8%; background: #3bc99b; border-radius: 2px 2px 0 0"></span><span style="flex: 1; height: 8%; background: #3bc99b; border-radius: 2px 2px 0 0"></span><span style="flex: 1; height: 8%; background: #3bc99b; border-radius: 2px 2px 0 0"></span><span style="flex: 1; height: 8%; background: #3bc99b; border-radius: 2px 2px 0 0"></span><span style="flex: 1; height: 8%; background: #3bc99b; border-radius: 2px 2px 0 0"></span><span style="flex: 1; height: 8%; background: #3bc99b; border-radius: 2px 2px 0 0"></span><span style="flex: 1; height: 8%; background: #3bc99b; border-radius: 2px 2px 0 0"></span><span style="flex: 1; height: 8%; background: #3bc99b; border-radius: 2px 2px 0 0"></span><span style="flex: 1; height: 8%; background: #3bc99b; border-radius: 2px 2px 0 0"></span><span style="flex: 1; height: 8%; background: #3bc99b; border-radius: 2px 2px 0 0"></span><span style="flex: 1; height: 17%; background: #3bc99b; border-radius: 2px 2px 0 0"></span><span style="flex: 1; height: 36%; background: #3bc99b; border-radius: 2px 2px 0 0"></span><span style="flex: 1; height: 51%; background: #f59e0b; border-radius: 2px 2px 0 0"></span><span style="flex: 1; height: 52%; background: #f59e0b; border-radius: 2px 2px 0 0"></span><span style="flex: 1; height: 52%; background: #f59e0b; border-radius: 2px 2px 0 0"></span><span style="flex: 1; height: 61%; background: #f59e0b; border-radius: 2px 2px 0 0"></span><span style="flex: 1; height: 79%; background: #f59e0b; border-radius: 2px 2px 0 0"></span><span style="flex: 1; height: 94%; background: #ef4d55; border-radius: 2px 2px 0 0"></span><span style="flex: 1; height: 100%; background: #ef4d55; border-radius: 2px 2px 0 0"></span><span style="flex: 1; height: 94%; background: #ef4d55; border-radius: 2px 2px 0 0"></span><span style="flex: 1; height: 78%; background: #f59e0b; border-radius: 2px 2px 0 0"></span><span style="flex: 1; height: 57%; background: #f59e0b; border-radius: 2px 2px 0 0"></span><span style="flex: 1; height: 37%; background: #3bc99b; border-radius: 2px 2px 0 0"></span><span style="flex: 1; height: 21%; background: #3bc99b; border-radius: 2px 2px 0 0"></span>
+      </div>
+      <div class="muted" style="display: flex; justify-content: space-between"><span>0시</span><span>6</span><span>12</span><span>18</span><span>23시</span></div>
+      <span class="src anno">GET /dashboard/hourly-levels · 오늘 시간마다 가장 높았던 단계</span>
+    </div>
+  </section>
+
+  <section class="acc"><div class="acc-h">방문 패턴 (요일×시간)<span class="chip off">2단계</span></div>
+    <div class="acc-b">
+      <div style="display: grid; grid-template-columns: 16px repeat(24, minmax(0, 1fr)); gap: 2px">
+        
+          <span class="muted" style="font-size: 9px">월</span>
+          <span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.10)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.16)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.24)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.31)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.30)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.28)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.33)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.43)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.52)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.56)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.52)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.43)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.31)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.21)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.14)"></span>
+        
+          <span class="muted" style="font-size: 9px">화</span>
+          <span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.10)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.16)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.24)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.31)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.30)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.28)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.33)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.43)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.52)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.56)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.52)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.43)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.31)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.21)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.14)"></span>
+        
+          <span class="muted" style="font-size: 9px">수</span>
+          <span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.10)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.16)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.24)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.31)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.30)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.28)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.33)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.43)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.52)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.56)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.52)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.43)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.31)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.21)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.14)"></span>
+        
+          <span class="muted" style="font-size: 9px">목</span>
+          <span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.10)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.16)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.24)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.31)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.30)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.28)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.33)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.43)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.52)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.56)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.52)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.43)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.31)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.21)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.14)"></span>
+        
+          <span class="muted" style="font-size: 9px">금</span>
+          <span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.10)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.16)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.25)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.32)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.34)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.37)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.48)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.66)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.82)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.88)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.82)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.66)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.46)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.30)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.18)"></span>
+        
+          <span class="muted" style="font-size: 9px">토</span>
+          <span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.10)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.16)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.25)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.32)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.34)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.37)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.48)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.66)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.82)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.88)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.82)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.66)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.46)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.30)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.18)"></span>
+        
+          <span class="muted" style="font-size: 9px">일</span>
+          <span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.08)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.10)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.16)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.25)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.32)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.34)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.37)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.48)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.66)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.82)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.88)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.82)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.66)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.46)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.30)"></span><span style="height: 10px; border-radius: 2px; background: rgba(79,140,255,0.18)"></span>
+        
+      </div>
+      <span class="src anno">GET /dashboard/visit-pattern · 어제까지 28일 평균 인원</span>
+    </div>
+  </section>
+
+  <section class="acc"><div class="acc-h">유입·유출 (추정)<span class="chip run">1단계</span></div>
+    <div class="acc-b">
+      <div class="row"><span style="width: 32px">유입</span><div class="bar"><i style="width: 52%; background: #3bc99b"></i></div><b>+64</b></div>
+      <div class="row"><span style="width: 32px">유출</span><div class="bar"><i style="width: 47%; background: #ef4d55"></i></div><b>−58</b></div>
+      <span class="src anno">GET /dashboard/summary · 최근 1분, 주요 방향 남(S)</span>
+    </div>
+  </section>
+
+  <section class="acc"><div class="acc-h">피크 시간 TOP 3 · 증감 추세<span class="chip off">3단계</span></div>
+    <div class="acc-b">
+      <div style="display: flex; gap: 6px"><span class="chip run">일</span><span class="chip off">주</span><span class="chip off">월</span><span class="chip off">연</span></div>
+      <div class="row"><b style="width: 18px">1</b><span style="flex: 1">금 18~19시</span><b>1,204명</b></div>
+      <div class="row"><b style="width: 18px">2</b><span style="flex: 1">토 17~18시</span><b>1,151명</b></div>
+      <div class="row"><b style="width: 18px">3</b><span style="flex: 1">금 17~18시</span><b>1,098명</b></div>
+      <div class="row" style="padding-top: 6px; border-top: 1px solid #1e2a38"><span style="flex: 1">지난주 대비</span><b style="color: #ff8a90">▲ 12.4%</b></div>
+      <span class="src anno">GET /dashboard/peak-hours · /dashboard/trend</span>
+    </div>
+  </section>
+
+  <section class="acc"><div class="acc-h">비정상 인원 변동<span class="chip off">2단계</span></div>
+    <div class="acc-b">
+      <div class="row"><span class="chip l3">+42%</span><span>금 18시 · 지난달 같은 요일보다 많음</span></div>
+      <div class="row"><span class="chip run">−35%</span><span>화 09시 · 지난달 같은 요일보다 적음</span></div>
+      <span class="src anno">GET /compare (최근 7일 vs 지난달) 비정상 칸</span>
+    </div>
+  </section>
+
+  <section class="acc"><div class="acc-h">방향별 유입·유출<span class="chip off anno">2단계 · FNC-C-030</span></div>
+    <div class="acc-b">
+      
+        <div class="row"><span style="width: 36px">북(N)</span>
+          <div class="bar" style="display: flex; justify-content: flex-end; background: none"><i style="width: 6%; background: #3bc99b; border-radius: 4px"></i></div>
+          <div class="bar" style="background: none"><i style="width: 4%; background: #ef4d55; border-radius: 4px"></i></div>
+          <span style="width: 60px; text-align: right">+12 / −9</span></div>
+      
+        <div class="row"><span style="width: 36px">동(E)</span>
+          <div class="bar" style="display: flex; justify-content: flex-end; background: none"><i style="width: 23%; background: #3bc99b; border-radius: 4px"></i></div>
+          <div class="bar" style="background: none"><i style="width: 29%; background: #ef4d55; border-radius: 4px"></i></div>
+          <span style="width: 60px; text-align: right">+48 / −61</span></div>
+      
+        <div class="row"><span style="width: 36px">남(S)</span>
+          <div class="bar" style="display: flex; justify-content: flex-end; background: none"><i style="width: 100%; background: #3bc99b; border-radius: 4px"></i></div>
+          <div class="bar" style="background: none"><i style="width: 83%; background: #ef4d55; border-radius: 4px"></i></div>
+          <span style="width: 60px; text-align: right">+210 / −174</span></div>
+      
+        <div class="row"><span style="width: 36px">서(W)</span>
+          <div class="bar" style="display: flex; justify-content: flex-end; background: none"><i style="width: 16%; background: #3bc99b; border-radius: 4px"></i></div>
+          <div class="bar" style="background: none"><i style="width: 20%; background: #ef4d55; border-radius: 4px"></i></div>
+          <span style="width: 60px; text-align: right">+33 / −41</span></div>
+      
+      <span class="src anno">GET /stats/series (inflow·outflow N/E/S/W) · 최근 1시간 합. 새 API 필요 없음</span>
+    </div>
+  </section>
+
+  <section class="acc"><div class="acc-h">평균 체류 시간<span class="chip off anno">2단계 · FNC-C-030</span></div>
+    <div class="acc-b">
+      <div class="row"><strong style="font-size: 20px">5분 12초</strong><span class="muted">최근 1시간 · 어제 같은 시간 4분 40초</span></div>
+      <svg viewBox="0 0 360 50" preserveAspectRatio="none" style="width: 100%; height: 50px" aria-label="시간대별 평균 체류"><path d="M0 40 L30 38 L60 36 L90 30 L120 28 L150 24 L180 20 L210 22 L240 18 L270 14 L300 16 L330 12 L360 10" fill="none" stroke="#a78bfa" stroke-width="2"></path></svg>
+      <span class="src anno">GET /stats/series (dwellAvgSec) · 유출이 확정된 사람만(알려진 한계 17)</span>
+    </div>
+  </section>
+
+  <section class="acc"><div class="acc-h">인원 변동폭<span class="chip off anno">2단계 · FNC-C-030</span></div>
+    <div class="acc-b">
+      <svg viewBox="0 0 360 60" preserveAspectRatio="none" style="width: 100%; height: 60px" aria-label="1분 최대·최소 범위"><path d="M0 40 L60 36 L120 30 L180 18 L240 12 L300 20 L360 26 L360 46 L300 40 L240 34 L180 38 L120 46 L60 50 L0 52 Z" fill="rgba(79,140,255,.22)"></path><path d="M0 46 L60 43 L120 38 L180 28 L240 23 L300 30 L360 36" fill="none" stroke="#76a7ff" stroke-width="2"></path></svg>
+      <span class="muted">폭이 넓을수록 1분 안에서 인원이 크게 출렁임 → 급증 전조</span>
+      <span class="src anno">GET /stats/series (countMax·countMin)</span>
+    </div>
+  </section>
+
+  <section class="acc"><div class="acc-h">오늘 단계별 머문 시간<span class="chip off anno">2단계 · FNC-C-030</span></div>
+    <div class="acc-b">
+      <div style="display: flex; height: 14px; border-radius: 7px; overflow: hidden"><span style="flex: 61; background: #3bc99b"></span><span style="flex: 27; background: #f59e0b"></span><span style="flex: 12; background: #ef4d55"></span></div>
+      <div class="muted" style="display: flex; justify-content: space-between"><span>정상 10시간 59분</span><span>주의 4시간 52분</span><span>위험 2시간 9분</span></div>
+      <span class="src anno">GET /stats/series (1m, level) 오늘 분 수를 화면에서 셈</span>
+    </div>
+  </section>
+
+  <section class="acc"><div class="acc-h">혼잡한 구역 TOP 5<span class="chip off anno">2단계 · FNC-C-030</span></div>
+    <div class="acc-b">
+      
+        <div class="row"><b style="width: 16px">1</b><span style="flex: 1">은행선화동 3구역</span><span class="chip l3">1.62</span></div>
+      
+        <div class="row"><b style="width: 16px">2</b><span style="flex: 1">은행선화동 2구역</span><span class="chip l2">0.82</span></div>
+      
+        <div class="row"><b style="width: 16px">3</b><span style="flex: 1">대흥동 1구역</span><span class="chip l1">0.61</span></div>
+      
+        <div class="row"><b style="width: 16px">4</b><span style="flex: 1">목동 1구역</span><span class="chip l1">0.44</span></div>
+      
+        <div class="row"><b style="width: 16px">5</b><span style="flex: 1">은행선화동 1구역</span><span class="chip l1">0.03</span></div>
+      
+      <span class="src anno">GET /map/status?unit=ZONE 를 밀집도 순으로 정렬</span>
+    </div>
+  </section>
+
+  <section class="acc"><div class="acc-h">이벤트 요약 (오늘)<span class="chip off anno">2단계 · FNC-C-030 · 관리자 앱</span></div>
+    <div class="acc-b">
+      <div class="row"><span class="chip l3">혼잡 4</span><span class="chip surge">급증 2</span><span class="chip cam">캠 이상 1</span></div>
+      <div class="row"><span style="flex: 1">미확인</span><b style="color: #ff8a90">3건</b></div>
+      <span class="src anno">GET /events/summary + 종류별 건수</span>
+    </div>
+  </section>
+
+  <section class="acc"><div class="acc-h">관측 상태<span class="chip off anno">2단계 · FNC-C-030</span></div>
+    <div class="acc-b">
+      <div class="row"><span style="flex: 1">통계가 있는 구역</span><b>3 / 4</b></div>
+      <div class="row"><span style="flex: 1">최근 1시간 수신율</span><div class="bar"><i style="width: 97%; background: #76a7ff"></i></div><b>97%</b></div>
+      <span class="src anno">sampleSec / 60 · 지역 값이 일부 구역만의 값임을 보여 줌(알려진 한계 19)</span>
+    </div>
+  </section>
+</div>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>통계 메인 — 캠 패널 펼침</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./we.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&amp;display=swap">
+<style>body{margin:0}
+.camcard{border:1px solid #253242;border-radius:10px;background:#111821;display:flex;flex-direction:column;overflow:hidden}
+</style>
+</helmet>
+<div class="we" style="width: 100%; min-height: 980px; display: flex; flex-direction: column">
+  <dc-import name="AdminHeader" active="dashboard" hint-size="100%,64px"></dc-import>
+  <div class="filterbar">
+    <span class="filter-title">지역 필터</span>
+    <span class="control">대전광역시</span><span class="control">중구</span><span class="control">전체 동</span>
+    <a class="btn secondary" href="Zones.dc.html" style="margin-left: auto">지역 등록·수정</a>
+  </div>
+  <div class="map" style="height: 64px; border-bottom: 1px solid #253242" aria-label="지도(패널에 가려짐)">
+    <svg viewBox="0 0 1000 64" preserveAspectRatio="none" aria-hidden="true"><rect width="1000" height="64" fill="#0f161f"></rect><path d="M0 40 C200 30 400 54 600 40 S900 28 1000 34" stroke="#1d3550" stroke-width="10" fill="none"></path></svg>
+  </div>
+
+  <section style="flex: 1 1 auto; display: flex; flex-direction: column; background: #0d131b; box-shadow: 0 -12px 30px rgba(0,0,0,.45)">
+    <div style="display: flex; justify-content: center; padding-top: 8px"><span role="separator" aria-label="캠 패널 높이 조절(끌어서 조절, 두 번 눌러 전환)" style="width: 72px; height: 5px; border-radius: 3px; background: #76a7ff"></span></div>
+    <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 20px; flex-wrap: wrap; gap: 8px">
+      <span class="muted" style="font-size: 12px">지도 화면 안 캠 <b style="color: #edf2f8">12</b> 대 · 펼친 상태(세로 스크롤)</span>
+      <div style="display: flex; gap: 8px"><a class="btn primary sm" href="Dashboard.dc.html">지도와 같이 보기</a><span class="control" data-fnc="FNC-A-022" style="min-width: 140px">정렬: 혼잡도 높은 순</span></div>
+    </div>
+    <div style="position: relative; flex: 1 1 auto; padding: 0 20px 20px">
+      <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px">
+        <sc-for list="{{cams}}" as="c" hint-placeholder-count="12">
+          <article class="camcard" data-api="GET /api/v1/manage/cameras?regionId=" data-fnc="FNC-A-022">
+            <header style="padding: 10px 12px; display: flex; flex-direction: column; gap: 2px">
+              <div style="display: flex; justify-content: space-between; align-items: center"><strong style="font-size: 13px">{{c.name}}</strong><span class="chip {{c.lv}}">{{c.lvName}}</span></div>
+              <span class="muted" style="font-size: 11px">{{c.area}}</span>
+            </header>
+            <a class="feed" href="LiveView.dc.html" style="height: 140px; margin: 0 12px; display: block" aria-label="실시간 보기 열기">
+              <span class="feed-label"><i class="rec"></i>LIVE</span>
+              <span class="box" style="left: 24%; top: 40%; width: 16px; height: 24px"></span><span class="box" style="left: 50%; top: 52%; width: 16px; height: 24px"></span><span class="box" style="left: 68%; top: 34%; width: 16px; height: 24px"></span>
+            </a>
+            <div style="display: flex; justify-content: space-between; padding: 10px 12px; font-size: 11px" class="muted"><span>인원 <b style="color: #edf2f8">{{c.count}}</b></span><span>밀집도 <b style="color: #edf2f8">{{c.density}}</b></span><span>이벤트 <b style="color: #edf2f8">{{c.ev}}</b></span></div>
+          </article>
+        </sc-for>
+      </div>
+      <span style="position: absolute; right: 6px; top: 0; width: 6px; height: 46%; border-radius: 3px; background: #3a4757" aria-hidden="true"></span>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":980}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const dongs = ['은행선화동', '대흥동', '목동', '중촌동', '문창동', '석교동'];
+    const cams = Array.from({ length: 12 }, (_, i) => {
+      const density = [1.62, 1.21, 0.94, 0.82, 0.61, 0.44, 0.38, 0.31, 0.22, 0.15, 0.09, 0.03][i];
+      const area = [300, 420, 650, 500, 800, 900, 1200, 1500, 1800, 2200, 2600, 2974][i];
+      const lv = density >= 1.5 ? 'l3' : density >= 0.7 ? 'l2' : 'l1';
+      const dong = dongs[i % dongs.length];
+      return {
+        name: dong + ' ' + (Math.floor(i / 6) + 1) + '구역 캠',
+        area: '중구 · ' + dong + ' · ' + area.toLocaleString() + '㎡',
+        density: density.toFixed(2), count: Math.round(density * area),
+        lv, lvName: lv === 'l3' ? '위험' : lv === 'l2' ? '주의' : '정상', ev: lv === 'l3' ? 1 : 0
+      };
+    });
+    return { cams };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>회원가입</title>
+<link rel="stylesheet" href="../we.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&amp;display=swap">
+<style>body{margin:0}</style>
+</head>
+<body>
+<div class="we" style="width: 100%; min-height: 900px">
+  <header class="topbar"><a class="brand" href="SCR-C-001-login.html">White Eyes</a><div class="head-right"><a class="btn secondary sm" href="SCR-C-001-login.html">로그인</a></div></header>
+  <main style="padding: 48px 24px; display: flex; justify-content: center">
+    <form class="panel" data-api="GET /api/v1/signup/check-id, POST /api/v1/signup" data-fnc="FNC-U-001·002" style="width: 100%; max-width: 520px; overflow: hidden">
+      <div class="panel-head"><div><p class="eyebrow">SIGN UP</p><h2 style="margin-top: 4px">회원가입</h2></div><span class="muted" style="font-size: 11px">관리자 승인 후 이용</span></div>
+      <div style="padding: 22px; display: flex; flex-direction: column; gap: 14px">
+        <div class="field">아이디
+          <div style="display: flex; gap: 8px"><span class="input ok" style="flex: 1">kimsj</span><button class="btn secondary" type="button" style="min-height: 40px">중복 확인</button></div>
+          <span class="hint ok">사용할 수 있습니다</span>
+        </div>
+        <label class="field">비밀번호<span class="input">••••••••••</span><span class="hint">8~64자, 영문·숫자를 각각 1자 이상(특수문자 가능)</span></label>
+        <label class="field">비밀번호 확인<span class="input">••••••••••</span></label>
+        <label class="field">이름<span class="input">김서준</span></label>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap">
+          <label class="field" style="flex: 1 1 200px">메일<span class="input">[메일 주소]</span></label>
+          <label class="field" style="flex: 1 1 160px">연락처<span class="input">[연락처]</span></label>
+        </div>
+        <button class="btn primary lg" type="button" style="width: 100%; margin-top: 4px">가입하기</button>
+      </div>
+    </form>
+  </main>
+</div>
+</body>
+</html>

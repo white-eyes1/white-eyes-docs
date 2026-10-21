@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>작업 기록</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./we.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&amp;display=swap">
+<style>body{margin:0}
+pre{margin:0;padding:12px 14px;border-radius:8px;background:#0b1118;color:#c3cdd9;font-size:11px;line-height:1.6;white-space:pre-wrap}
+</style>
+</helmet>
+<div class="we" style="width: 100%; min-height: 900px">
+  <dc-import name="AdminHeader" active="manage" hint-size="100%,64px"></dc-import>
+  <main class="page">
+    <div class="page-heading"><div><p class="eyebrow">AUDIT LOG · 최고 관리자 전용</p><h1>작업 기록</h1><p>계정 변경, 구역·캠 변경, 캠 가동·정지, 이벤트 처리, 엑셀 내려받기를 기록합니다.</p></div></div>
+    <section class="panel" style="overflow: hidden">
+      <div class="filterbar" style="border-radius: 12px 12px 0 0">
+        <span class="control plain">2026-10-15 ~ 2026-10-21</span><span class="control">계정 종류 전체</span>
+        <span class="control plain" style="min-width: 160px; color: #8b98a9">아이디</span><span class="control">행동 전체</span>
+        <button class="btn primary" style="margin-left: auto">조회</button>
+      </div>
+      <div class="table-wrap"><div class="dtable" role="table" data-api="GET /api/v1/histories → createdAt,actorLoginId,actorType,action,targetType,targetName,detail" data-fnc="FNC-A-053" style="--cols: 1fr 1fr 1.1fr 2fr 48px">
+        <div class="tr th" role="row"><span role="columnheader">시각</span><span role="columnheader">계정</span><span role="columnheader">행동</span><span role="columnheader">대상</span><span role="columnheader"></span></div>
+        
+          <div class="tr sel" role="row"><div role="cell">10-21 20:01:38</div><div role="cell">superadmin<small>관리자</small></div><div role="cell">CAMERA_CHANGE</div><div role="cell">캠 · 은행선화1-캠</div><div role="cell" style="text-align: right">▾</div></div>
+          <div class="tr" role="row"><div role="cell" style="grid-column: 1 / -1; padding: 0 14px 12px; white-space: normal"><pre>{"op": "CREATE", "zoneId": 1, "sourceType": "DUMMY"}</pre></div></div>
+          <sc-for list="{{rows}}" as="r" hint-placeholder-count="6">
+            <div class="tr" role="row"><div role="cell">{{r.at}}</div><div role="cell">{{r.who}}<small>{{r.kind}}</small></div><div role="cell">{{r.action}}</div><div role="cell">{{r.target}}</div><div role="cell" style="text-align: right">▸</div></div>
+          </sc-for>
+        
+      </div></div>
+      <div class="pager"><span>총 128건</span><div class="pages"><span class="on">1</span><span>2</span><span>3</span></div></div>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      rows: [
+        { at: '10-21 20:02:01', who: 'superadmin', kind: '관리자', action: 'CAMERA_RUN', target: '캠 · 은행선화1-캠 (START)' },
+        { at: '10-21 20:01:28', who: 'superadmin', kind: '관리자', action: 'ZONE_CHANGE', target: '구역 · 은행선화동 1구역' },
+        { at: '10-21 17:28:11', who: 'admin02', kind: '관리자', action: 'EVENT_STATUS', target: '이벤트 · 은행선화동 3구역' },
+        { at: '10-21 16:40:05', who: 'parkjw', kind: '사용자', action: 'EXCEL_DOWNLOAD', target: '지역 · 은행선화동' },
+        { at: '10-21 15:12:44', who: 'admin01', kind: '관리자', action: 'ACCOUNT_CHANGE', target: '사용자 · parkjw (승인)' },
+        { at: '10-21 14:50:31', who: 'admin01', kind: '관리자', action: 'ZONE_CHANGE', target: '구역 · 은행선화동 2구역' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -40,6 +40,7 @@ white-eyes 프로젝트의 명세 저장소(white-eyes-docs)이고, 이 저장�
 | 2순위 → 1순위 | backlog-p2.md에서 항목과 테이블 초안을 빼서 1순위 문서로 옮긴다. 테이블 초안의 `account.id`는 `user_account.id` 또는 `admin_account.id`로 고친다 |
 | 패키지·모듈 배치 | package-structure.md → (공통 모듈 범위가 바뀌면) conventions.md '모듈·포트'의 공통 모듈 설명 |
 | 로깅 규칙 | code-conventions.md '7. 로깅' → conventions.md '주요 라이브러리'·`LOG_LEVEL` → overview.md 기술 스택 |
+| 화면 모양 | design/src → design/screens·png 다시 만들기(design/README.md) → 요소가 바뀌면 screens.md |
 | 결정이 바뀜 | 기존 결정 기록은 지우지 않고 상태를 '대체됨(→ 새 번호)'으로 바꾼 뒤 새 기록을 추가 |
 
 변경 뒤에는 바꾼 ID·경로·칼럼 이름으로 `grep -rn`을 돌려 남은 참조가 없는지 확인한다.

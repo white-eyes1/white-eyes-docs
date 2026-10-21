@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>사용자 관리</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./we.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="we" style="width: 100%; min-height: 900px; position: relative">
+  <dc-import name="AdminHeader" active="manage" hint-size="100%,64px"></dc-import>
+  <main class="page">
+    <div class="page-heading"><div><p class="eyebrow">USERS</p><h1>사용자 관리</h1><p>가입 신청을 승인하고 사용자 계정을 관리합니다.</p></div></div>
+    <section class="panel" style="overflow: hidden">
+      <div class="filterbar" style="border-radius: 12px 12px 0 0">
+        <span class="control plain" style="min-width: 220px; color: #8b98a9">아이디·이름 검색</span>
+        <span class="control">상태 전체</span><span class="control plain">가입일 전체</span><span class="control">활동 중 전체</span>
+        <button class="btn primary" style="margin-left: auto">조회</button>
+      </div>
+      <div class="table-wrap"><div class="dtable" role="table" data-api="GET /api/v1/users (승인 POST /{id}/approve, 승인 취소 /{id}/unapprove, 강제 로그아웃 /{id}/logout)" data-fnc="FNC-A-002·006·007·008" style="--cols: 1fr .8fr .8fr 1fr 1fr .8fr 2fr">
+        <div class="tr th" role="row"><span role="columnheader">아이디 ↕</span><span role="columnheader">이름</span><span role="columnheader">상태</span><span role="columnheader">가입일 ↓</span><span role="columnheader">최근 활동</span><span role="columnheader">활동 중</span><span role="columnheader" style="text-align: right">동작</span></div>
+        
+          <sc-for list="{{users}}" as="u" hint-placeholder-count="5">
+            <div class="tr" role="row">
+              <div role="cell"><a href="UserDetail.dc.html" style="color: #9cc0ff">{{u.id}}</a></div><div role="cell">{{u.name}}</div>
+              <div role="cell"><span class="chip {{u.stCls}}">{{u.st}}</span></div><div role="cell">{{u.joined}}</div><div role="cell">{{u.last}}</div>
+              <div role="cell"><sc-if value="{{u.active}}" hint-placeholder-val="{{ false }}"><span class="chip done">세션 {{u.sessions}}</span></sc-if></div>
+              <div role="cell"><div class="row-actions" style="justify-content: flex-end">
+                <sc-if value="{{u.pending}}" hint-placeholder-val="{{ true }}"><button class="btn primary sm">승인</button></sc-if>
+                <sc-if value="{{u.approved}}" hint-placeholder-val="{{ false }}"><button class="btn secondary sm">승인 취소</button></sc-if>
+                <button class="btn secondary sm" disabled="{{u.noSession}}">강제 로그아웃</button>
+              </div></div>
+            </div>
+          </sc-for>
+        
+      </div></div>
+      <div class="pager"><span>총 5명 · 행을 누르면 상세 창</span><div class="pages"><span class="on">1</span><span>2</span></div></div>
+    </section>
+  </main>
+  <div class="toast" role="status" style="position: absolute; right: 24px; top: 80px; border-color: #23476f; background: #0f1d2e">2개 세션을 종료했습니다</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const u = (id, name, s, joined, last, sessions) => ({
+      id, name, joined, last, sessions,
+      st: s === 'P' ? '승인 대기' : '승인됨', stCls: s === 'P' ? 'prep' : 'done',
+      pending: s === 'P', approved: s === 'A', active: sessions > 0, noSession: sessions === 0
+    });
+    return {
+      users: [
+        u('kimsj', '김서준', 'P', '2026-10-21', '-', 0),
+        u('leehy', '이하윤', 'P', '2026-10-21', '-', 0),
+        u('parkjw', '박지우', 'A', '2026-10-18', '오늘 16:40', 2),
+        u('choimj', '최민준', 'A', '2026-10-15', '어제 21:02', 0),
+        u('jungsa', '정서아', 'A', '2026-10-12', '오늘 09:15', 1)
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

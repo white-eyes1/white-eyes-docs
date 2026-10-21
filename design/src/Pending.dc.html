@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>승인 대기</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./we.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="we" style="width: 100%; min-height: 700px">
+  <header class="topbar"><span class="brand">White Eyes</span></header>
+  <main style="padding: 96px 24px; display: flex; justify-content: center">
+    <section class="panel" data-fnc="FNC-U-003" style="width: 100%; max-width: 480px; padding: 36px; display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center">
+      <div style="width: 56px; height: 56px; display: grid; place-items: center; border-radius: 50%; background: rgba(245,158,11,.14); color: #ffc15a">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+      </div>
+      <h1 style="font-size: 20px">승인을 기다리고 있습니다</h1>
+      <p class="muted" style="font-size: 13px">가입 신청이 접수되었습니다. 관리자가 승인하면 통계 화면을 이용할 수 있습니다.</p>
+      <a class="btn secondary" href="Login.dc.html" style="margin-top: 6px">로그아웃</a>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":700}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

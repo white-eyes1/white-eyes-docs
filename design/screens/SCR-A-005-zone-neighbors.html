@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>구역 이웃 설정 창</title>
+<link rel="stylesheet" href="../we.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&amp;display=swap">
+<style>body{margin:0}</style>
+</head>
+<body>
+<div class="we modal-stage" style="width: 640px; height: 620px">
+  <form class="modal" data-api="GET/PUT /api/v1/manage/zones/{id}/neighbors" data-fnc="FNC-A-016" role="dialog" aria-modal="true" aria-label="구역 이웃 설정">
+    <div class="modal-head"><div><h2>이웃 설정</h2><p class="muted" style="font-size: 12px; margin-top: 2px">은행선화동 1구역</p></div><button class="icon-btn" type="button" aria-label="닫기"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"></path></svg></button></div>
+    <div class="modal-body">
+      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; align-items: center">
+        <span></span><label class="field">북(N)<span class="control">없음(관측 범위 밖)</span></label><span></span>
+        <label class="field">서(W)<span class="control">중촌동 1구역</span></label>
+        <div style="height: 92px; display: grid; place-items: center; border: 2px solid #3bc99b; border-radius: 10px; background: rgba(59,201,155,.12); font-size: 12px; font-weight: 700">1구역</div>
+        <label class="field">동(E)<span class="control">은행선화동 2구역</span></label>
+        <span></span><label class="field">남(S)<span class="control">대흥동 1구역</span></label><span></span>
+      </div>
+      <p style="padding: 10px 12px; border: 1px solid #23476f; border-radius: 8px; background: #0f1d2e; color: #9cc0ff; font-size: 12px">저장하면 상대 구역의 반대 방향도 함께 바뀝니다. 예: 2구역의 서(W) = 1구역</p>
+    </div>
+    <div class="modal-foot"><button class="btn secondary" type="button">취소</button><button class="btn primary" type="button">저장</button></div>
+  </form>
+</div>
+</body>
+</html>

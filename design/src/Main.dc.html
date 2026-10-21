@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>공통 틀</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./we.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="we" style="width: 100%; min-height: 1240px; padding: 48px; display: flex; flex-direction: column; gap: 40px">
+  <div style="display: flex; flex-direction: column; gap: 8px">
+    <p class="eyebrow">WHITE EYES · DESIGN BASE</p>
+    <h1 style="font-size: 30px; font-weight: 700">공통 화면 틀</h1>
+    <p class="muted" style="font-size: 14px">Share CCTV Prototype의 어두운 관제 화면을 바탕으로 한 색·글꼴·컴포넌트. 정적 파일 common/static/css 한 벌로 두 앱이 함께 쓴다.</p>
+  </div>
+
+  <section style="display: flex; flex-direction: column; gap: 14px">
+    <h2 style="font-size: 16px">색</h2>
+    <div style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px">
+      <sc-for list="{{surfaces}}" as="c" hint-placeholder-count="6">
+        <div class="panel" style="overflow: hidden">
+          <div style="height: 64px; background: {{c.hex}}; border-bottom: 1px solid #253242"></div>
+          <div style="padding: 10px 12px"><strong style="font-size: 12px">{{c.name}}</strong><p class="muted" style="font-size: 11px">{{c.hex}}</p></div>
+        </div>
+      </sc-for>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px">
+      <sc-for list="{{accents}}" as="c" hint-placeholder-count="6">
+        <div class="panel" style="overflow: hidden">
+          <div style="height: 64px; background: {{c.hex}}"></div>
+          <div style="padding: 10px 12px"><strong style="font-size: 12px">{{c.name}}</strong><p class="muted" style="font-size: 11px">{{c.hex}} · {{c.use}}</p></div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px">
+    <div class="panel" style="padding: 20px; display: flex; flex-direction: column; gap: 14px">
+      <h2 style="font-size: 15px">글꼴</h2>
+      <p style="font-size: 22px; font-weight: 700">Noto Sans KR 22 / 700 — 화면 제목</p>
+      <p style="font-size: 15px; font-weight: 700">15 / 700 — 패널 제목</p>
+      <p style="font-size: 13px">13 / 400 — 본문, 표</p>
+      <p style="font-size: 11px" class="muted">11 / 400 — 보조 설명, 단위</p>
+      <p class="eyebrow">10 / 700 — 영문 소제목</p>
+    </div>
+    <div class="panel" style="padding: 20px; display: flex; flex-direction: column; gap: 14px">
+      <h2 style="font-size: 15px">혼잡 단계 · 상태 칩</h2>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap"><span class="chip l1">정상</span><span class="chip l2">주의</span><span class="chip l3">위험</span><span class="chip off">통계 없음</span></div>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap"><span class="chip off">정지</span><span class="chip prep">준비 중 45%</span><span class="chip run">가동 중</span><span class="chip err">오류</span></div>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap"><span class="chip l3">혼잡</span><span class="chip surge">급증</span><span class="chip cam">캠 이상</span><span class="chip demo">시연용</span></div>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap"><span class="chip unread">미확인</span><span class="chip review">확인 중</span><span class="chip done">조치완료</span></div>
+    </div>
+    <div class="panel" style="padding: 20px; display: flex; flex-direction: column; gap: 14px">
+      <h2 style="font-size: 15px">버튼</h2>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap"><button class="btn primary">저장</button><button class="btn secondary">취소</button><button class="btn danger">삭제</button><button class="btn ghost">닫기</button></div>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap"><button class="btn primary sm">가동</button><button class="btn secondary sm">정지</button><button class="btn secondary sm" disabled>정지</button></div>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap"><button class="btn primary lg">로그인</button></div>
+    </div>
+  </section>
+
+  <section style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px">
+    <div class="panel" style="padding: 20px; display: flex; flex-direction: column; gap: 14px">
+      <h2 style="font-size: 15px">입력 · 오류 표시</h2>
+      <label class="field">구역 이름<span class="input">은행선화동 1구역</span></label>
+      <label class="field">아이디<span class="input err">admin01</span><span class="hint err">이미 사용 중입니다</span></label>
+      <div style="display: flex; gap: 8px"><span class="control">대전광역시</span><span class="control">중구</span><span class="control">은행선화동</span></div>
+      <p class="muted" style="font-size: 11px">400 응답의 fieldErrors는 해당 입력 아래 빨간 문구로, 그 밖의 오류는 토스트로 보인다(common/api.js).</p>
+    </div>
+    <div class="panel" style="overflow: hidden">
+      <div class="panel-head"><h2>표</h2><span class="muted" style="font-size: 11px">머리글 클릭 = 정렬, 아래 페이지</span></div>
+      <div class="table-wrap"><table class="table">
+        <thead><tr><th>구역</th><th>캠 이름</th><th>상태</th><th>현재 인원</th><th></th></tr></thead>
+        <tbody>
+          <tr><td>은행선화동 1구역<small>중구 · 은행선화동</small></td><td>은행선화1-캠</td><td><span class="chip run">가동 중</span></td><td>84명</td><td><div class="row-actions"><button class="btn secondary sm">정지</button></div></td></tr>
+          <tr><td>대흥동 1구역<small>중구 · 대흥동</small></td><td>대흥1-캠</td><td><span class="chip off">정지</span></td><td>-</td><td><div class="row-actions"><button class="btn primary sm">가동</button></div></td></tr>
+        </tbody>
+      </table></div>
+      <div class="pager"><span>총 2건</span><div class="pages"><span class="on">1</span></div></div>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1240}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      surfaces: [
+        { name: '바탕', hex: '#090D13' }, { name: '면 1', hex: '#111821' }, { name: '면 2', hex: '#151E29' },
+        { name: '면 3', hex: '#1A2532' }, { name: '선', hex: '#253242' }, { name: '본문 글자', hex: '#EDF2F8' }
+      ],
+      accents: [
+        { name: '강조(파랑)', hex: '#4F8CFF', use: '선택·주 버튼' }, { name: '정상', hex: '#3BC99B', use: 'level 1' },
+        { name: '주의', hex: '#F59E0B', use: 'level 2' }, { name: '위험', hex: '#EF4D55', use: 'level 3' },
+        { name: '급증', hex: '#A78BFA', use: '급증 이벤트' }, { name: '보조 글자', hex: '#8B98A9', use: '설명·캠 이상' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

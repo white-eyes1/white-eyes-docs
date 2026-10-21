@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>회원 탈퇴 창</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./we.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="we modal-stage" style="width: 560px; height: 460px">
+  <form class="modal" data-api="DELETE /api/v1/me {password}" data-fnc="FNC-U-004" role="dialog" aria-modal="true" aria-label="회원 탈퇴">
+    <div class="modal-head"><h2>회원 탈퇴</h2><button class="icon-btn" type="button" aria-label="닫기"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"></path></svg></button></div>
+    <div class="modal-body">
+      <p style="padding: 12px 14px; border: 1px solid #6b2a31; border-radius: 8px; background: #2a151a; color: #ffb3b7; font-size: 12px">탈퇴하면 이 계정으로 다시 로그인할 수 없습니다. 계속하려면 비밀번호를 입력하세요.</p>
+      <label class="field">비밀번호<span class="input">••••••••••</span></label>
+    </div>
+    <div class="modal-foot"><button class="btn secondary" type="button">취소</button><button class="btn danger" type="button">탈퇴</button></div>
+  </form>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":560,"height":460}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

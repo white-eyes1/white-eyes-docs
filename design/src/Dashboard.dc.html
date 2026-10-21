@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>통계 메인</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./we.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&amp;display=swap">
+<style>body{margin:0}
+.acc{border:1px solid #253242;border-radius:10px;background:#111821}
+.acc-h{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;font-size:13px;font-weight:700}
+.cell{padding:12px 8px;border-radius:8px;background:#151e29;text-align:center;display:flex;flex-direction:column;gap:2px}
+.cell strong{font-size:18px}
+.cell span{font-size:11px;color:#8b98a9}
+.camcard{flex:0 0 280px;border:1px solid #253242;border-radius:10px;background:#111821;display:flex;flex-direction:column;overflow:hidden}
+</style>
+</helmet>
+<div class="we" style="width: 100%; min-height: 980px; display: flex; flex-direction: column">
+  <dc-import name="AdminHeader" active="dashboard" hint-size="100%,64px"></dc-import>
+
+  <div class="filterbar" data-api="GET /api/v1/regions?parentId= → id,name" data-fnc="FNC-C-008">
+    <span class="filter-title">지역 필터</span>
+    <span class="control">대전광역시</span><span class="control">중구</span><span class="control">은행선화동</span>
+    <span class="chip demo" style="margin-left: 8px">시연용 데이터</span>
+    <a class="btn secondary" href="Zones.dc.html" style="margin-left: auto">지역 등록·수정</a>
+  </div>
+
+  <div style="display: flex; flex-wrap: wrap; flex: 1 1 auto; min-height: 560px">
+    <aside style="flex: 0 1 360px; min-width: 300px; border-right: 1px solid #253242; background: #0d131b; display: flex; flex-direction: column">
+      <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid #253242">
+        <span style="font-size: 12px"><b>통계</b> <span style="color: #76a7ff">은행선화동 · 캠 3대</span></span>
+        <button class="icon-btn" aria-label="통계 패널 접기"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15 6-6 6 6 6"></path></svg></button>
+      </div>
+      <div style="padding: 14px; display: flex; flex-direction: column; gap: 10px">
+        <section class="acc" data-api="GET /api/v1/map/status?regionId=&amp;unit=ZONE → items[].name,countAvg,level / 이벤트 탭: todayEventCount" data-fnc="FNC-C-009" style="padding: 14px; display: flex; flex-direction: column; gap: 12px">
+          <div style="display: flex; justify-content: space-between; align-items: baseline"><strong style="font-size: 13px">구역별 현재 인원</strong><span class="muted" style="font-size: 10px">14:03 기준</span></div>
+          <div style="display: flex; gap: 6px"><button class="btn primary sm">현재 인원</button><button class="btn secondary sm">이벤트</button><button class="btn secondary sm">혼잡 단계</button></div>
+          <div style="display: flex; align-items: center; gap: 16px">
+            <div style="width: 116px; height: 116px; flex: none; border-radius: 50%; background: conic-gradient(#ef4d55 0 49.6%, #f59e0b 49.6% 91.4%, #3bc99b 91.4% 100%); display: grid; place-items: center">
+              <div style="width: 74px; height: 74px; border-radius: 50%; background: #111821; display: grid; place-items: center; text-align: center"><div><small class="muted" style="font-size: 10px">합계</small><div style="font-size: 17px; font-weight: 700">980명</div></div></div>
+            </div>
+            <div style="flex: 1; display: flex; flex-direction: column; gap: 8px; font-size: 11px">
+              <sc-for list="{{zones}}" as="z" hint-placeholder-count="3">
+                <div><div style="display: flex; justify-content: space-between"><span><i class="dot {{z.lv}}"></i> {{z.name}}</span><b>{{z.count}}</b></div><div style="height: 4px; margin-top: 4px; border-radius: 2px; background: #1f2a37"><div style="height: 4px; border-radius: 2px; width: {{z.pct}}; background: {{z.color}}"></div></div></div>
+              </sc-for>
+            </div>
+          </div>
+        </section>
+        <section class="acc" data-api="GET /api/v1/dashboard/summary?targetType=&amp;targetId= → countAvg,density,level,runningCameraCount/cameraCount,todayEventCount,todayMaxCount,statAt" data-fnc="FNC-C-016·017">
+          <div class="acc-h">요약<span class="muted" style="font-size: 11px; font-weight: 400">14:03 · 1분 평균</span></div>
+          <div style="padding: 0 12px 12px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
+            <div class="cell"><strong>980명</strong><span>현재 인원</span></div>
+            <div class="cell"><strong>0.26</strong><span>밀집도 명/㎡</span></div>
+            <div class="cell"><strong><span class="chip l1">정상</span></strong><span>혼잡 단계</span></div>
+            <div class="cell"><strong>3 / 3대</strong><span>가동 / 캠</span></div>
+            <div class="cell"><strong>0건</strong><span>오늘 이벤트</span></div>
+            <div class="cell"><strong>1,204명</strong><span>오늘 최대</span></div>
+          </div>
+        </section>
+        <section class="acc" data-api="GET /api/v1/dashboard/summary → inflow,outflow,mainDirection" data-fnc="FNC-C-016">
+          <div class="acc-h">유입·유출 (추정)<span class="muted" style="font-size: 11px; font-weight: 400">최근 1분</span></div>
+          <div style="padding: 0 14px 14px; display: flex; gap: 10px; font-size: 12px">
+            <div class="cell" style="flex: 1"><strong style="color: #6ee0b9">+64</strong><span>유입</span></div>
+            <div class="cell" style="flex: 1"><strong style="color: #ffb3b7">−58</strong><span>유출</span></div>
+            <div class="cell" style="flex: 1"><strong>남(S)</strong><span>주요 방향</span></div>
+          </div>
+        </section>
+        <section class="acc"><div class="acc-h">인원수·밀집도<span class="chip off anno">2단계</span></div></section>
+        <section class="acc" data-api="GET /api/v1/meta/levels" data-fnc="FNC-C-025"><div class="acc-h">혼잡 기준<span class="muted" style="font-size: 11px; font-weight: 400">0.7 / 1.5 명/㎡</span></div></section>
+        <section class="acc"><div class="acc-h">피크 시간 TOP 3·증감 추세<span class="chip off anno">3단계</span></div></section>
+        <section class="acc"><div class="acc-h">비정상 인원 변동<span class="chip off anno">2단계</span></div></section>
+        <div style="display: flex; gap: 8px"><a class="btn secondary" href="Graph.dc.html" style="flex: 1">그래프 보기</a><a class="btn secondary" href="ExcelModal.dc.html" style="flex: 1">엑셀 다운로드</a></div>
+      </div>
+    </aside>
+
+    <section class="map" data-api="GET /api/v1/map/status?regionId= (경계 색) + GET /api/v1/zones?dongId= (핀: centerLat,centerLng)" data-fnc="FNC-C-008·009" style="flex: 999 1 560px; min-width: 0; min-height: 560px" aria-label="지도">
+      <svg viewBox="0 0 1000 620" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <rect width="1000" height="620" fill="#0f161f"></rect>
+        <path d="M0 410 C180 380 260 460 420 430 S700 330 1000 360" stroke="#1d3550" stroke-width="22" fill="none"></path>
+        <path d="M120 0 L180 620 M0 200 L1000 260 M600 0 L540 620 M0 520 L1000 470" stroke="#1a2431" stroke-width="5" fill="none"></path>
+        <path d="M300 120 L520 100 L560 300 L380 340 L280 260 Z" fill="rgba(59,201,155,.22)" stroke="#3bc99b" stroke-width="2"></path>
+        <path d="M560 300 L520 100 L760 140 L790 330 Z" fill="rgba(74,87,104,.25)" stroke="#4a5768" stroke-width="1.5"></path>
+        <path d="M380 340 L560 300 L790 330 L760 520 L420 540 Z" fill="rgba(74,87,104,.25)" stroke="#4a5768" stroke-width="1.5"></path>
+        <path d="M280 260 L380 340 L420 540 L200 560 L160 330 Z" fill="rgba(74,87,104,.25)" stroke="#4a5768" stroke-width="1.5"></path>
+        <text x="410" y="230" fill="#9fe6cb" font-size="16" font-weight="700">은행선화동</text>
+        <text x="630" y="240" fill="#7d8a9b" font-size="14">목동</text>
+        <text x="560" y="450" fill="#7d8a9b" font-size="14">대흥동</text>
+        <text x="230" y="440" fill="#7d8a9b" font-size="14">중촌동</text>
+      </svg>
+      <span class="pin l1" style="left: 41%; top: 31%"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14.5 5 16 8h3a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h3l1.5-3Z"></path><circle cx="12" cy="14" r="3"></circle></svg></span>
+      <span class="pin l2" style="left: 48%; top: 42%"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14.5 5 16 8h3a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h3l1.5-3Z"></path><circle cx="12" cy="14" r="3"></circle></svg></span>
+      <span class="pin l3" style="left: 36%; top: 47%"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14.5 5 16 8h3a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h3l1.5-3Z"></path><circle cx="12" cy="14" r="3"></circle></svg><b>1</b></span>
+      <div style="position: absolute; top: 14px; right: 14px; display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end">
+        <button class="btn secondary sm">이동 흐름 · 최근 1시간 <span class="chip off anno">3단계</span></button>
+        <button class="btn secondary sm">히트맵 <span class="chip off anno">3단계</span></button>
+      </div>
+      <div class="legend" style="position: absolute; top: 14px; left: 14px; padding: 8px 10px; border: 1px solid #253242; border-radius: 8px; background: rgba(13,19,27,.9)"><span><i class="dot l1"></i>정상</span><span><i class="dot l2"></i>주의</span><span><i class="dot l3"></i>위험</span><span><i class="dot off"></i>통계 없음</span></div>
+      <div class="map-ctrl"><span>+</span><span>−</span><span>초기화</span><span>100%</span></div>
+      <span class="map-note anno">Leaflet + OpenStreetMap · 지역 경계는 혼잡 단계 색으로, 핀은 구역 중심점</span>
+    </section>
+  </div>
+
+  <section style="border-top: 1px solid #253242; background: #0d131b">
+    <div style="display: flex; justify-content: center; padding-top: 6px"><span style="width: 56px; height: 4px; border-radius: 2px; background: #3a4757"></span></div>
+    <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 18px 12px; flex-wrap: wrap; gap: 8px">
+      <span class="muted" style="font-size: 12px">지도 화면 안 캠 <b style="color: #edf2f8">3</b> 대</span>
+      <div style="display: flex; gap: 8px"><button class="btn secondary sm">전체 펼치기</button><a class="btn secondary sm" href="Cameras.dc.html">캠 관리</a></div>
+    </div>
+    <div style="display: flex; gap: 12px; padding: 0 18px 18px; overflow-x: auto">
+      <sc-for list="{{cams}}" as="c" hint-placeholder-count="3">
+        <article class="camcard" data-api="GET /api/v1/manage/cameras?regionId= → name,stat.level,regionPath,areaM2,recent10m[],status,progress,stat.countAvg,todayEventCount" data-fnc="FNC-A-022">
+          <header style="padding: 10px 12px; display: flex; flex-direction: column; gap: 2px">
+            <div style="display: flex; justify-content: space-between; align-items: center"><strong style="font-size: 13px">{{c.name}}</strong><span class="chip {{c.lv}}">{{c.lvName}}</span></div>
+            <span class="muted" style="font-size: 11px">{{c.area}}</span>
+          </header>
+          <a class="feed" href="LiveView.dc.html" style="height: 130px; margin: 0 12px; display: block" aria-label="실시간 보기 열기">
+            <span class="feed-label anno"><i class="rec"></i>LIVE 스냅샷 · 2단계(FNC-S-011)</span>
+            <span class="box" style="left: 22%; top: 40%; width: 18px; height: 26px"></span><span class="box" style="left: 46%; top: 52%; width: 18px; height: 26px"></span><span class="box" style="left: 64%; top: 36%; width: 18px; height: 26px"></span>
+          </a>
+          <svg viewBox="0 0 180 24" preserveAspectRatio="none" style="height: 24px; margin: 8px 12px 0" aria-label="최근 10분 인원"><path d="{{c.spark}}" fill="none" stroke="#76a7ff" stroke-width="1.6"></path></svg>
+          <div style="display: flex; justify-content: space-between; padding: 8px 12px; font-size: 11px" class="muted"><span>상태 <span class="chip {{c.stCls}}">{{c.st}}</span></span><span>인원 <b style="color: #edf2f8">{{c.count}}</b></span><span>이벤트 <b style="color: #edf2f8">{{c.ev}}</b></span></div>
+          <footer style="display: flex; gap: 6px; padding: 0 12px 12px"><button class="btn secondary sm" data-api="POST /api/v1/manage/cameras/{id}/stop (STOPPED면 분석 시작: /start)" data-fnc="FNC-A-020·021" style="flex: 1">중단</button></footer>
+        </article>
+      </sc-for>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":980}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      zones: [
+        { name: '은행선화동 3구역', count: 486, pct: '100%', lv: 'l3', color: '#ef4d55' },
+        { name: '은행선화동 2구역', count: 410, pct: '84%', lv: 'l2', color: '#f59e0b' },
+        { name: '은행선화동 1구역', count: 84, pct: '17%', lv: 'l1', color: '#3bc99b' }
+      ],
+      cams: [
+        { name: '은행선화3-캠', area: '중구 · 은행선화동 · 300㎡', lv: 'l3', lvName: '위험', st: '가동 중', stCls: 'run', count: 486, ev: 1, spark: 'M0 18L20 16L40 17L60 12L80 13L100 9L120 8L140 6L160 5L180 3' },
+        { name: '은행선화2-캠', area: '중구 · 은행선화동 · 500㎡', lv: 'l2', lvName: '주의', st: '가동 중', stCls: 'run', count: 410, ev: 0, spark: 'M0 12L20 13L40 11L60 12L80 10L100 11L120 9L140 10L160 9L180 8' },
+        { name: '은행선화1-캠', area: '중구 · 은행선화동 · 2,974㎡', lv: 'l1', lvName: '정상', st: '가동 중', stCls: 'run', count: 84, ev: 0, spark: 'M0 14L20 15L40 13L60 14L80 14L100 13L120 15L140 14L160 13L180 14' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

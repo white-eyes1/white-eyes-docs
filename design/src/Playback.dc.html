@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>다시보기 + 통계</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./we.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&amp;display=swap">
+<style>body{margin:0}
+.seg{display:inline-flex;border:1px solid #253242;border-radius:8px;overflow:hidden}
+.seg span{padding:6px 11px;font-size:11px;color:#9aa7b8;border-right:1px solid #253242}
+.seg span:last-child{border-right:0}
+.seg span.on{background:#1b2a3d;color:#edf2f8}
+.stat{padding:12px;border-radius:8px;background:#151e29;display:flex;flex-direction:column;gap:2px}
+.stat span{font-size:11px;color:#8b98a9}
+.stat strong{font-size:20px}
+</style>
+</helmet>
+<div class="we" style="width: 100%; min-height: 1000px">
+  <dc-import name="AdminHeader" active="manage" hint-size="100%,64px"></dc-import>
+  <main class="page">
+    <div class="page-heading">
+      <div><p class="eyebrow">PLAYBACK · 영상과 통계를 함께</p><h1>다시보기 · 은행선화3-캠</h1><p>중구 · 은행선화동 · 은행선화동 3구역 · 300㎡</p></div>
+      <div style="text-align: right"><span class="muted" style="font-size: 11px">재생 중인 시각</span><div style="font-size: 20px; font-weight: 700; font-variant-numeric: tabular-nums">2026-10-21 17:13:44</div></div>
+    </div>
+
+    <div style="display: flex; gap: 16px; flex-wrap: wrap">
+      <section class="panel" style="flex: 999 1 640px; min-width: 0; padding: 14px; display: flex; flex-direction: column; gap: 10px">
+        <div class="feed" data-api="GET /api/v1/playback?zoneId=&amp;at= → videoUrl,boxesUrl,seekSec,startedAt" data-fnc="FNC-A-043·046·047" style="height: 420px">
+          <span class="feed-label">녹화 · 17:13:22 ~ 17:13:44</span>
+          <span class="box" style="left: 20%; top: 32%; width: 24px; height: 36px"></span><span class="box" style="left: 31%; top: 48%; width: 24px; height: 36px"></span><span class="box" style="left: 44%; top: 38%; width: 24px; height: 36px"></span><span class="box" style="left: 53%; top: 58%; width: 24px; height: 36px"></span><span class="box" style="left: 67%; top: 42%; width: 24px; height: 36px"></span><span class="box" style="left: 74%; top: 30%; width: 24px; height: 36px"></span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap">
+          <button class="icon-btn" aria-label="일시 정지"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"></rect><rect x="14" y="5" width="4" height="14" rx="1"></rect></svg></button>
+          <button class="btn secondary sm" aria-label="이전 이벤트로">◀ 이벤트</button>
+          <button class="btn secondary sm" aria-label="다음 이벤트로">이벤트 ▶</button>
+          <span class="seg" aria-label="재생 속도"><span class="on">1×</span><span>2×</span><span>4×</span></span>
+          <label style="margin-left: auto; display: inline-flex; align-items: center; gap: 8px; font-size: 12px">박스 표시 <span style="width: 34px; height: 18px; border-radius: 9px; background: #356fc9; position: relative; display: inline-block"><span style="position: absolute; right: 2px; top: 2px; width: 14px; height: 14px; border-radius: 50%; background: #fff"></span></span></label>
+        </div>
+      </section>
+      <aside class="panel" data-api="GET /api/v1/stats/series?targetType=ZONE&amp;interval=1m → 재생 위치가 속한 1분 항목" data-fnc="FNC-A-047" style="flex: 1 1 300px; padding: 16px; display: flex; flex-direction: column; gap: 10px">
+        <div style="display: flex; justify-content: space-between; align-items: center"><strong style="font-size: 13px">이 시점의 1분 통계</strong><span class="muted" style="font-size: 11px">17:13</span></div>
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+          <div class="stat"><span>평균 인원</span><strong>486명</strong></div>
+          <div class="stat"><span>밀집도</span><strong>1.62</strong></div>
+          <div class="stat"><span>최대 · 최소</span><strong style="font-size: 16px">512 · 461</strong></div>
+          <div class="stat"><span>혼잡 단계</span><strong><span class="chip l3">위험</span></strong></div>
+          <div class="stat"><span>유입</span><strong style="color: #6ee0b9">+38</strong></div>
+          <div class="stat"><span>유출</span><strong style="color: #ffb3b7">−21</strong></div>
+        </div>
+        <div style="padding: 10px 12px; border: 1px solid #5a2a31; border-radius: 8px; background: #1f141a; font-size: 12px; display: flex; flex-direction: column; gap: 4px">
+          <span><span class="chip l3">혼잡</span> 17:13 ~ 17:31 진행된 이벤트 안</span>
+          <a href="EventDetail.dc.html" style="color: #ffb3b7">이벤트 상세 보기 →</a>
+        </div>
+      </aside>
+    </div>
+
+    <section class="panel" data-api="GET /api/v1/stats/series?targetType=ZONE&amp;interval=1m&amp;from=&amp;to= (countAvg,countMax,countMin,level) + GET /api/v1/events?zoneId=&amp;from=&amp;to= + 녹화 구간(GET /api/v1/playback)" data-fnc="FNC-A-047" style="padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 10px">
+      <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap">
+        <strong style="font-size: 13px">통계 타임라인</strong>
+        <span class="seg" aria-label="보이는 범위"><span>30분</span><span class="on">1시간</span><span>3시간</span><span>오늘</span></span>
+        <span class="seg" aria-label="항목"><span class="on">인원</span><span>밀집도</span><span>유입·유출</span></span>
+        <span class="muted" style="margin-left: auto; font-size: 11px">세로 막대를 끌거나 그래프를 누르면 그 시각으로 영상이 이동합니다</span>
+      </div>
+
+      <div style="position: relative; height: 220px; margin-left: 44px">
+        <div style="position: absolute; left: {{evLeft}}; width: {{evWidth}}; top: 0; bottom: 0; background: rgba(239,77,85,.10); border-left: 1px dashed #ef4d55; border-right: 1px dashed #ef4d55"></div>
+        <svg viewBox="0 0 1000 220" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" role="img" aria-label="1분 평균 인원과 최대·최소 범위">
+          <path d="M0 55H1000M0 110H1000M0 165H1000" stroke="#1e2a38" stroke-width="1"></path>
+          <path d="M0 {{y450}}H1000" stroke="#ef4d55" stroke-width="1" stroke-dasharray="4 4"></path>
+          <path d="M0 {{y210}}H1000" stroke="#f59e0b" stroke-width="1" stroke-dasharray="4 4"></path>
+          <path d="{{band}}" fill="rgba(79,140,255,.16)"></path>
+          <path d="{{line}}" fill="none" stroke="#76a7ff" stroke-width="2.5"></path>
+        </svg>
+        <span class="muted" style="position: absolute; left: -44px; top: {{y450px}}; font-size: 10px; transform: translateY(-50%)">위험</span>
+        <span class="muted" style="position: absolute; left: -44px; top: {{y210px}}; font-size: 10px; transform: translateY(-50%)">주의</span>
+        <span style="position: absolute; left: {{evLeft}}; top: -2px; transform: translateX(-50%); color: #ef4d55; font-size: 12px" aria-label="혼잡 이벤트 시작">▼</span>
+        <div style="position: absolute; left: {{headLeft}}; top: -10px; bottom: -36px; width: 2px; margin-left: -1px; background: #ffffff; box-shadow: 0 0 10px rgba(255,255,255,.6)">
+          <span style="position: absolute; top: -6px; left: -7px; width: 16px; height: 16px; border-radius: 4px; background: #fff; cursor: ew-resize" aria-hidden="true"></span>
+          <span style="position: absolute; top: 18px; left: 8px; padding: 6px 8px; border-radius: 6px; background: #0b1118; border: 1px solid #2d3b4d; font-size: 11px; white-space: nowrap">17:13:44 · 486명 · 위험</span>
+        </div>
+      </div>
+      <div style="margin-left: 44px; display: flex; height: 8px; border-radius: 4px; overflow: hidden" aria-label="분마다 혼잡 단계">
+        <sc-for list="{{levels}}" as="l" hint-placeholder-count="60"><span style="flex: 1; background: {{l}}"></span></sc-for>
+      </div>
+      <div style="margin-left: 44px; position: relative; height: 8px; border-radius: 4px; background: #2b4a3f" aria-label="녹화가 있는 구간">
+        <span style="position: absolute; left: 66.1%; width: 3.4%; top: 0; bottom: 0; background: #2a1d22"></span>
+      </div>
+      <div style="margin-left: 44px; display: flex; justify-content: space-between; font-size: 10px" class="muted"><span>17:00</span><span>17:15</span><span>17:30</span><span>17:45</span><span>18:00</span></div>
+      <div style="display: flex; gap: 16px; font-size: 11px; flex-wrap: wrap" class="muted">
+        <span><i class="dot" style="background: #76a7ff"></i> 1분 평균 인원 (옅은 띠: 최대·최소)</span>
+        <span>가운데 띠: 분마다 혼잡 단계</span>
+        <span><i class="dot" style="background: #2b4a3f"></i> 녹화 있음 <i class="dot" style="background: #2a1d22; margin-left: 8px"></i> 녹화 없음</span>
+        <span style="color: #ff8a90">▼ 이벤트 시작 · 붉은 영역 = 이벤트 진행</span>
+      </div>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const n = 60, H = 220, MAX = 600;
+    const counts = Array.from({ length: n }, (_, i) => Math.round(160 + 340 * Math.exp(-Math.pow((i - 15) / 11, 2)) + 18 * Math.sin(i / 2)));
+    const x = (i) => (i / (n - 1)) * 1000;
+    const y = (v) => H - (v / MAX) * (H - 10);
+    const line = counts.map((c, i) => (i ? 'L' : 'M') + x(i).toFixed(1) + ' ' + y(c).toFixed(1)).join(' ');
+    const hi = counts.map((c, i) => x(i).toFixed(1) + ' ' + y(c + 26).toFixed(1));
+    const lo = counts.map((c, i) => x(i).toFixed(1) + ' ' + y(Math.max(c - 26, 0)).toFixed(1)).reverse();
+    const band = 'M' + hi.join(' L') + ' L' + lo.join(' L') + ' Z';
+    const color = (c) => (c >= 450 ? '#ef4d55' : c >= 210 ? '#f59e0b' : '#3bc99b');
+    const pct = (i) => ((i / (n - 1)) * 100).toFixed(2) + '%';
+    return {
+      line, band, levels: counts.map(color),
+      y450: y(450).toFixed(1), y210: y(210).toFixed(1),
+      y450px: y(450).toFixed(0) + 'px', y210px: y(210).toFixed(0) + 'px',
+      evLeft: pct(13), evWidth: ((18 / (n - 1)) * 100).toFixed(2) + '%',
+      headLeft: pct(13.73)
+    };
+  }
+}
+</script>
+</body>
+</html>

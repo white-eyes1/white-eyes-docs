@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>실시간 보기 창</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./we.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="we modal-stage" style="width: 1200px; height: 760px">
+  <div class="modal" role="dialog" aria-modal="true" aria-label="실시간 보기" style="max-width: 1040px">
+    <div class="modal-head">
+      <div><p class="eyebrow">LIVE VIEW</p><h2 style="margin-top: 4px">은행선화3-캠 <span class="muted" style="font-size: 12px; font-weight: 400">· 중구 · 은행선화동 · 은행선화동 3구역 · 300㎡</span></h2></div>
+      <button class="icon-btn" aria-label="닫기"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"></path></svg></button>
+    </div>
+    <div style="padding: 18px 20px">
+      <div class="feed" data-api="MJPEG /live/{cameraId} (nginx → 분석 서버, 권한: GET /api/v1/live/auth)" data-fnc="FNC-A-041·042" style="height: 460px">
+        <span class="feed-label"><i class="rec"></i>LIVE · MJPEG</span>
+        <span class="box" style="left: 18%; top: 30%; width: 22px; height: 34px"></span><span class="box" style="left: 26%; top: 44%; width: 22px; height: 34px"></span><span class="box" style="left: 38%; top: 36%; width: 22px; height: 34px"></span><span class="box" style="left: 47%; top: 55%; width: 22px; height: 34px"></span><span class="box" style="left: 58%; top: 40%; width: 22px; height: 34px"></span><span class="box" style="left: 66%; top: 62%; width: 22px; height: 34px"></span><span class="box" style="left: 75%; top: 33%; width: 22px; height: 34px"></span>
+        <span style="position: absolute; right: 12px; top: 10px; padding: 4px 8px; border-radius: 6px; background: rgba(0,0,0,.55); font-size: 12px; font-weight: 700">486명</span>
+      </div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 24px; padding: 0 20px 18px; flex-wrap: wrap">
+      <div><span class="muted" style="font-size: 11px">현재 인원</span><div style="font-size: 26px; font-weight: 700">486명</div></div>
+      <div><span class="muted" style="font-size: 11px">밀집도</span><div style="font-size: 26px; font-weight: 700">1.62 <small class="muted" style="font-size: 12px">명/㎡</small></div></div>
+      <span class="chip l3" style="height: 28px; font-size: 13px">위험</span>
+      <a class="btn secondary" href="Playback.dc.html" data-api="GET /api/v1/playback?zoneId=&amp;latest=true" data-fnc="FNC-A-043·047" style="margin-left: auto">다시보기</a>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1200,"height":760}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
