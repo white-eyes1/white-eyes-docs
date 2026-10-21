@@ -416,7 +416,7 @@
   5. 작업 기록(CAMERA_RUN, detail: {op: START})
 - **업무 규칙/검증**: 이후 상태 변화는 분석 서버의 상태 보고(FNC-A-025)로 갱신
 - **정상 결과**: 상태 표시 갱신
-- **예외 상황 및 처리**: STOPPED·ERROR가 아님: 409 INVALID_STATUS / 분석 서버 연결 실패: status=ERROR, error_message='분석 서버 연결 실패', 502 ANALYZER_UNAVAILABLE (run_requested=1은 유지 → 분석 서버가 다시 켜지면 자동 가동) / 분석 서버 400 SOURCE_NOT_FOUND: status=ERROR, error_message='영상 파일·스트림 없음', 422 SOURCE_NOT_FOUND(run_requested=1은 유지 — 주소를 고치려면 정지 후 수정)
+- **예외 상황 및 처리**: STOPPED·ERROR가 아님: 409 INVALID_STATUS / 분석 서버 연결 실패: status=ERROR, error_message='분석 서버 연결 실패', 502 ANALYZER_UNAVAILABLE (run_requested=1은 유지 → 분석 서버가 다시 켜지면 자동 가동) / 분석 서버 400 SOURCE_NOT_FOUND: status=ERROR, error_message='영상 파일·스트림 없음', 422 SOURCE_NOT_FOUND(run_requested=1은 유지 — 주소를 고치려면 정지 후 수정) / 분석 서버 409 CAMERA_STOPPING(직전 정지가 아직 끝나지 않음): 가동하지 않은 것으로 보아 status·error_message·run_requested를 가동 요청 전 값으로 되돌리고(ERROR로 바꾸지 않음) first_started_at·작업 기록은 남기지 않음, 409 CAMERA_STOPPING '이전 정지가 아직 끝나지 않았습니다. 잠시 뒤 다시 시작해 주세요.'
 - **후속 동작**: 캠 상태 SSE로 다른 관리자 화면에도 반영
 - **관련 요구사항 ID**
   caman-003

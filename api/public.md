@@ -763,7 +763,7 @@
 - **Response**
   200
   {"status": "PREPARING"}
-- **오류 응답**: 409 INVALID_STATUS / 422 SOURCE_NOT_FOUND / 502 ANALYZER_UNAVAILABLE
+- **오류 응답**: 409 INVALID_STATUS / 409 CAMERA_STOPPING(직전 정지가 아직 끝나지 않음. 캠 상태는 요청 전 그대로) / 422 SOURCE_NOT_FOUND / 502 ANALYZER_UNAVAILABLE
 - **비고**: FNC-A-020
 
 ### POST /api/v1/manage/cameras/{id}/stop — 캠 정지
