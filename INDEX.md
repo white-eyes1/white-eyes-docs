@@ -20,6 +20,7 @@
 | package-structure.md | spring 멀티모듈(common/user/admin)·flask 패키지 구조, 계층·의존 규칙 |
 | commit-convention.md | 커밋 메시지 규칙(세 저장소 공통) |
 | decisions/ | 결정 기록 |
+| test-reports/ | 시험 보고서(날짜별 폴더의 README.md) |
 
 ## ID 접두사 → 파일
 | 접두사 | 파일 |
