@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>캠 관리</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./we.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="we" style="width: 100%; min-height: 900px">
+  <dc-import name="AdminHeader" active="manage" hint-size="100%,64px"></dc-import>
+  <main class="page">
+    <div class="page-heading">
+      <div><p class="eyebrow">CAMERAS</p><h1>캠 관리</h1><p>구역마다 캠 1대. 가동하면 분석 서버가 영상을 분석하고, 더미 캠은 처음 한 번 준비(분석)를 거칩니다.</p></div>
+      <a class="btn primary" href="CameraForm.dc.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>캠 등록</a>
+    </div>
+    <div class="toast" role="status" style="align-self: flex-start"><span class="chip l3">409</span>이전 정지가 아직 끝나지 않았습니다. 잠시 뒤 다시 시작해 주세요.</div>
+    <section class="panel" style="overflow: hidden">
+      <div class="filterbar" style="border-radius: 12px 12px 0 0">
+        <span class="control">지역 전체</span><span class="control">상태 전체</span>
+        <span class="muted" style="margin-left: auto; font-size: 12px">총 6대 · 가동 3 · 준비 1 · 오류 1</span>
+      </div>
+      <div class="table-wrap"><div class="dtable" role="table" data-api="GET /api/v1/manage/cameras → zoneName,regionPath,name,sourceUri,sourceType,status,progress,errorMessage" data-fnc="FNC-A-022" style="--cols: 1.3fr 1.4fr .7fr .8fr 1fr 1.3fr 2.6fr">
+        <div class="tr th" role="row"><span role="columnheader">구역</span><span role="columnheader">캠 이름</span><span role="columnheader">입력 방식</span><span role="columnheader">상태</span><span role="columnheader">준비 진행률</span><span role="columnheader">오류 내용</span><span role="columnheader" style="text-align: right">동작</span></div>
+        
+          <sc-for list="{{cams}}" as="c" hint-placeholder-count="6">
+            <div class="tr" role="row">
+              <div role="cell">{{c.zone}}<small>{{c.region}}</small></div>
+              <div role="cell">{{c.name}}<small>{{c.uri}}</small></div>
+              <div role="cell">{{c.type}}</div>
+              <div role="cell"><span class="chip {{c.stCls}}">{{c.st}}</span></div>
+              <div role="cell"><sc-if value="{{c.prep}}" hint-placeholder-val="{{ false }}"><div style="display: flex; align-items: center; gap: 8px"><div class="progress"><i style="width: {{c.pct}}"></i></div><span class="muted">{{c.pct}}</span></div></sc-if><sc-if value="{{c.noPrep}}" hint-placeholder-val="{{ true }}"><span class="muted">-</span></sc-if></div>
+              <div role="cell" style="color: #ff8c91">{{c.err}}</div>
+              <div role="cell"><div class="row-actions" style="justify-content: flex-end">
+                <sc-if value="{{c.canStart}}" hint-placeholder-val="{{ true }}"><button class="btn primary sm" data-api="POST /api/v1/manage/cameras/{id}/start (409 INVALID_STATUS·CAMERA_STOPPING, 422 SOURCE_NOT_FOUND, 502)" data-fnc="FNC-A-020">{{c.startLabel}}</button></sc-if>
+                <sc-if value="{{c.canStop}}" hint-placeholder-val="{{ false }}"><button class="btn secondary sm" data-api="POST /api/v1/manage/cameras/{id}/stop → warning" data-fnc="FNC-A-021">정지</button></sc-if>
+                <a class="btn secondary sm anno" href="LiveView.dc.html" data-fnc="FNC-A-042(2단계)">실시간 보기</a>
+                <a class="btn secondary sm anno" href="CameraForm.dc.html" data-fnc="FNC-A-019(3단계)">수정</a>
+                <button class="btn danger sm anno" data-fnc="FNC-A-023(3단계)" disabled="{{c.lockEdit}}">삭제</button>
+              </div></div>
+            </div>
+          </sc-for>
+        
+      </div></div>
+      <div class="pager"><span>총 6대</span><div class="pages"><span class="on">1</span></div></div>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const row = (zone, name, uri, type, st) => {
+      const map = {
+        RUNNING: ['가동 중', 'run'], PREPARING: ['준비 중', 'prep'], STOPPED: ['정지', 'off'], ERROR: ['오류', 'err']
+      };
+      return {
+        zone, region: '중구 · 은행선화동', name, uri, type,
+        st: map[st][0], stCls: map[st][1],
+        prep: st === 'PREPARING', noPrep: st !== 'PREPARING', pct: st === 'PREPARING' ? '45%' : '',
+        err: st === 'ERROR' ? '영상 파일·스트림 없음' : '',
+        canStart: st === 'STOPPED' || st === 'ERROR', startLabel: st === 'ERROR' ? '다시 시작' : '가동',
+        canStop: st !== 'STOPPED', lockEdit: st !== 'STOPPED' && st !== 'ERROR' ? true : false
+      };
+    };
+    return {
+      cams: [
+        row('은행선화동 1구역', '은행선화1-캠', 'dummy/videos/a.mp4', '더미', 'RUNNING'),
+        row('은행선화동 2구역', '은행선화2-캠', 'dummy/videos/b.mp4', '더미', 'RUNNING'),
+        row('은행선화동 3구역', '은행선화3-캠', 'dummy/videos/c.mp4', '더미', 'RUNNING'),
+        row('중촌동 1구역', '중촌1-캠', 'dummy/videos/d.mp4', '더미', 'PREPARING'),
+        row('대흥동 1구역', '대흥1-캠', 'rtsp://10.0.0.21/stream', '라이브', 'STOPPED'),
+        row('목동 1구역', '목동1-캠', 'dummy/videos/none.mp4', '더미', 'ERROR')
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

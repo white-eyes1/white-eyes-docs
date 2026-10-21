@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>이벤트 로그</title>
+<link rel="stylesheet" href="../we.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&amp;display=swap">
+<style>body{margin:0}
+.sum{flex:1 1 200px;padding:16px 18px;display:flex;flex-direction:column;gap:4px}
+.sum strong{font-size:26px}
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&amp;display=swap">
+<style>body{margin:0}</style>
+</head>
+<body>
+<div class="we" style="width: 100%; min-height: 900px; position: relative">
+  
+
+<header class="we topbar" style="width: 100%">
+  <a class="brand" href="SCR-C-003-dashboard.html">White Eyes<small>관리자</small></a>
+  <nav class="tabs" aria-label="주요 메뉴">
+    <a class="tab " href="SCR-C-003-dashboard.html">대시보드</a>
+    <a class="tab " href="SCR-C-004-graph.html">통계·기간 비교</a>
+    <a class="tab on" href="SCR-A-010-events.html">이벤트 로그 <span class="badge-count" data-api="GET /api/v1/events/unchecked-count + 알림 SSE" data-fnc="FNC-A-048(2단계)">3</span></a>
+    <a class="tab " href="SCR-A-004-zones.html">관리
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg>
+    </a>
+  </nav>
+  <div class="head-right">
+    <div class="legend" aria-label="혼잡 단계 범례">
+      <span><i class="dot l1"></i>정상</span><span><i class="dot l2"></i>주의 0.7↑</span><span><i class="dot l3"></i>위험 1.5↑</span><span class="muted">명/㎡</span>
+    </div>
+    <button class="usermenu">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg>
+      superadmin
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg>
+    </button>
+  </div>
+</header>
+
+  <main class="page">
+    <div class="page-heading">
+      <div><p class="eyebrow">EVENT CENTER</p><h1>이벤트 로그</h1><p>혼잡·급증·캠 이상 이벤트를 확인하고 조치를 기록합니다.</p></div>
+      <button class="btn secondary"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"></path></svg>내려받기</button>
+    </div>
+    <div data-api="GET /api/v1/events/summary → total,unchecked,checked,resolved" data-fnc="FNC-A-036" style="display: flex; gap: 12px; flex-wrap: wrap">
+      <div class="panel sum"><span class="muted">전체 (오늘)</span><strong>7</strong></div>
+      <div class="panel sum"><span class="muted">미확인</span><strong style="color: #ff8a90">3</strong></div>
+      <div class="panel sum"><span class="muted">확인 중</span><strong style="color: #ffc15a">1</strong></div>
+      <div class="panel sum"><span class="muted">조치완료</span><strong style="color: #6ee0b9">3</strong></div>
+    </div>
+    <section class="panel" style="overflow: hidden">
+      <div class="filterbar" style="border-radius: 12px 12px 0 0">
+        <span class="control plain">2026-10-21</span><span class="control">전체 상태</span><span class="control">전체 종류</span>
+        <span class="control plain" style="min-width: 240px; color: #8b98a9">구역·지역 검색</span>
+      </div>
+      <div class="table-wrap"><div class="dtable" role="table" data-api="GET /api/v1/events?from=&amp;to=&amp;statuses=&amp;types=&amp;keyword=&amp;page=" data-fnc="FNC-A-036" style="--cols: 1fr .7fr 1.5fr 1.3fr .6fr .8fr 1fr">
+        <div class="tr th" role="row"><span role="columnheader">발생 시각</span><span role="columnheader">종류</span><span role="columnheader">구역 · 지역</span><span role="columnheader">최고 단계 · 값</span><span role="columnheader">지속</span><span role="columnheader">처리 상태</span><span role="columnheader" style="text-align: right">조치</span></div>
+        
+          
+            <div class="tr" role="row">
+              <div role="cell">17:13:44<small>진행 중</small></div>
+              <div role="cell"><span class="chip l3">혼잡</span></div>
+              <div role="cell">은행선화동 3구역<small>중구 · 은행선화동</small></div>
+              <div role="cell">위험 · 1.62명/㎡</div>
+              <div role="cell">12분</div>
+              <div role="cell"><span class="chip unread">미확인</span></div>
+              <div role="cell" style="text-align: right"><a class="btn primary sm" href="SCR-A-011-action.html">조치하기</a></div>
+            </div>
+          
+            <div class="tr" role="row">
+              <div role="cell">17:05:10<small>17:11:00 종료</small></div>
+              <div role="cell"><span class="chip surge">급증</span></div>
+              <div role="cell">은행선화동 2구역<small>중구 · 은행선화동</small></div>
+              <div role="cell">+148명/5분</div>
+              <div role="cell">6분</div>
+              <div role="cell"><span class="chip unread">미확인</span></div>
+              <div role="cell" style="text-align: right"><a class="btn primary sm" href="SCR-A-011-action.html">조치하기</a></div>
+            </div>
+          
+            <div class="tr" role="row">
+              <div role="cell">16:52:31<small>진행 중</small></div>
+              <div role="cell"><span class="chip cam">캠 이상</span></div>
+              <div role="cell">목동 1구역<small>중구 · 은행선화동</small></div>
+              <div role="cell">결과 수신 끊김</div>
+              <div role="cell">33분</div>
+              <div role="cell"><span class="chip unread">미확인</span></div>
+              <div role="cell" style="text-align: right"><a class="btn primary sm" href="SCR-A-011-action.html">조치하기</a></div>
+            </div>
+          
+            <div class="tr" role="row">
+              <div role="cell">15:40:02<small>16:02:00 종료</small></div>
+              <div role="cell"><span class="chip l2">혼잡</span></div>
+              <div role="cell">은행선화동 2구역<small>중구 · 은행선화동</small></div>
+              <div role="cell">주의 · 0.82명/㎡</div>
+              <div role="cell">22분</div>
+              <div role="cell"><span class="chip review">확인 중</span></div>
+              <div role="cell" style="text-align: right"><a class="btn primary sm" href="SCR-A-011-action.html">조치하기</a></div>
+            </div>
+          
+            <div class="tr" role="row">
+              <div role="cell">14:12:45<small>14:20:00 종료</small></div>
+              <div role="cell"><span class="chip l2">혼잡</span></div>
+              <div role="cell">은행선화동 2구역<small>중구 · 은행선화동</small></div>
+              <div role="cell">주의 · 0.74명/㎡</div>
+              <div role="cell">8분</div>
+              <div role="cell"><span class="chip done">조치완료</span></div>
+              <div role="cell" style="text-align: right"><a class="btn ghost sm" href="SCR-A-011-event-detail.html">처리됨</a></div>
+            </div>
+          
+            <div class="tr" role="row">
+              <div role="cell">11:03:19<small>11:09:00 종료</small></div>
+              <div role="cell"><span class="chip surge">급증</span></div>
+              <div role="cell">은행선화동 1구역<small>중구 · 은행선화동</small></div>
+              <div role="cell">+96명/5분</div>
+              <div role="cell">6분</div>
+              <div role="cell"><span class="chip done">조치완료</span></div>
+              <div role="cell" style="text-align: right"><a class="btn ghost sm" href="SCR-A-011-event-detail.html">처리됨</a></div>
+            </div>
+          
+            <div class="tr" role="row">
+              <div role="cell">09:41:55<small>09:55:00 종료</small></div>
+              <div role="cell"><span class="chip l3">혼잡</span></div>
+              <div role="cell">(삭제됨) 옛 광장 구역<small>중구 · 은행선화동</small></div>
+              <div role="cell">위험 · 1.55명/㎡</div>
+              <div role="cell">14분</div>
+              <div role="cell"><span class="chip done">조치완료</span></div>
+              <div role="cell" style="text-align: right"><a class="btn ghost sm" href="SCR-A-011-event-detail.html">처리됨</a></div>
+            </div>
+          
+        
+      </div></div>
+      <div class="pager"><span>총 7건 · 행을 누르면 상세 창</span><div class="pages"><span class="on">1</span></div></div>
+    </section>
+  </main>
+  <a class="toast" href="SCR-A-011-event-detail.html" style="position: absolute; right: 24px; top: 80px; color: inherit; text-decoration: none"><span class="dot l3"></span><b>[혼잡] 은행선화동 3구역 위험</b><span class="muted">방금</span></a>
+</div>
+</body>
+</html>

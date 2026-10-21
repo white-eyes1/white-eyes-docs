@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>사용자 공통 헤더</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./we.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<header class="we topbar" style="width: 100%">
+  <a class="brand" href="Dashboard.dc.html">White Eyes<small>혼잡 현황</small></a>
+  <nav class="tabs" aria-label="주요 메뉴">
+    <a class="tab {{tabDashboard}}" href="Dashboard.dc.html">대시보드</a>
+    <a class="tab {{tabStats}}" href="Compare.dc.html">통계·기간 비교</a>
+  </nav>
+  <div class="head-right">
+    <div class="legend" aria-label="혼잡 단계 범례">
+      <span><i class="dot l1"></i>정상</span><span><i class="dot l2"></i>주의</span><span><i class="dot l3"></i>위험</span>
+    </div>
+    <button class="usermenu">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg>
+      user01 · 내 정보 · 로그아웃
+    </button>
+  </div>
+</header>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"active":{"editor":"enum","options":["dashboard","stats"],"default":"dashboard"},"$preview":{"width":1440,"height":64}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const active = this.props.active ?? 'dashboard';
+    return { tabDashboard: active === 'dashboard' ? 'on' : '', tabStats: active === 'stats' ? 'on' : '' };
+  }
+}
+</script>
+</body>
+</html>

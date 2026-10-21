@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>캠 등록 창</title>
+<link rel="stylesheet" href="../we.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&amp;display=swap">
+<style>body{margin:0}
+.seg{display:flex;border:1px solid #253242;border-radius:8px;overflow:hidden}
+.seg span{flex:1;padding:9px 12px;text-align:center;font-size:12px;color:#9aa7b8;border-right:1px solid #253242}
+.seg span:last-child{border-right:0}
+.seg span.on{background:#1b2a3d;color:#edf2f8;font-weight:700}
+</style>
+</head>
+<body>
+<div class="we modal-stage" style="width: 600px; height: 620px">
+  <form class="modal" data-api="POST /api/v1/manage/cameras {zoneId,name,sourceType,sourceUri} (400 주소 규칙, 404 ZONE_NOT_FOUND, 409 ZONE_HAS_CAMERA)" data-fnc="FNC-A-018" role="dialog" aria-modal="true" aria-label="캠 등록">
+    <div class="modal-head"><h2>캠 등록</h2><button class="icon-btn" type="button" aria-label="닫기"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"></path></svg></button></div>
+    <div class="modal-body">
+      <label class="field">구역<span class="control">은행선화동 4구역 (캠 없음)</span><span class="hint">캠이 없는 구역만 고를 수 있습니다(구역당 1대)</span></label>
+      <label class="field">캠 이름<span class="input">은행선화4-캠</span></label>
+      <div class="field">입력 방식<div class="seg" role="radiogroup" aria-label="입력 방식"><span class="on">더미 영상</span><span>라이브(RTSP)</span></div></div>
+      <label class="field">영상 주소<span class="input err">dummy/videos/plaza.avi</span><span class="hint err">dummy/videos/ 로 시작하고 .mp4 로 끝나는 상대경로여야 합니다</span></label>
+      <p class="muted" style="font-size: 11px">파일이 실제로 있는지는 가동할 때 분석 서버가 확인합니다.</p>
+    </div>
+    <div class="modal-foot"><button class="btn secondary" type="button">취소</button><button class="btn primary" type="button">저장</button></div>
+  </form>
+</div>
+</body>
+</html>

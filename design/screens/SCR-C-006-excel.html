@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>엑셀 다운로드 창</title>
+<link rel="stylesheet" href="../we.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&amp;display=swap">
+<style>body{margin:0}
+.ck{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#c3cdd9}
+.ck i{width:14px;height:14px;border-radius:4px;border:1.5px solid #4a5768;display:inline-block}
+.ck i.on{background:#356fc9;border-color:#5d95ef}
+</style>
+</head>
+<body>
+<div class="we modal-stage" style="width: 560px; height: 560px">
+  <form class="modal" data-api="GET /api/v1/stats/export" data-fnc="FNC-C-023" role="dialog" aria-modal="true" aria-label="엑셀 다운로드">
+    <div class="modal-head"><h2>엑셀 다운로드</h2><button class="icon-btn" type="button" aria-label="닫기"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"></path></svg></button></div>
+    <div class="modal-body">
+      <label class="field">범위<span class="control">은행선화동 + 하위 구역</span></label>
+      <div style="display: flex; gap: 10px">
+        <label class="field" style="flex: 1">기간<span class="control">2026-10-15 ~ 2026-10-21</span></label>
+        <label class="field" style="flex: 0 0 120px">단위<span class="control">1시간</span></label>
+      </div>
+      <div class="field">항목<div style="display: flex; gap: 14px; flex-wrap: wrap"><span class="ck"><i class="on"></i>인원</span><span class="ck"><i class="on"></i>밀집도</span><span class="ck"><i class="on"></i>유입</span><span class="ck"><i class="on"></i>유출</span><span class="ck"><i></i>평균 체류</span></div></div>
+    </div>
+    <div class="modal-foot"><button class="btn secondary" type="button">취소</button><button class="btn primary" type="button">다운로드</button></div>
+  </form>
+</div>
+</body>
+</html>

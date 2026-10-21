@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>구역 관리</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./we.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&amp;display=swap">
+<style>body{margin:0}
+.zrow{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid #1e2a38}
+.zrow.sel{background:rgba(79,140,255,.08)}
+</style>
+</helmet>
+<div class="we" style="width: 100%; min-height: 900px; display: flex; flex-direction: column">
+  <dc-import name="AdminHeader" active="manage" hint-size="100%,64px"></dc-import>
+  <div class="filterbar">
+    <span class="filter-title">구역 관리</span>
+    <span class="control">대전광역시</span><span class="control">중구</span><span class="control">은행선화동</span>
+    <span class="muted" style="margin-left: 8px; font-size: 12px">지도에서 다각형을 그려 구역을 등록합니다</span>
+  </div>
+  <div style="display: flex; flex-wrap: wrap; flex: 1 1 auto; min-height: 776px">
+    <aside data-api="GET /api/v1/zones?dongId= → name,areaM2,hasCamera" data-fnc="FNC-C-008" style="flex: 0 1 380px; min-width: 300px; border-right: 1px solid #253242; background: #0d131b; display: flex; flex-direction: column">
+      <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; border-bottom: 1px solid #253242">
+        <strong style="font-size: 13px">은행선화동 구역 3개</strong>
+        <button class="btn primary sm">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>새 구역 그리기
+        </button>
+      </div>
+      <sc-for list="{{zones}}" as="z" hint-placeholder-count="3">
+        <div class="zrow {{z.sel}}">
+          <div style="flex: 1; min-width: 0"><strong style="font-size: 13px">{{z.name}}</strong><div class="muted" style="font-size: 11px">{{z.area}} · {{z.cam}}</div></div>
+          <div class="row-actions">
+            <a class="btn secondary sm anno" href="ZoneNeighbors.dc.html" data-fnc="FNC-A-016(2단계)">이웃</a>
+            <button class="btn secondary sm anno" data-fnc="FNC-A-015(3단계)">수정</button>
+            <button class="btn danger sm anno" data-fnc="FNC-A-017(3단계)">삭제</button>
+          </div>
+        </div>
+      </sc-for>
+    </aside>
+    <section class="map" style="flex: 999 1 560px; min-width: 0; min-height: 776px" aria-label="구역 그리기 지도">
+      <svg viewBox="0 0 1000 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <rect width="1000" height="700" fill="#0f161f"></rect>
+        <path d="M0 470 C200 430 300 520 470 490 S760 380 1000 410" stroke="#1d3550" stroke-width="24" fill="none"></path>
+        <path d="M140 0 L200 700 M0 230 L1000 290 M640 0 L580 700" stroke="#1a2431" stroke-width="6" fill="none"></path>
+        <path d="M120 60 L880 40 L940 640 L80 660 Z" fill="none" stroke="#3a4b60" stroke-width="2" stroke-dasharray="8 6"></path>
+        <text x="140" y="90" fill="#7d8a9b" font-size="15">은행선화동 경계</text>
+        <path d="M240 160 L420 150 L430 300 L250 310 Z" fill="rgba(59,201,155,.18)" stroke="#3bc99b" stroke-width="2"></path>
+        <text x="270" y="235" fill="#9fe6cb" font-size="14">1구역</text>
+        <path d="M470 330 L560 325 L565 410 L475 415 Z" fill="rgba(245,158,11,.16)" stroke="#f59e0b" stroke-width="2"></path>
+        <text x="480" y="375" fill="#ffc15a" font-size="13">2구역</text>
+        <path d="M300 420 L360 418 L362 470 L302 472 Z" fill="rgba(239,77,85,.16)" stroke="#ef4d55" stroke-width="2"></path>
+        <path d="M640 150 L800 170 L780 300 L660 290 Z" fill="rgba(79,140,255,.20)" stroke="#76a7ff" stroke-width="2.5"></path>
+        <g fill="#fff" stroke="#356fc9" stroke-width="3"><circle cx="640" cy="150" r="7"></circle><circle cx="800" cy="170" r="7"></circle><circle cx="780" cy="300" r="7"></circle><circle cx="660" cy="290" r="7"></circle></g>
+      </svg>
+      <div style="position: absolute; left: 14px; top: 14px; display: flex; flex-direction: column; border: 1px solid #253242; border-radius: 8px; overflow: hidden; background: #111a24">
+        <button class="icon-btn" style="border: 0; border-radius: 0; background: #1b2a3d" aria-label="다각형 그리기"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#76a7ff" stroke-width="2" aria-hidden="true"><path d="M5 4 19 6 17 18 4 16Z"></path></svg></button>
+        <button class="icon-btn" style="border: 0; border-radius: 0" aria-label="점 편집"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="6" cy="6" r="2"></circle><circle cx="18" cy="8" r="2"></circle><circle cx="12" cy="18" r="2"></circle></svg></button>
+        <button class="icon-btn" style="border: 0; border-radius: 0" aria-label="그리기 취소"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"></path></svg></button>
+      </div>
+      <form class="panel" data-api="POST /api/v1/manage/zones/preview → areaM2,dongName / 등록: POST /api/v1/manage/zones (오류 400 INVALID_POLYGON·OUT_OF_SERVICE_AREA, 409 DUPLICATE_ZONE_NAME)" data-fnc="FNC-A-013·014" style="position: absolute; right: 18px; top: 18px; width: 300px; padding: 16px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 16px 40px rgba(0,0,0,.45)">
+        <div><p class="eyebrow">NEW ZONE</p><strong style="font-size: 14px">구역 미리보기</strong></div>
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+          <div style="padding: 10px; border-radius: 8px; background: #151e29"><span class="muted" style="font-size: 11px">면적</span><div style="font-size: 18px; font-weight: 700">2,481㎡</div></div>
+          <div style="padding: 10px; border-radius: 8px; background: #151e29"><span class="muted" style="font-size: 11px">소속 동</span><div style="font-size: 18px; font-weight: 700">은행선화동</div></div>
+        </div>
+        <label class="field">구역 이름<span class="input">은행선화동 4구역</span></label>
+        <div style="display: flex; gap: 8px"><button class="btn secondary" type="button" style="flex: 1">다시 그리기</button><button class="btn primary" type="button" style="flex: 1">구역 등록</button></div>
+      </form>
+      <div class="map-ctrl"><span>+</span><span>−</span><span>초기화</span><span>140%</span></div>
+      <span class="map-note anno">Leaflet-Geoman 그리기 도구 · 그리기를 끝내면 미리보기 계산(POST /manage/zones/preview)</span>
+    </section>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      zones: [
+        { name: '은행선화동 1구역', area: '2,974㎡', cam: '캠 있음', sel: '' },
+        { name: '은행선화동 2구역', area: '500㎡', cam: '캠 있음', sel: '' },
+        { name: '은행선화동 3구역', area: '300㎡', cam: '캠 있음', sel: '' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

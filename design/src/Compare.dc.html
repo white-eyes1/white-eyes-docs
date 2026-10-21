@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>기간 비교 분석</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./we.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&amp;display=swap">
+<style>body{margin:0}
+.hm{display:grid;grid-template-columns:44px repeat(24,minmax(0,1fr));gap:3px;font-size:10px}
+.hm span{height:30px;display:grid;place-items:center;border-radius:4px;border:1.5px solid transparent}
+.hm .hd{color:#8b98a9;height:20px}
+</style>
+</helmet>
+<div class="we" style="width: 100%; min-height: 900px">
+  <dc-import name="AdminHeader" active="stats" hint-size="100%,64px"></dc-import>
+  <main class="page">
+    <div class="page-heading">
+      <div><p class="eyebrow">PERIOD COMPARISON</p><h1>기간 비교 분석</h1><p>대상 기간의 요일×시간 평균 인원을 기준 기간과 비교합니다.</p></div>
+      <a class="btn secondary" href="Graph.dc.html">통계 그래프</a>
+    </div>
+    <section class="panel" style="padding: 14px 16px; display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap">
+      <label class="field">대상<span class="control">대전광역시 › 중구 › 은행선화동</span></label>
+      <label class="field">대상 기간<span class="control">최근 7일 (10-15 ~ 10-21)</span></label>
+      <label class="field">기준 기간<span class="control">지난달 같은 요일</span></label>
+      <label class="field">비정상 기준<span class="input" style="width: 96px; height: 34px">± 30 %</span></label>
+    </section>
+    <div style="display: flex; gap: 16px; flex-wrap: wrap">
+      <section class="panel" style="flex: 0 0 240px; padding: 20px; display: flex; flex-direction: column; gap: 6px">
+        <span class="muted" style="font-size: 12px">전체 증감률</span>
+        <strong style="font-size: 34px; color: #ff8a90">+18.4%</strong>
+        <span class="muted" style="font-size: 12px">증가 · 비정상 칸 6개</span>
+      </section>
+      <section class="panel" data-api="GET /api/v1/compare → 요일×시간 증감률, 비정상 칸" data-fnc="FNC-C-020" style="flex: 999 1 640px; min-width: 0; padding: 16px; overflow-x: auto">
+        <div class="hm" style="min-width: 860px">
+          <span class="hd"></span>
+          <sc-for list="{{hours}}" as="h" hint-placeholder-count="24"><span class="hd">{{h}}</span></sc-for>
+          <sc-for list="{{rows}}" as="r" hint-placeholder-count="7">
+            <span class="hd" style="height: 30px">{{r.day}}</span>
+            <sc-for list="{{r.cells}}" as="c" hint-placeholder-count="24"><span style="background: {{c.bg}}; border-color: {{c.border}}; color: {{c.fg}}">{{c.v}}</span></sc-for>
+          </sc-for>
+        </div>
+        <div style="display: flex; gap: 16px; margin-top: 12px; font-size: 11px" class="muted"><span><i class="dot" style="background: #ef4d55"></i> 비정상 증가(테두리)</span><span><i class="dot" style="background: #4f8cff"></i> 비정상 감소(테두리)</span><span>칸에 마우스: 대상·기준 평균</span></div>
+      </section>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const days = ['월', '화', '수', '목', '금', '토', '일'];
+    const hours = Array.from({ length: 24 }, (_, i) => String(i));
+    const rows = days.map((day, d) => ({
+      day,
+      cells: hours.map((_, h) => {
+        const v = Math.round(Math.sin((h + d * 3) / 3.2) * 22 + (d >= 5 ? 12 : 0));
+        const abnormal = Math.abs(v) >= 30;
+        const a = Math.min(Math.abs(v) / 45, 1) * 0.55;
+        return {
+          v: (v > 0 ? '+' : '') + v,
+          bg: v >= 0 ? 'rgba(239,77,85,' + a.toFixed(2) + ')' : 'rgba(79,140,255,' + a.toFixed(2) + ')',
+          border: abnormal ? (v > 0 ? '#ef4d55' : '#76a7ff') : 'transparent',
+          fg: '#dfe6ee'
+        };
+      })
+    }));
+    return { hours, rows };
+  }
+}
+</script>
+</body>
+</html>

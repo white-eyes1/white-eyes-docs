@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>조치 완료 창</title>
+<link rel="stylesheet" href="../we.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&amp;display=swap">
+<style>body{margin:0}
+.opt{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid #253242;border-radius:8px;font-size:13px}
+.opt i{width:16px;height:16px;border-radius:50%;border:1.5px solid #4a5768;display:inline-block;flex:none}
+.opt.on{border-color:#5d95ef;background:rgba(79,140,255,.08)}
+.opt.on i{border:5px solid #4f8cff}
+</style>
+</head>
+<body>
+<div class="we modal-stage" style="width: 560px; height: 600px">
+  <form class="modal" data-api="PATCH /api/v1/events/{id}/status {expectedStatus,status:RESOLVED,actionCode,actionNote}" data-fnc="FNC-A-038" role="dialog" aria-modal="true" aria-label="조치 완료 처리">
+    <div class="modal-head"><div><h2>조치 완료 처리</h2><p class="muted" style="font-size: 12px; margin-top: 2px">은행선화동 3구역 · 17:13 · 위험</p></div><button class="icon-btn" type="button" aria-label="닫기"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"></path></svg></button></div>
+    <div class="modal-body">
+      <div class="field">조치 항목 (필수)
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+          <span class="opt"><i></i>현장 확인·정상</span>
+          <span class="opt on"><i></i>인력 배치</span>
+          <span class="opt"><i></i>오탐</span>
+          <span class="opt"><i></i>캠 점검 요청</span>
+          <span class="opt"><i></i>기타</span>
+        </div>
+      </div>
+      <label class="field">조치 메모 <span class="muted">(기타면 필수, 200자 이하)</span><span class="input" style="height: 76px; align-items: flex-start; padding-top: 10px">출입구 2곳 통제 인력 배치</span><span class="hint" style="text-align: right">16 / 200</span></label>
+      <p class="muted" style="font-size: 11px">처리자와 처리 시각은 저장할 때 자동으로 기록됩니다. 조치완료 뒤에는 되돌릴 수 없습니다.</p>
+    </div>
+    <div class="modal-foot"><button class="btn secondary" type="button">취소</button><button class="btn primary" type="button">조치완료로 저장</button></div>
+  </form>
+</div>
+</body>
+</html>

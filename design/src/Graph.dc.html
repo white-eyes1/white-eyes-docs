@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>통계 그래프</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./we.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&amp;display=swap">
+<style>body{margin:0}
+.seg{display:inline-flex;border:1px solid #253242;border-radius:8px;overflow:hidden}
+.seg span{padding:7px 12px;font-size:12px;color:#9aa7b8;border-right:1px solid #253242}
+.seg span:last-child{border-right:0}
+.seg span.on{background:#1b2a3d;color:#edf2f8}
+.ck{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#c3cdd9}
+.ck i{width:14px;height:14px;border-radius:4px;border:1.5px solid #4a5768;display:inline-block}
+.ck i.on{background:#356fc9;border-color:#5d95ef}
+</style>
+</helmet>
+<div class="we" style="width: 100%; min-height: 900px">
+  <dc-import name="AdminHeader" active="stats" hint-size="100%,64px"></dc-import>
+  <main class="page">
+    <div class="page-heading">
+      <div><p class="eyebrow">STATISTICS</p><h1>통계 그래프</h1></div>
+      <div style="display: flex; gap: 8px"><a class="btn secondary" href="Compare.dc.html">기간 비교</a><a class="btn secondary" href="ExcelModal.dc.html">엑셀 다운로드</a></div>
+    </div>
+    <section class="panel" style="padding: 14px 16px; display: flex; gap: 14px; align-items: center; flex-wrap: wrap">
+      <span class="control">대전광역시 › 중구 › 은행선화동</span>
+      <div class="seg" role="tablist" aria-label="단위"><span>1분</span><span class="on">1시간</span><span>1일</span><span>1주</span><span>1월</span></div>
+      <span class="control plain">2026-10-21 00:00 ~ 2026-10-21 23:59</span>
+      <div style="display: flex; gap: 14px; flex-wrap: wrap"><span class="ck"><i class="on"></i>인원</span><span class="ck"><i class="on"></i>밀집도</span><span class="ck"><i></i>유입</span><span class="ck"><i></i>유출</span><span class="ck"><i></i>평균 체류</span></div>
+    </section>
+    <section class="panel" data-api="GET /api/v1/stats/series?targetType=&amp;targetId=&amp;interval=&amp;from=&amp;to= (하위 비교: GET /api/v1/stats/children)" data-fnc="FNC-C-012·013·014" style="overflow: hidden">
+      <div class="panel-head">
+        <nav aria-label="이동 경로" style="font-size: 12px; color: #8b98a9">중구 › <b style="color: #edf2f8">은행선화동</b></nav>
+        <label class="ck" style="gap: 8px">하위 비교 <span style="width: 34px; height: 18px; border-radius: 9px; background: #356fc9; position: relative; display: inline-block"><span style="position: absolute; right: 2px; top: 2px; width: 14px; height: 14px; border-radius: 50%; background: #fff"></span></span></label>
+      </div>
+      <div style="position: relative; height: 420px; padding: 20px 24px 36px 56px">
+        <svg viewBox="0 0 1000 340" preserveAspectRatio="none" style="width: 100%; height: 100%" role="img" aria-label="시간대별 인원 그래프">
+          <g stroke="#1e2a38" stroke-width="1"><path d="M0 0H1000M0 85H1000M0 170H1000M0 255H1000M0 340H1000"></path></g>
+          <path d="M0 300 L42 305 L83 310 L125 312 L167 310 L208 300 L250 270 L292 220 L333 190 L375 170 L417 150 L458 140 L500 120 L542 130 L583 125 L625 110 L667 90 L708 70 L750 80 L792 110 L833 150 L875 200 L917 240 L958 270 L1000 285" fill="none" stroke="#4f8cff" stroke-width="3"></path>
+          <path d="M0 320 L42 322 L83 325 L125 326 L167 324 L208 318 L250 300 L292 280 L333 262 L375 250 L417 240 L458 236 L500 226 L542 230 L583 228 L625 220 L667 208 L708 198 L750 202 L792 216 L833 238 L875 262 L917 286 L958 300 L1000 308" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="6 5"></path>
+          <circle cx="708" cy="70" r="6" fill="#4f8cff" stroke="#fff" stroke-width="2"></circle>
+        </svg>
+        <div style="position: absolute; left: 63%; top: 18px; padding: 10px 12px; border: 1px solid #2d3b4d; border-radius: 8px; background: #0f1720; font-size: 12px; box-shadow: 0 10px 24px rgba(0,0,0,.4)">
+          <b>17:00 ~ 18:00</b><div class="muted">인원 평균 1,204명 · 밀집도 0.32</div>
+          <div style="display: flex; gap: 6px; margin-top: 8px"><button class="btn secondary sm">1분 단위로 보기</button><a class="btn secondary sm" href="Playback.dc.html">다시보기</a></div>
+        </div>
+        <div style="position: absolute; left: 56px; right: 24px; bottom: 10px; display: flex; justify-content: space-between; font-size: 11px" class="muted"><span>00시</span><span>06시</span><span>12시</span><span>18시</span><span>23시</span></div>
+      </div>
+      <div style="display: flex; gap: 16px; padding: 0 24px 18px; font-size: 12px" class="muted"><span><i class="dot" style="background: #4f8cff"></i> 인원</span><span><i class="dot" style="background: #f59e0b"></i> 밀집도</span></div>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

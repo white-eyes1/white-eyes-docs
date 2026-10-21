@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>관리자 관리</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./we.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="we" style="width: 100%; min-height: 900px">
+  <dc-import name="AdminHeader" active="manage" hint-size="100%,64px"></dc-import>
+  <main class="page">
+    <div class="page-heading">
+      <div><p class="eyebrow">ADMINS · 최고 관리자 전용</p><h1>관리자 관리</h1><p>관리자 계정을 만들면 임시 비밀번호를 한 번만 보여 줍니다.</p></div>
+      <button class="btn primary"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>관리자 추가</button>
+    </div>
+    <section class="panel" style="overflow: hidden">
+      <div class="table-wrap"><div class="dtable" role="table" data-api="GET /api/v1/admins (추가 POST, 수정 PATCH /{id}, 재설정 /{id}/reset-password, 비활성화 /{id}/disable·enable, 강제 로그아웃 /{id}/logout)" data-fnc="FNC-A-003·008·009·010·011" style="--cols: 1fr 1fr .9fr .8fr 1fr .8fr 3.2fr">
+        <div class="tr th" role="row"><span role="columnheader">아이디 ↕</span><span role="columnheader">이름</span><span role="columnheader">역할</span><span role="columnheader">상태</span><span role="columnheader">최근 활동</span><span role="columnheader">활동 중</span><span role="columnheader" style="text-align: right">동작</span></div>
+        
+          <sc-for list="{{admins}}" as="a" hint-placeholder-count="4">
+            <div class="tr" role="row">
+              <div role="cell">{{a.id}}</div><div role="cell">{{a.name}}</div><div role="cell">{{a.role}}</div>
+              <div role="cell"><span class="chip {{a.stCls}}">{{a.st}}</span></div><div role="cell">{{a.last}}</div>
+              <div role="cell"><sc-if value="{{a.active}}" hint-placeholder-val="{{ false }}"><span class="chip done">세션 {{a.sessions}}</span></sc-if></div>
+              <div role="cell"><div class="row-actions" style="justify-content: flex-end">
+                <sc-if value="{{a.editable}}" hint-placeholder-val="{{ true }}">
+                  <button class="btn secondary sm">수정</button>
+                  <button class="btn secondary sm">비밀번호 재설정</button>
+                  <button class="btn {{a.toggleCls}} sm">{{a.toggle}}</button>
+                  <button class="btn secondary sm" disabled="{{a.noSession}}">강제 로그아웃</button>
+                </sc-if>
+                <sc-if value="{{a.self}}" hint-placeholder-val="{{ false }}"><span class="muted" style="font-size: 11px">본인 계정</span></sc-if>
+              </div></div>
+            </div>
+          </sc-for>
+        
+      </div></div>
+      <div class="pager"><span>총 4명</span><div class="pages"><span class="on">1</span></div></div>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const a = (id, name, role, enabled, last, sessions, self) => ({
+      id, name, role, last, sessions,
+      st: enabled ? '사용 중' : '비활성', stCls: enabled ? 'done' : 'off',
+      active: sessions > 0, noSession: sessions === 0,
+      toggle: enabled ? '비활성화' : '활성화', toggleCls: enabled ? 'danger' : 'primary',
+      editable: !self, self
+    });
+    return {
+      admins: [
+        a('superadmin', '[최고 관리자]', '최고 관리자', true, '지금', 1, true),
+        a('admin01', '[관리자 1]', '관리자', true, '오늘 17:20', 1, false),
+        a('admin02', '[관리자 2]', '관리자', true, '오늘 17:28', 0, false),
+        a('admin03', '[관리자 3]', '관리자', false, '2026-10-02', 0, false)
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

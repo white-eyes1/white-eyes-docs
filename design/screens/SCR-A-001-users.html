@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>사용자 관리</title>
+<link rel="stylesheet" href="../we.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&amp;display=swap">
+<style>body{margin:0}</style>
+</head>
+<body>
+<div class="we" style="width: 100%; min-height: 900px; position: relative">
+  
+
+<header class="we topbar" style="width: 100%">
+  <a class="brand" href="SCR-C-003-dashboard.html">White Eyes<small>관리자</small></a>
+  <nav class="tabs" aria-label="주요 메뉴">
+    <a class="tab " href="SCR-C-003-dashboard.html">대시보드</a>
+    <a class="tab " href="SCR-C-004-graph.html">통계·기간 비교</a>
+    <a class="tab " href="SCR-A-010-events.html">이벤트 로그 <span class="badge-count" data-api="GET /api/v1/events/unchecked-count + 알림 SSE" data-fnc="FNC-A-048(2단계)">3</span></a>
+    <a class="tab on" href="SCR-A-004-zones.html">관리
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg>
+    </a>
+  </nav>
+  <div class="head-right">
+    <div class="legend" aria-label="혼잡 단계 범례">
+      <span><i class="dot l1"></i>정상</span><span><i class="dot l2"></i>주의 0.7↑</span><span><i class="dot l3"></i>위험 1.5↑</span><span class="muted">명/㎡</span>
+    </div>
+    <button class="usermenu">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg>
+      superadmin
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg>
+    </button>
+  </div>
+</header>
+
+  <main class="page">
+    <div class="page-heading"><div><p class="eyebrow">USERS</p><h1>사용자 관리</h1><p>가입 신청을 승인하고 사용자 계정을 관리합니다.</p></div></div>
+    <section class="panel" style="overflow: hidden">
+      <div class="filterbar" style="border-radius: 12px 12px 0 0">
+        <span class="control plain" style="min-width: 220px; color: #8b98a9">아이디·이름 검색</span>
+        <span class="control">상태 전체</span><span class="control plain">가입일 전체</span><span class="control">활동 중 전체</span>
+        <button class="btn primary" style="margin-left: auto">조회</button>
+      </div>
+      <div class="table-wrap"><div class="dtable" role="table" data-api="GET /api/v1/users (승인 POST /{id}/approve, 승인 취소 /{id}/unapprove, 강제 로그아웃 /{id}/logout)" data-fnc="FNC-A-002·006·007·008" style="--cols: 1fr .8fr .8fr 1fr 1fr .8fr 2fr">
+        <div class="tr th" role="row"><span role="columnheader">아이디 ↕</span><span role="columnheader">이름</span><span role="columnheader">상태</span><span role="columnheader">가입일 ↓</span><span role="columnheader">최근 활동</span><span role="columnheader">활동 중</span><span role="columnheader" style="text-align: right">동작</span></div>
+        
+          
+            <div class="tr" role="row">
+              <div role="cell"><a href="SCR-A-002-user-detail.html" style="color: #9cc0ff">kimsj</a></div><div role="cell">김서준</div>
+              <div role="cell"><span class="chip prep">승인 대기</span></div><div role="cell">2026-10-21</div><div role="cell">-</div>
+              <div role="cell"></div>
+              <div role="cell"><div class="row-actions" style="justify-content: flex-end">
+                <button class="btn primary sm">승인</button>
+                
+                <button class="btn secondary sm" disabled="">강제 로그아웃</button>
+              </div></div>
+            </div>
+          
+            <div class="tr" role="row">
+              <div role="cell"><a href="SCR-A-002-user-detail.html" style="color: #9cc0ff">leehy</a></div><div role="cell">이하윤</div>
+              <div role="cell"><span class="chip prep">승인 대기</span></div><div role="cell">2026-10-21</div><div role="cell">-</div>
+              <div role="cell"></div>
+              <div role="cell"><div class="row-actions" style="justify-content: flex-end">
+                <button class="btn primary sm">승인</button>
+                
+                <button class="btn secondary sm" disabled="">강제 로그아웃</button>
+              </div></div>
+            </div>
+          
+            <div class="tr" role="row">
+              <div role="cell"><a href="SCR-A-002-user-detail.html" style="color: #9cc0ff">parkjw</a></div><div role="cell">박지우</div>
+              <div role="cell"><span class="chip done">승인됨</span></div><div role="cell">2026-10-18</div><div role="cell">오늘 16:40</div>
+              <div role="cell"><span class="chip done">세션 2</span></div>
+              <div role="cell"><div class="row-actions" style="justify-content: flex-end">
+                
+                <button class="btn secondary sm">승인 취소</button>
+                <button class="btn secondary sm">강제 로그아웃</button>
+              </div></div>
+            </div>
+          
+            <div class="tr" role="row">
+              <div role="cell"><a href="SCR-A-002-user-detail.html" style="color: #9cc0ff">choimj</a></div><div role="cell">최민준</div>
+              <div role="cell"><span class="chip done">승인됨</span></div><div role="cell">2026-10-15</div><div role="cell">어제 21:02</div>
+              <div role="cell"></div>
+              <div role="cell"><div class="row-actions" style="justify-content: flex-end">
+                
+                <button class="btn secondary sm">승인 취소</button>
+                <button class="btn secondary sm" disabled="">강제 로그아웃</button>
+              </div></div>
+            </div>
+          
+            <div class="tr" role="row">
+              <div role="cell"><a href="SCR-A-002-user-detail.html" style="color: #9cc0ff">jungsa</a></div><div role="cell">정서아</div>
+              <div role="cell"><span class="chip done">승인됨</span></div><div role="cell">2026-10-12</div><div role="cell">오늘 09:15</div>
+              <div role="cell"><span class="chip done">세션 1</span></div>
+              <div role="cell"><div class="row-actions" style="justify-content: flex-end">
+                
+                <button class="btn secondary sm">승인 취소</button>
+                <button class="btn secondary sm">강제 로그아웃</button>
+              </div></div>
+            </div>
+          
+        
+      </div></div>
+      <div class="pager"><span>총 5명 · 행을 누르면 상세 창</span><div class="pages"><span class="on">1</span><span>2</span></div></div>
+    </section>
+  </main>
+  <div class="toast" role="status" style="position: absolute; right: 24px; top: 80px; border-color: #23476f; background: #0f1d2e">2개 세션을 종료했습니다</div>
+</div>
+</body>
+</html>
