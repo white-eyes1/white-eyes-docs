@@ -369,7 +369,7 @@
   2. 그 구역에 삭제되지 않은 캠이 있으면 거부
   3. 영상 주소 규칙 검사(설정·규약 시트)
   4. 저장: status=STOPPED, run_requested=0
-  5. 작업 기록(CAMERA_CHANGE, op: CREATE)
+  5. 작업 기록(CAMERA_CHANGE, detail: {op: CREATE, zoneId, sourceType})
 - **업무 규칙/검증**: 파일·스트림 실제 존재 여부는 가동할 때 분석 서버가 확인
 - **정상 결과**: 캠 생성(정지)
 - **예외 상황 및 처리**: 구역 없음·삭제됨: 404 ZONE_NOT_FOUND / 이미 캠 있음: 409 ZONE_HAS_CAMERA / 주소 규칙 위반: 400
