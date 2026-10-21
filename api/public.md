@@ -181,7 +181,7 @@
   {"unitType": "ZONE", "items": [{"id": 15, "name": "궁동 1구역", "centerLat": 36.3621, "centerLng": 127.3449, "countAvg": 120.4, "density": 0.92, "level": 2, "statAt": "2026-10-12T14:03:00+09:00", "todayEventCount": 1, "ongoingEvent": true}]}
   (centerLat·centerLng는 ZONE일 때만)
 - **오류 응답**: 404
-- **비고**: FNC-C-009. 5분 안에 통계 없으면 level=null
+- **비고**: FNC-C-009·030. 5분 안에 통계 없으면 level=null
 
 ### GET /api/v1/map/flows — 이동 흐름
 
@@ -251,7 +251,7 @@
 - **오류 응답**
   400 RANGE_TOO_LONG
   404 대상 없음
-- **비고**: FNC-C-012·024
+- **비고**: FNC-C-012·024·030, FNC-A-040·047
 
 ### GET /api/v1/stats/children — 하위 지역 비교
 
@@ -796,7 +796,7 @@
   200 페이지 응답
   items: [{"id": 101, "type": "CONGESTION", "zoneId": 15, "zoneName": "궁동 1구역", "regionPath": "유성구 · 궁동", "cameraName": "궁동1-캠", "zoneDeleted": false, "startedAt": "…", "endedAt": null, "ongoing": true, "durationSec": 600, "peakLevel": 3, "peakValue": 1.64, "peakCount": 48, "status": "UNCHECKED"}]
 - **오류 응답**: -
-- **비고**: FNC-A-036
+- **비고**: FNC-A-036·047
 
 ### GET /api/v1/events/{id} — 이벤트 상세
 
@@ -856,7 +856,7 @@
   200
   {"total": 4, "unchecked": 3, "checked": 1, "resolved": 0}
 - **오류 응답**: -
-- **비고**: FNC-A-036. 목록과 같은 조건(상태 제외)
+- **비고**: FNC-A-036, FNC-C-030. 목록과 같은 조건(상태 제외)
 
 ### GET /api/v1/events/export — 이벤트 엑셀 다운로드
 
@@ -905,7 +905,7 @@
 - **오류 응답**
   404 RECORDING_NOT_FOUND('영상 없음')
   404 RECORDING_EXPIRED('보관 기간 지남')
-- **비고**: FNC-A-043
+- **비고**: FNC-A-043(FNC-A-040·047에서 호출)
 
 ### GET /api/v1/recordings/{id}/next — 다음 녹화
 
