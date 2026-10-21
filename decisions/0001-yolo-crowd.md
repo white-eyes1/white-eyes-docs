@@ -1,6 +1,6 @@
 # 0001. 사람 탐지 모델로 YOLO-CROWD 사용
 
-- 상태: 채택
+- 상태: 대체됨(→ 0015)
 - 기록: 2026-10-18 (명세서 시트에서 옮김)
 - 관련: overview.md '기술 스택·외부 연동 사양 > 분석 모델', 알려진 한계 16~18, conventions.md `DETECT_CONF / DETECT_IMGSZ / YOLO_WEIGHTS`
 
@@ -27,3 +27,6 @@ YOLO-CROWD(YOLOv5s 기반 머리 탐지, 클래스 'people' 1개)를 입력 960,
 - 가중치: 원 저장소 README의 'Postweight'(Google Drive 링크)로 받는다. 원 저장소는 Release·체크섬을 제공하지 않는다. 팀은 비공개 저장소 white-eyes1/white-eyes-assets의 Release `yolo-crowd-v1`로 공유한다(37,220,901바이트, SHA-256 `22aea94cad4eb181e94ea600b0013cf7307b1a4dd8788cc8454dc5ca5f573c39`, 받은 파일의 수정 시각 2026-10-15). 공개 저장소에는 올리지 않는다.
 - 라이선스 현황(확인한 범위): 원 저장소는 MIT로 표기한다. 그러나 학습 시작 가중치가 Ultralytics `yolov5s.pt`(v5.0)이고 코드도 YOLOv5 파생이다. YOLOv5 v5.0은 GPL-3.0이었고 현재는 AGPL-3.0이다. 학습 데이터셋(Roboflow `crowd-counting-dataset-w3o7w`)의 라이선스는 확인하지 못했다. 가중치 파일에 대한 별도 라이선스 문구는 없다. 추적기(Ultralytics `BYTETracker`)도 AGPL-3.0이다.
 - 현재는 팀 안의 시연·학습 목적으로 쓴다. 배포하거나 저장소·가중치를 공개하기 전에 위 항목을 다시 확인한다.
+
+## 갱신 (2026-10-20): 0015로 대체
+실제 드론 영상(PM이 준 `drone-vids-v1`)과 새로 뽑은 VisDrone 표본으로 다시 재 보니, YOLO-CROWD는 위에서 내려다본 영상에서 사람을 크게 놓치고(사람이 40명 넘게 보이는 장면에서 2명) ByteTrack으로는 추적 번호가 거의 이어지지 않았다. 사람 탐지는 VisDrone YOLOv8m, 추적은 PointTracker로 바꾼다. 근거와 열린 질문은 0015에 있다. 위 내용은 당시 판단으로 남긴다. 코드에는 `DETECTOR=yolo-crowd`로 계속 고를 수 있게 남겨 둔다.

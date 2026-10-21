@@ -106,8 +106,10 @@
 | STAT_MINUTE_RETENTION_DAYS | 90 | 1분 통계 보관(stagg-004) |
 | RECORDING_RETENTION_DAYS | 30 | 녹화 기록 보관(rec-002). 파일은 스토리지 서버가 31일에 삭제 |
 | RESULT_RETRY_BUFFER_SEC | 300 | 분석 서버의 전송 실패 결과 보관 한도(vanly-006) |
-| ANALYZE_FPS | 5 | 분석 프레임 수(초당) |
-| DETECT_CONF / DETECT_IMGSZ / YOLO_WEIGHTS | 0.3 / 960 / yolo-crowd.pt | 탐지 신뢰도 하한·입력 크기·가중치 파일. YOLO-CROWD(사람 머리 탐지). VisDrone 사진 120장 측정: 입력 960에서 센 수는 실제의 약 30%, 상관계수 0.70. 1280은 약 43%, 0.73이지만 이미지당 약 0.5초(CPU)라 초당 5프레임을 못 맞춤. 실제 더미 영상으로 다시 재고 조정 |
+| ANALYZE_FPS | 5 | 분석 프레임 수(초당). 입력 960은 이 PC에서 초당 2장 정도라 서버에서 느리면 낮춘다(0015) |
+| DETECTOR | visdrone | 탐지 모델: visdrone(VisDrone YOLOv8m) \| yolo-crowd(0001). 알 수 없는 값이면 시작할 때 오류 |
+| DETECT_CONF / DETECT_IMGSZ / YOLO_WEIGHTS | 0.3 / 960 / visdrone-yolov8m.pt | 탐지 신뢰도 하한·입력 크기·가중치 파일(DETECTOR에 맞는 파일). VisDrone 사진 120장 측정(0015): 입력 960에서 센 수는 실제의 약 65%, 상관계수 0.93(640: 약 47%, 0.87). 960은 이 PC에서 프레임당 약 0.5초라 ANALYZE_FPS 5를 못 맞춤 — 서버에서 느리면 조정 |
+| DETECT_DEDUPE_OVERLAP | 0 | 같은 사람을 둘로 센 박스를 합치는 기준(겹친 넓이 / 작은 박스 넓이). 0이면 합치지 않음(기본). 켜면 밀집 장면에서 서로 다른 두 사람이 합쳐질 수 있음(사진 재현율 53% → 50%). 합쳐서 얻는 이득이 확인되면 켠다(0015) |
 | MEDIA_ROOT | /srv/media | 분석 서버가 공유 폴더를 읽는 기준 경로. DUMMY 영상은 이 아래 dummy/videos/ 에 있음(FNC-S-001 파일 존재 확인). 경로가 이 폴더 밖(링크 포함)을 가리키면 SOURCE_NOT_FOUND |
 | EDGE_MARGIN_RATIO | 0.05 | 판정선 위치: 화면 각 변에서 안쪽으로 너비·높이의 5% |
 | RECORD_WIDTH / RECORD_HEIGHT / RECORD_FPS | 1280 / 720 / 10 | 라이브 녹화 해상도·프레임(rec-002 용량 조절) |
@@ -152,5 +154,5 @@
 | 다각형 계산 | JTS(org.locationtech.jts) | 다각형 검증(isValid)·내부 점(getInteriorPoint)·포함 여부 |
 | 엑셀 | Apache POI SXSSF | 스트리밍 작성(대용량 메모리 방지) |
 | 화면 | Leaflet + Leaflet-Geoman(지도·구역 그리기), Chart.js(그래프) | 공통 정적 파일로 두 앱이 함께 사용. 지도 코드는 지도 모듈 한 파일에만 둠 |
-| 분석 서버 | Flask, YOLO-CROWD(YOLOv5 코드 + yolo-crowd.pt), ultralytics(ByteTrack 추적기만), OpenCV, ffmpeg(녹화) | GPU 없음 기준. YOLO-CROWD는 yolov5 저장소의 모델 코드가 필요하고 ultralytics로 불러올 수 없음. 가중치는 pickle 형식이라 torch 2.6 이상에서는 torch.load(weights_only=False)로 읽어야 함(신뢰할 수 있는 파일만) |
+| 분석 서버 | Flask, VisDrone YOLOv8m(ultralytics), PointTracker(직접 구현), OpenCV, ffmpeg(녹화) | GPU 없음 기준. 가중치는 pickle 형식이라 믿을 수 있는 파일만 씀. YOLO-CROWD(YOLOv5 코드 + yolo-crowd.pt, torch 2.6 이상은 torch.load(weights_only=False))는 DETECTOR=yolo-crowd로 고를 수 있게 남김(0001) |
 | DB 마이그레이션 | Flyway | 관리자 앱만 실행(두 앱이 동시에 돌리면 충돌). 사용자 앱은 spring.flyway.enabled=false |
