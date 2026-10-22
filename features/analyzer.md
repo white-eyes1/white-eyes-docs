@@ -169,7 +169,7 @@
 - **사전 조건**: 라이브 작업 실행 중
 - **입력 항목**: 원본 프레임, 프레임별 박스
 - **처리 순서**
-  1. 녹화용 ffmpeg 프로세스에 프레임을 파이프로 넘김: RECORD_WIDTH×RECORD_HEIGHT, RECORD_FPS로 변환, libx264, -f segment -segment_time 60 -segment_atclocktime 1 -reset_timestamps 1 -segment_format_options movflags=+faststart, 파일은 /var/lib/analyzer/tmp/ 에. 추가 옵션: -use_wallclock_as_timestamps 1(들어온 시각대로 시간을 매겨 분석이 느려도 영상 길이가 어긋나지 않게), -g RECORD_FPS(1초마다 키프레임: 분 경계를 1초 안팎으로 자르고 구간 이동을 빠르게), -preset veryfast(CPU만 쓰는 서버), -segment_list <목록>.csv(닫힌 파일을 알려 줌). 파일 이름은 순번으로 받고 공유 폴더로 옮길 때 아래 이름 규칙으로 바꿈
+  1. 녹화용 ffmpeg 프로세스에 프레임을 파이프로 넘김: RECORD_WIDTH×RECORD_HEIGHT, RECORD_FPS로 변환, libx264, -f segment -segment_time 60 -segment_atclocktime 1 -reset_timestamps 1 -segment_format_options movflags=+faststart, 파일은 /var/lib/analyzer/tmp/ 에. 추가 옵션: -use_wallclock_as_timestamps 1(들어온 시각대로 시간을 매겨 분석이 느려도 영상 길이가 어긋나지 않게), -g RECORD_FPS(1초마다 키프레임: 분 경계를 1초 안팎으로 자르고 구간 이동을 빠르게), -preset veryfast(CPU만 쓰는 서버), -segment_list <목록>.csv(닫힌 파일을 알려 줌). 파일 이름은 순번으로 받고 공유 폴더로 옮길 때 아래 이름 규칙으로 바꿈. ffmpeg는 분 경계가 아니라 자기가 시작한 시점을 기준으로 첫 파일을 끊으므로(분 경계 직전에 시작하면 파일이 하나로 이어질 수 있음) 파일의 시작·끝 시각과 박스 배정은 segment list의 시작·끝 시각으로 계산하고, 파일 이름의 시각은 시작 시각에서 가장 가까운 분(첫 파일은 가동 시각이 속한 분)으로 함
   2. 분석 프레임마다 좌표 [t, 박스 목록]을 지금 분 파일용 목록에 추가(t = 그 분 파일 시작부터의 초)
   3. 분이 바뀌면(파일 완성) 좌표 목록을 .json.gz로 저장
   4. 영상·좌표 파일을 공유 폴더 recordings/live/cam{id}/{yyyyMMdd}/ 로 옮김(같은 이름, 확장자만 다름)
