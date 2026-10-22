@@ -895,7 +895,7 @@
   목적: 그래프·이벤트에서 영상으로 연결
   구현 위치: admin
 - **사전 조건**: 다시보기 화면
-- **입력 항목**: zoneId, at 또는 latest=true
+- **입력 항목**: zoneId, at 또는 latest=true / (구간 조회) zoneId, from, to
 - **처리 순서**
   1. at < 현재−30일 → 404 RECORDING_EXPIRED('보관 기간 지남')
   2. 구역의 캠(삭제 포함) 녹화 중 started_at ≤ at 이고 (ended_at > at 또는 ended_at IS NULL) 인 것 중 started_at이 가장 늦은 것
@@ -903,8 +903,12 @@
   4. {recordingId, videoUrl, boxesUrl, seekSec=at−started_at, startedAt, endedAt} 반환
   [latest=true]
   5. 구역의 캠(삭제 포함) 녹화 중 started_at이 가장 늦은 것(30일 이내), seekSec=0으로 4번과 같은 형식 반환. 없으면 404 RECORDING_NOT_FOUND
-- **업무 규칙/검증**: 파일 경로는 응답에 넣지 않음. ended_at이 빈 녹화는 진행 중인 더미 반복 또는 정지 처리 전 녹화
-- **정상 결과**: 재생 정보
+  [구간 조회 GET /api/v1/playback/ranges]
+  6. from ≥ to이거나 to−from이 24시간을 넘으면 400 INVALID_INPUT
+  7. 구역의 캠(삭제 포함) 녹화 중 started_at < to 이고 (ended_at > from 또는 ended_at IS NULL) 인 것을 조회(30일을 넘은 부분은 제외)
+  8. 캠 구분 없이 합쳐서 겹치거나 2초 이하로 떨어진 구간을 하나로 잇고, [from, to] 범위로 잘라 시간순으로 {ranges: [{from, to}]} 반환(없으면 빈 목록)
+- **업무 규칙/검증**: 파일 경로는 응답에 넣지 않음. ended_at이 빈 녹화는 진행 중인 더미 반복 또는 정지 처리 전 녹화이므로 지금 시각까지로 봄. 구간 조회는 구역이 없어도 404가 아니라 빈 목록
+- **정상 결과**: 재생 정보(구간 조회는 녹화 구간 목록)
 - **예외 상황 및 처리**: 안내 문구 2종(repfocus-002)
 - **후속 동작**: 플레이어가 영상·좌표 파일 요청
 - **관련 요구사항 ID**: repfocus-001~002
@@ -983,7 +987,7 @@
   2. video 요소에 videoUrl, currentTime=seekSec
   3. 좌표 파일 로드(FNC-A-046)
   4. ended 이벤트에 FNC-A-045
-  5. 통계 시간축: GET /api/v1/stats/series(targetType=ZONE, interval=1m, 기본 at 앞뒤 30분)와 그 구간의 이벤트 목록(GET /api/v1/events?zoneId=&from=&to=)을 받아 1분 평균 인원 선, 최대·최소 띠, 분마다 혼잡 단계, 이벤트 구간을 그림
+  5. 통계 시간축: GET /api/v1/stats/series(targetType=ZONE, interval=1m, 기본 at 앞뒤 30분)와 그 구간의 이벤트 목록(GET /api/v1/events?zoneId=&from=&to=), 녹화 구간(GET /api/v1/playback/ranges?zoneId=&from=&to=, FNC-A-043 구간 조회)을 받아 1분 평균 인원 선, 최대·최소 띠, 분마다 혼잡 단계, 녹화가 있는 구간, 이벤트 구간을 그림
   6. 재생 위치 막대 = 재생 중인 시각(startedAt + currentTime). 막대를 끌거나 그래프를 누르면 그 시각으로 FNC-A-043을 다시 호출해 이동(같은 녹화 안이면 currentTime만 바꿈)
   7. 재생 위치가 속한 1분의 통계(인원·밀집도·최대/최소·단계·유입/유출)를 영상 옆에 표시
 - **업무 규칙/검증**: 시간축 범위 30분/1시간/3시간/오늘, 항목 인원/밀집도/유입·유출. 녹화가 없는 구간은 시간축에 표시하고 그 구간으로 이동하면 '영상 없음'. 이전·다음 이벤트 버튼은 시간축 안 이벤트 시작 시각으로 이동. 재생 속도 1·2·4배
