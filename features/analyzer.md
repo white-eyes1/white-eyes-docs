@@ -287,7 +287,7 @@
 - **사전 조건**: X-Internal-Token 일치
 - **입력 항목**: -
 - **처리 순서**: 1. {status: UP, cameras: [{cameraId, state, lastResultAt}], bufferSize} 반환
-- **업무 규칙/검증**: -
+- **업무 규칙/검증**: cameras는 캠 번호 순. 캠 작업을 정지하면 목록에서 빠지고, 스레드가 오류로 끝난 캠도 정지 전까지는 ERROR로 남음. state는 캠 작업의 지금 상태(RUNNING·PREPARING·ERROR). lastResultAt은 그 캠이 이번에 시작한 뒤 1초 결과를 전송 큐에 넣은 마지막 시각(KST ISO 초 단위, 없으면 null)
 - **정상 결과**: 200
 - **예외 상황 및 처리**: -
 - **후속 동작**: -

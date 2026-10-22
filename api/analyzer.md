@@ -138,6 +138,6 @@
 - **Request**: -
 - **Response**
   200
-  {"status": "UP", "cameras": [{"cameraId": 7, "state": "RUNNING", "lastResultAt": "…"}], "bufferSize": 0}
+  {"status": "UP", "cameras": [{"cameraId": 7, "state": "RUNNING", "lastResultAt": "2026-10-12T14:03:05+09:00"}], "bufferSize": 0}
 - **오류 응답**: 401
 - **비고**: FNC-S-013
