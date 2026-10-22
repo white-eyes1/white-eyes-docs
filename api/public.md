@@ -410,9 +410,10 @@
 - **Request**
   Query
   keyword, status, joinedFrom, joinedTo, active, sort(createdAt|loginId|lastActiveAt,asc|desc), page, size
+  joinedFrom·joinedTo는 날짜이고 둘 다 그날을 포함
 - **Response**
   200
-  {"items": [{"id": 21, "loginId": "hong01", "name": "홍길동", "email": "…", "phone": "…", "status": "PENDING", "createdAt": "…", "lastActiveAt": "…", "active": false}], "page": 0, "size": 20, "totalElements": 1, "totalPages": 1}
+  {"items": [{"id": 21, "loginId": "hong01", "name": "홍길동", "email": "…", "phone": "…", "status": "PENDING", "createdAt": "…", "lastActiveAt": "…", "active": false}], "page": 0, "size": 20, "totalElements": 1, "totalPages": 1, "truncated": false}
 - **오류 응답**: -
 - **비고**: FNC-A-002
 
