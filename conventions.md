@@ -113,6 +113,7 @@
 | MEDIA_ROOT | /srv/media | 분석 서버가 공유 폴더를 읽는 기준 경로. DUMMY 영상은 이 아래 dummy/videos/ 에 있음(FNC-S-001 파일 존재 확인). 경로가 이 폴더 밖(링크 포함)을 가리키면 SOURCE_NOT_FOUND |
 | EDGE_MARGIN_RATIO | 0.05 | 판정선 위치: 화면 각 변에서 안쪽으로 너비·높이의 5% |
 | RECORD_WIDTH / RECORD_HEIGHT / RECORD_FPS | 1280 / 720 / 10 | 라이브 녹화 해상도·프레임(rec-002 용량 조절) |
+| RECORD_TMP_DIR / FFMPEG_BIN | /var/lib/analyzer/tmp / ffmpeg | 녹화 중인 파일을 두는 분석 서버 로컬 폴더(공유 폴더가 아님)와 녹화에 쓰는 ffmpeg 실행 파일(FNC-S-008) |
 | LIVE_RECONNECT_FAIL_SEC | 30 | 라이브 스트림이 이 시간 동안 다시 연결되지 않으면 ERROR 보고(vanly-007) |
 | CARD_SNAPSHOT_INTERVAL_SEC | 2 | 관리자 대시보드 캠 카드 미리보기 갱신 간격(live-002). 관리자 앱이 화면에 전달 |
 | COMPARE_ABNORMAL_PCT | 30 | 기간 비교의 비정상 변동 기본 기준(cmp-003, 화면에서 조절) |
