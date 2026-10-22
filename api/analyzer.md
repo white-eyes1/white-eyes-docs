@@ -126,7 +126,7 @@
 - **호출 주체**: nginx
 - **Request**: -
 - **Response**: 200 image/jpeg (Cache-Control: no-store)
-- **오류 응답**: 401 / 404 작업 없음
+- **오류 응답**: 401 / 404 작업 없음 / 503 작업은 있으나 첫 프레임이 아직 없음(FRAME_NOT_READY, Retry-After: 1)
 - **비고**: FNC-S-011. 호출하는 기능: FNC-A-042(nginx 경유). 외부 노출 금지(nginx만)
 
 ### GET /analyzer/v1/health — 상태 확인
