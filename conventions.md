@@ -106,6 +106,7 @@
 | STAT_MINUTE_RETENTION_DAYS | 90 | 1분 통계 보관(stagg-004) |
 | RECORDING_RETENTION_DAYS | 30 | 녹화 기록 보관(rec-002). 파일은 스토리지 서버가 31일에 삭제 |
 | RESULT_RETRY_BUFFER_SEC | 300 | 분석 서버의 전송 실패 결과 보관 한도(vanly-006) |
+| LOG_LEVEL | 관리자·사용자 앱 local·dev DEBUG, prod INFO / 분석 서버 INFO | 로그 레벨(code-conventions 7장). Spring은 `com.whiteeyes` 패키지에만 적용하고 그 밖의 라이브러리는 WARN. 분석 서버는 루트 로거 전체에 적용하며 값이 없거나 알 수 없는 이름이면 INFO |
 | ANALYZE_FPS | 5 | 분석 프레임 수(초당). 입력 960은 이 PC에서 초당 2장 정도라 서버에서 느리면 낮춘다(0015) |
 | DETECTOR | visdrone | 탐지 모델: visdrone(VisDrone YOLOv8m) \| yolo-crowd(0001). 알 수 없는 값이면 시작할 때 오류 |
 | DETECT_CONF / DETECT_IMGSZ / YOLO_WEIGHTS | 0.3 / 960 / visdrone-yolov8m.pt | 탐지 신뢰도 하한·입력 크기·가중치 파일(DETECTOR에 맞는 파일). VisDrone 사진 120장 측정(0015): 입력 960에서 센 수는 실제의 약 65%, 상관계수 0.93(640: 약 47%, 0.87). 960은 이 PC에서 프레임당 약 0.5초라 ANALYZE_FPS 5를 못 맞춤 — 서버에서 느리면 조정 |
