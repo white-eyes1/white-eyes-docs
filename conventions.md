@@ -43,8 +43,8 @@
 | 경로 | 공통 API는 두 앱에 같은 경로로 존재. 사용자 앱은 /api/v1/..., 관리자 앱은 /admin/api/v1/... | 공통 모듈의 컨트롤러를 두 앱이 함께 등록. API 명세서의 경로는 컨텍스트 경로를 뺨 값 |
 | 데이터 형식 | 요청·응답 본문은 JSON(UTF-8). 필드 이름은 camelCase | 파일 다운로드·영상·SSE는 예외 |
 | 시각 형식 | ISO-8601, 한국 시간 오프셋 포함. 예: 2026-10-12T14:03:00+09:00 / 날짜만: 2026-10-12 | DB에는 KST로 저장(오프셋 없이). 화면 표시는 yyyy-MM-dd HH:mm |
-| 기간 조회 | from 이상 ~ to 미만(반열린 구간) | 예: 하루 = from=2026-10-12T00:00, to=2026-10-13T00:00 |
-| 페이지 | 요청: page(0부터), size(기본 20, 최대 100). 응답: {items, page, size, totalElements, totalPages} | 목록 API 공통 |
+| 기간 조회 | from 이상 ~ to 미만(반열린 구간). 날짜만 받는 조회 조건은 양끝 날짜 포함 | 예: 하루 = from=2026-10-12T00:00, to=2026-10-13T00:00 |
+| 페이지 | 요청: page(0부터), size(기본 20, 최대 100). 응답: {items, page, size, totalElements, totalPages, truncated}. truncated는 상한 때문에 일부만 처리했으면 true, 기본 false | 목록 API 공통 |
 | 오류 응답 | {"code": "ZONE_NOT_FOUND", "message": "구역을 찾을 수 없습니다.", "fieldErrors": [{"field": "name", "message": "필수입니다."}]} | code는 영문 대문자 상수, message는 화면에 그대로 띄울 수 있는 한국어 문장. fieldErrors는 입력 검증 오류일 때만 |
 | 인증 오류 | 로그인 안 됨: 401(API) / 로그인 화면으로 이동(화면). 권한 없음: 403 | API 요청인지는 경로(/api/ 또는 /internal/)로 판단. /internal/ 은 분석 서버가 부르는 내부 API라 화면이 아닌 JSON(오류 응답)으로 답함. 관리자 앱은 컨텍스트 경로(/admin)를 뗀 경로로 봄 |
 | CSRF | Spring Security CSRF 사용. 화면은 meta 태그로 토큰을 받고, fetch 요청에 X-CSRF-TOKEN 헤더로 보냄 | /internal/** 는 CSRF 제외(토큰 헤더로 인증) |
