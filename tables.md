@@ -158,7 +158,7 @@
 
 ## recording
 
-녹화 기록(영상 1개 + 좌표 파일 1개). 30일 지난 행은 매일 지운다. 더미 캠은 같은 파일을 가리키는 행이 반복마다 추가된다.
+녹화 기록(영상 1개 + 좌표 파일 1개). RECORDING_RETENTION_DAYS(기본 30일) 지난 행은 매일 지운다. 더미 캠은 같은 파일을 가리키는 행이 반복마다 추가된다.
 
 | 컬럼명 | 키 | 타입 | 길이 | DEFAULT | NOT NULL | COMMENT | 비고 |
 |---|---|---|---|---|---|---|---|
@@ -170,11 +170,11 @@
 | box_path | - | VARCHAR | 255 | - | Y | 좌표 파일 경로(.json.gz, 공유 폴더 기준 상대경로) | 다시보기 박스 그리기(repfocus-004). 영상과 같은 방식으로 전송 |
 | created_at | - | DATETIME | - | CURRENT_TIMESTAMP | Y | 기록 등록 시각 | 등록 지연 확인 |
 
-- **인덱스**: (camera_id, started_at) — 시각으로 녹화 찾기 / (started_at) — 30일 정리
+- **인덱스**: (camera_id, started_at) — 시각으로 녹화 찾기 / (started_at) — 보관 기간(RECORDING_RETENTION_DAYS) 정리
 
 ## zone_stat_minute
 
-구역별 1분 통계. 실제 분석 데이터만 넣고 90일만 보관한다.
+구역별 1분 통계. 실제 분석 데이터만 넣고 STAT_MINUTE_RETENTION_DAYS(기본 90일)만 보관한다.
 
 | 컬럼명 | 키 | 타입 | 길이 | DEFAULT | NOT NULL | COMMENT | 비고 |
 |---|---|---|---|---|---|---|---|
@@ -196,7 +196,7 @@
 | dwell_count | - | INT | - | 0 | Y | 체류 시간을 잰(구역을 떠난) 인원 | 평균 체류 시간의 분모 |
 | sample_sec | - | SMALLINT | - | 0 | Y | 결과가 실제로 들어온 초 수(0~60) | 캠 끊김 구간 구분(그래프에 빈 구간 표시), 상위 통계로 묶을 때 평균의 가중치 |
 
-- **인덱스**: PK(zone_id, stat_at) / (stat_at) — 90일 정리·전체 구역 조회
+- **인덱스**: PK(zone_id, stat_at) / (stat_at) — 보관 기간(STAT_MINUTE_RETENTION_DAYS) 정리·전체 구역 조회
 
 ## zone_stat_hourly
 
