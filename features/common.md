@@ -174,9 +174,9 @@
   2. parentId가 있으면 그 하위 region 목록
   3. 구역 목록: dongId가 있으면 그 동의, 없으면 전체의 삭제되지 않은 구역(zone.deleted_at IS NULL)
   4. 경계(GeoJSON)와 중심점 함께 반환
-- **업무 규칙/검증**: 삭제된 구역은 지도·목록에서 제외(loca-005)
+- **업무 규칙/검증**: 삭제된 구역은 지도·목록에서 제외(loca-005). 다만 구역 번호로 하나를 조회하는 `GET /api/v1/zones/{id}`는 삭제된 구역도 `deleted: true`로 준다(지난 통계·다시보기가 '(삭제됨)'을 붙이는 데 씀)
 - **정상 결과**: 하위 목록 반환
-- **예외 상황 및 처리**: 없는 지역: 404 REGION_NOT_FOUND
+- **예외 상황 및 처리**: 없는 지역: 404 REGION_NOT_FOUND. 단건 조회에서 없는 구역: 404 ZONE_NOT_FOUND
 - **후속 동작**: 지도 화면이 경계를 그리고 FNC-C-009로 색을 칠함
 - **관련 요구사항 ID**
   map-001
@@ -259,12 +259,12 @@
   1. 단위별 최대 기간 확인
   2. 원본 선택: 1m=zone_stat_minute, 1h=zone_stat_hourly, 1d 이상=zone_stat_daily
   3. 1w·1M·1y는 일별 통계를 주·월·연으로 묶음
-  4. 지역이면 소속 구역(삭제된 구역 포함, 그 기간에 데이터가 있던 구역)을 합산
+  4. 지역이면 소속 구역(삭제된 구역 포함, 그 기간에 데이터가 있던 구역)을 합산. 구역이 대상이면 삭제된 구역도 받는다(지난 통계를 볼 수 있어야 함, FNC-A-017 업무 규칙)
   5. 항목 계산: countAvg·countMax·countMin(지역은 같은 시각 소속 구역 값의 합 — 최대·최소의 합은 근사치), density=countAvg합÷면적합, 유입/유출(지역은 내부 이동 제외), dwellAvgSec=Σdwell_sum÷Σdwell_count, sampleSec
   6. 각 점에 isDemo 포함
 - **업무 규칙/검증**: 묶을 때 평균은 sample_sec 가중 평균. sample_sec=0인 구간은 점을 비움(끊김 표시). 지역 유입/유출: 방향 d의 이웃이 지역 안에 있으면 제외
 - **정상 결과**: {items:[{at, countAvg, countMax, countMin, density, level, inflow:{N,E,S,W}, outflow:{...}, dwellAvgSec, sampleSec, isDemo}]}
-- **예외 상황 및 처리**: 기간 초과: 400 RANGE_TOO_LONG / 없는 대상: 404
+- **예외 상황 및 처리**: 기간 초과: 400 RANGE_TOO_LONG / 없는 대상: 404(삭제된 구역은 없는 대상이 아님)
 - **후속 동작**: 점 클릭 시 FNC-C-013
 - **관련 요구사항 ID**
   stats-001~008
