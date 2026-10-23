@@ -104,7 +104,7 @@
 | CAM_FAULT_TIMEOUT_SEC | 60 | 가동 중 캠의 결과가 이 시간 이상 없으면 캠 이상(evtdet-003) |
 | MINUTE_CLOSE_GRACE_SEC | 5 | 1분 마감 대기 시간. 14:03 구간은 14:04:05에 마감, 이후 도착한 14:03 결과는 버림 |
 | STAT_MINUTE_RETENTION_DAYS | 90 | 1분 통계 보관(stagg-004) |
-| RECORDING_RETENTION_DAYS | 30 | 녹화 기록 보관(rec-002). 파일은 스토리지 서버가 31일에 삭제 |
+| RECORDING_RETENTION_DAYS | 30 | 녹화 기록 보관(rec-002). 파일은 스토리지 서버가 32일 이상 지난 것(find -mtime +31)을 삭제 |
 | RESULT_RETRY_BUFFER_SEC | 300 | 분석 서버의 전송 실패 결과 보관 한도(vanly-006) |
 | LOG_LEVEL | 관리자·사용자 앱 local·dev DEBUG, prod INFO / 분석 서버 INFO | 로그 레벨(code-conventions 7장). Spring은 `com.whiteeyes` 패키지에만 적용하고 그 밖의 라이브러리는 WARN. 분석 서버도 같은 규칙으로 앱 패키지(`white_eyes_flask`)에만 적용하고 ultralytics·torch 같은 라이브러리는 WARNING 이상만 내며(라이브러리가 import하며 자기 로거를 다시 설정해서 불러온 뒤에 다시 누름), 값이 없거나 알 수 없는 이름이면 INFO |
 | ANALYZE_FPS | 5 | 분석 프레임 수(초당). 입력 960은 이 PC에서 초당 2장 정도라 서버에서 느리면 낮춘다(0015) |
@@ -131,7 +131,7 @@
 |---|---|---|
 | dummy/videos/ | 더미 원본 영상(사람이 미리 편집해 올림) | 캠 등록 시 source_uri로 지정 |
 | dummy/boxes/{영상 파일명}.json.gz | 더미 좌표 파일(분석 준비 때 한 번 생성) | 같은 영상을 쓰는 캠끼리 공유 |
-| recordings/live/cam{cameraId}/{yyyyMMdd}/cam{cameraId}_{yyyyMMdd_HHmm}.mp4 / .json.gz | 라이브 녹화 영상·좌표 파일 | 스토리지 서버 cron이 31일 지난 파일 삭제 |
+| recordings/live/cam{cameraId}/{yyyyMMdd}/cam{cameraId}_{yyyyMMdd_HHmm}.mp4 / .json.gz | 라이브 녹화 영상·좌표 파일 | 스토리지 서버 cron이 32일 이상 지난(find -mtime +31) 파일 삭제 |
 | 분석 서버 로컬 | /var/lib/analyzer/cache/(더미 분석 캐시), /var/lib/analyzer/tmp/(녹화 중인 파일) | 공유 폴더가 아님 |
 
 ## 좌표 파일 형식
