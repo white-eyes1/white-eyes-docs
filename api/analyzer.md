@@ -89,10 +89,9 @@
   200
   {"cameraId": 7, "status": "PREPARING"}
 - **오류 응답**
-  400 SOURCE_NOT_FOUND (DUMMY 파일 없음·경로 규칙 위반·공유 폴더 밖 경로)
+  400 SOURCE_NOT_FOUND (DUMMY 파일 없음·경로 규칙 위반·공유 폴더 밖 경로, LIVE는 sourceUri가 rtsp://·rtsps://로 시작하지 않음)
   400 INVALID_INPUT (본문 형식 오류. fieldErrors의 field는 sourceType·sourceUri, 본문이 JSON 객체가 아니면 body)
   401
-  501 SOURCE_TYPE_NOT_SUPPORTED (LIVE, 2단계 구현 전까지)
   409 CAMERA_STOPPING (정지가 10초 안에 끝나지 않아 같은 캠의 옛 작업 스레드가 아직 살아 있음. 끝나면 다시 시작할 수 있음)
 - **비고**: FNC-S-001. 호출하는 기능: FNC-A-020. 타임아웃 5초. 이미 그 캠 작업이 돌고 있으면, 형식이 맞는 요청에 한해 sourceType·sourceUri 값과 상관없이 현재 상태로 200(형식이 틀린 본문은 먼저 400)
 
