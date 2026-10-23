@@ -118,7 +118,7 @@
 | LIVE_RECONNECT_FAIL_SEC | 30 | 라이브 스트림이 이 시간 동안 다시 연결되지 않으면 ERROR 보고(vanly-007) |
 | CARD_SNAPSHOT_INTERVAL_SEC | 2 | 관리자 대시보드 캠 카드 미리보기 갱신 간격(live-002). 관리자 앱이 화면에 전달 |
 | COMPARE_ABNORMAL_PCT | 30 | 기간 비교의 비정상 변동 기본 기준(cmp-003, 화면에서 조절) |
-| STATS_MAX_RANGE | 1m: 1일 / 1h: 31일 / 1d: 1년 / 1w: 3년 / 1M: 5년 / 1y: 10년 | 단위별 최대 조회 기간(stagraph-001). 넘으면 400 |
+| STATS_MAX_RANGE | 1m: 1일 / 1h: 31일 / 1d: 1년 / 1w: 3년 / 1M: 5년 / 1y: 10년 | 단위별 최대 조회 기간(stagraph-001). 넘으면 400. 환경변수가 아니라 코드 상수(`StatInterval`) |
 | EXPORT_MAX_RANGE | 1m: 7일 / 1h: 93일 / 1d 이상: 10년, 예상 행 수 100만 이하 | 엑셀 최대 기간(xlsx-002) |
 | COMPARE_MAX_CHILDREN | 10 | 여러 지역 비교 최대 개수(stagraph-002) |
 | SUPER_ADMIN_LOGIN_ID / SUPER_ADMIN_INITIAL_PASSWORD | (비밀값) | 최고 관리자 최초 등록용(perm-005) |
