@@ -655,14 +655,14 @@
 ### FNC-A-032 오래된 데이터 정리
 
 - **목적/설명**
-  90일 지난 1분 통계와 30일 지난 녹화 기록을 지운다
+  STAT_MINUTE_RETENTION_DAYS(기본 90일) 지난 1분 통계와 RECORDING_RETENTION_DAYS(기본 30일) 지난 녹화 기록을 지운다
   목적: 용량 관리
   구현 위치: admin(예약 작업, 매일 03:00)
 - **사전 조건**: -
 - **입력 항목**: 보관 기간 설정값
 - **처리 순서**
   1. zone_stat_minute에서 stat_at < 오늘−90일을 1만 건씩 나눠 삭제
-  2. recording에서 started_at < 현재−30일을 1만 건씩 나눠 삭제
+  2. recording에서 started_at < 현재−RECORDING_RETENTION_DAYS(기본 30일)를 1만 건씩 나눠 삭제
 - **업무 규칙/검증**: 녹화 파일은 스토리지 서버 cron이 31일에 지움(기록이 먼저 지워짐)
 - **정상 결과**: 삭제 건수 로그
 - **예외 상황 및 처리**: -
@@ -836,7 +836,7 @@
   1. 상세 창이 열리면 FNC-A-043(zoneId, at=started_at)으로 녹화를 찾아 창 안 영상에서 재생(박스 표시 포함, FNC-A-046)
   2. 영상 아래 발생 앞뒤 30분 1분 평균 인원 띠(GET /api/v1/stats/series)와 이벤트 구간 표시
   3. '다시보기 화면에서 크게 보기'를 누르면 다시보기 화면을 zoneId, at=started_at으로 엶(FNC-A-047)
-- **업무 규칙/검증**: 캠 이상 이벤트는 버튼 없음. 30일 지난 이벤트는 버튼 비활성
+- **업무 규칙/검증**: 캠 이상 이벤트는 버튼 없음. RECORDING_RETENTION_DAYS(기본 30일)를 지난 이벤트는 버튼 비활성
 - **정상 결과**: 다시보기 재생
 - **예외 상황 및 처리**: 녹화 없음은 다시보기 화면이 안내
 - **후속 동작**: -
@@ -897,15 +897,15 @@
 - **사전 조건**: 다시보기 화면
 - **입력 항목**: zoneId, at 또는 latest=true / (구간 조회) zoneId, from, to
 - **처리 순서**
-  1. at < 현재−30일 → 404 RECORDING_EXPIRED('보관 기간 지남')
+  1. at < 현재−RECORDING_RETENTION_DAYS(기본 30일) → 404 RECORDING_EXPIRED('보관 기간 지남')
   2. 구역의 캠(삭제 포함) 녹화 중 started_at ≤ at 이고 (ended_at > at 또는 ended_at IS NULL) 인 것 중 started_at이 가장 늦은 것
   3. 없으면 404 RECORDING_NOT_FOUND('영상 없음')
   4. {recordingId, videoUrl, boxesUrl, seekSec=at−started_at, startedAt, endedAt} 반환
   [latest=true]
-  5. 구역의 캠(삭제 포함) 녹화 중 started_at이 가장 늦은 것(30일 이내), seekSec=0으로 4번과 같은 형식 반환. 없으면 404 RECORDING_NOT_FOUND
+  5. 구역의 캠(삭제 포함) 녹화 중 started_at이 가장 늦은 것(RECORDING_RETENTION_DAYS 이내, 기본 30일), seekSec=0으로 4번과 같은 형식 반환. 없으면 404 RECORDING_NOT_FOUND
   [구간 조회 GET /api/v1/playback/ranges]
   6. from ≥ to이거나 to−from이 24시간을 넘으면 400 INVALID_INPUT
-  7. 구역의 캠(삭제 포함) 녹화 중 started_at < to 이고 (ended_at > from 또는 ended_at IS NULL) 인 것을 조회(30일을 넘은 부분은 제외)
+  7. 구역의 캠(삭제 포함) 녹화 중 started_at < to 이고 (ended_at > from 또는 ended_at IS NULL) 인 것을 조회(RECORDING_RETENTION_DAYS(기본 30일)를 넘은 부분은 제외)
   8. 캠 구분 없이 합쳐서 겹치거나 2초 이하로 떨어진 구간을 하나로 잇고, [from, to] 범위로 잘라 시간순으로 {ranges: [{from, to}]} 반환(없으면 빈 목록)
 - **업무 규칙/검증**: 파일 경로는 응답에 넣지 않음. ended_at이 빈 녹화는 진행 중인 더미 반복 또는 정지 처리 전 녹화이므로 지금 시각까지로 봄. 구간 조회는 구역이 없어도 404가 아니라 빈 목록
 - **정상 결과**: 재생 정보(구간 조회는 녹화 구간 목록)
