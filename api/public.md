@@ -163,7 +163,20 @@
   200
   [{"id": 15, "dongId": 3, "name": "궁동 1구역", "areaM2": 2500.0, "centerLat": 36.3621, "centerLng": 127.3449, "boundary": {GeoJSON}, "hasCamera": true}]
 - **오류 응답**: 404 REGION_NOT_FOUND
-- **비고**: FNC-C-008
+- **비고**: FNC-C-008. 항목마다 `deleted`(boolean)가 있고 이 목록에서는 항상 false(삭제된 구역은 목록에 없음)
+
+### GET /api/v1/zones/{id} — 구역 하나(삭제된 구역 포함)
+
+- **설명**: 번호로 구역 하나를 조회. 삭제 표시된 구역도 준다(`deleted: true`). 지난 통계·다시보기 화면이 삭제된 구역의 이름에 '(삭제됨)'을 붙일 때 쓴다
+- **관련 요구사항 ID**: loca-005
+- **권한**: 사용자 이상(두 앱)
+- **호출 주체**: 브라우저
+- **Request**: Path / id
+- **Response**
+  200
+  {"id": 15, "dongId": 3, "name": "궁동 1구역", "areaM2": 2500.0, "centerLat": 36.3621, "centerLng": 127.3449, "boundary": {GeoJSON}, "hasCamera": false, "deleted": true}
+- **오류 응답**: 404 ZONE_NOT_FOUND(없는 구역)
+- **비고**: FNC-C-008, FNC-A-017 업무 규칙('(삭제됨)' 표시)
 
 ### GET /api/v1/map/status — 혼잡 단계 현황
 
