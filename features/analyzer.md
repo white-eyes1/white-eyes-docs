@@ -298,15 +298,15 @@
 ### FNC-S-014 녹화 파일 정리
 
 - **목적/설명**
-  31일 지난 라이브 녹화 파일을 매일 지운다
+  32일 이상 지난(find -mtime +31) 라이브 녹화 파일을 매일 지운다
   목적: 용량 관리
   구현 위치: storage(cron)
 - **사전 조건**: 스토리지 서버 cron, 매일 04:00
 - **입력 항목**: -
 - **처리 순서**
   1. find /srv/media/recordings/live -type f \( -name '*.mp4' -o -name '*.json.gz' \) -mtime +31 -delete
-  2. 빈 날짜 폴더 삭제(find … -type d -empty -delete)
-- **업무 규칙/검증**: dummy/ 는 대상 아님. 기록(30일)이 파일(31일)보다 먼저 지워짐
+  2. 빈 날짜 폴더 삭제(find /srv/media/recordings/live -mindepth 1 -type d -empty -delete). -mindepth 1은 모든 파일이 지워져도 recordings/live 폴더 자체는 남기려는 것
+- **업무 규칙/검증**: dummy/ 는 대상 아님. find -mtime +31은 경과 시간의 하루 미만을 버리고 세므로 실제로는 32일째부터 지워진다. 기록(30일)이 파일(32일째)보다 먼저 지워짐
 - **정상 결과**: 파일 삭제
 - **예외 상황 및 처리**: -
 - **후속 동작**: -
