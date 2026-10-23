@@ -661,7 +661,7 @@
 - **사전 조건**: -
 - **입력 항목**: 보관 기간 설정값
 - **처리 순서**
-  1. zone_stat_minute에서 stat_at < 오늘−90일을 1만 건씩 나눠 삭제
+  1. zone_stat_minute에서 stat_at < 오늘−STAT_MINUTE_RETENTION_DAYS(기본 90일)를 1만 건씩 나눠 삭제
   2. recording에서 started_at < 현재−RECORDING_RETENTION_DAYS(기본 30일)를 1만 건씩 나눠 삭제
 - **업무 규칙/검증**: 녹화 파일은 스토리지 서버 cron이 31일에 지움(기록이 먼저 지워짐)
 - **정상 결과**: 삭제 건수 로그
