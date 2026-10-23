@@ -343,7 +343,7 @@
 - **입력 항목**: zoneId
 - **처리 순서**
   1. 소속 캠 중 PREPARING·RUNNING이 있으면 거부
-  2. 이력 확인: 소속 캠이 모두 first_started_at IS NULL이면 이력 없음
+  2. 이력 확인: 소속 캠이 모두 first_started_at IS NULL이고, 그 구역의 통계(1분·시간·일)·이벤트 행이 없으면 이력 없음(통계·이벤트가 구역을 외래키로 가리키므로, 시연용 통계처럼 캠을 가동하지 않은 구역에 생긴 행도 이력으로 본다)
   3. 이력 없음: 이웃 행·캠·구역을 실제 삭제
   4. 이력 있음: zone.deleted_at, 소속 캠 deleted_at 설정, 이 구역이 들어간 이웃 행 모두 삭제
   5. 작업 기록(op: DELETE, hard/soft)
