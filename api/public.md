@@ -311,7 +311,7 @@
 - **Response**
   200 application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
   Content-Disposition: attachment; filename*=UTF-8''stats_….xlsx
-- **오류 응답**: 400 RANGE_TOO_LONG / TOO_MANY_ROWS
+- **오류 응답**: 400 RANGE_TOO_LONG / TOO_MANY_ROWS / INVALID_INPUT(항목 없음), 404 ZONE_NOT_FOUND / REGION_NOT_FOUND(없는 대상)
 - **비고**: FNC-C-023. 작업 기록 저장
 
 ## 대시보드(공통)
