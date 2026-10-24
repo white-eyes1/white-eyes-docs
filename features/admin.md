@@ -987,7 +987,7 @@
   2. video 요소에 videoUrl, currentTime=seekSec
   3. 좌표 파일 로드(FNC-A-046)
   4. ended 이벤트에 FNC-A-045
-  5. 통계 시간축: GET /api/v1/stats/series(targetType=ZONE, interval=1m, 기본 at 앞뒤 30분)와 그 구간의 이벤트 목록(GET /api/v1/events?zoneId=&from=&to=), 녹화 구간(GET /api/v1/playback/ranges?zoneId=&from=&to=, FNC-A-043 구간 조회)을 받아 1분 평균 인원 선, 최대·최소 띠, 분마다 혼잡 단계, 녹화가 있는 구간, 이벤트 구간을 그림
+  5. 통계 시간축: GET /api/v1/stats/series(targetType=ZONE, interval=1m, 기본 at 앞뒤 30분)와 그 구간의 이벤트 목록(GET /api/v1/events?zoneId=&from=&to=&types=CONGESTION,SURGE, 이벤트는 혼잡·급증만), 녹화 구간(GET /api/v1/playback/ranges?zoneId=&from=&to=, FNC-A-043 구간 조회)을 받아 1분 평균 인원 선, 최대·최소 띠, 분마다 혼잡 단계, 녹화가 있는 구간, 이벤트 구간을 그림
   6. 재생 위치 막대 = 재생 중인 시각(startedAt + currentTime). 막대를 끌거나 그래프를 누르면 그 시각으로 FNC-A-043을 다시 호출해 이동(같은 녹화 안이면 currentTime만 바꿈)
   7. 재생 위치가 속한 1분의 통계(인원·밀집도·최대/최소·단계·유입/유출)를 영상 옆에 표시
 - **업무 규칙/검증**: 시간축 범위 30분/1시간/3시간/오늘, 항목 인원/밀집도/유입·유출. 녹화가 없는 구간은 시간축에 표시하고 그 구간으로 이동하면 '영상 없음'. 이전·다음 이벤트 버튼은 시간축 안 이벤트 시작 시각으로 이동. 재생 속도 1·2·4배

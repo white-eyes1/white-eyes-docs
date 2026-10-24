@@ -810,7 +810,7 @@
   200 페이지 응답
   items: [{"id": 101, "type": "CONGESTION", "zoneId": 15, "zoneName": "궁동 1구역", "regionPath": "유성구 · 궁동", "cameraName": "궁동1-캠", "zoneDeleted": false, "startedAt": "…", "endedAt": null, "ongoing": true, "durationSec": 600, "peakLevel": 3, "peakValue": 1.64, "peakCount": 48, "status": "UNCHECKED"}]
 - **오류 응답**: -
-- **비고**: FNC-A-036·047
+- **비고**: FNC-A-036·047. `cameraName`: 캠 이상만 값(이벤트의 캠 이름), 혼잡·급증은 구역 단위 이벤트라 `camera_id`가 없어 null
 
 ### GET /api/v1/events/{id} — 이벤트 상세
 
