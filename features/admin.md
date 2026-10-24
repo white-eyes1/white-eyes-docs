@@ -769,7 +769,7 @@
 - **입력 항목**: eventId
 - **처리 순서**
   1. event 조회
-  2. 처리 이력 = work_history에서 target_type=EVENT, target_id=eventId 를 시각순으로 조회
+  2. 처리 이력 = work_history에서 target_type=EVENT, target_id=eventId, action=EVENT_STATUS 를 시각순으로 조회
 - **업무 규칙/검증**: -
 - **정상 결과**: 상세 창 표시
 - **예외 상황 및 처리**: 없는 이벤트: 404

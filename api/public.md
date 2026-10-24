@@ -823,7 +823,7 @@
 - **Request**: -
 - **Response**
   200
-  {…목록 필드, "thresholdSnapshot": {…}, "cameraId": null, "actionCode": null, "actionNote": null, "handledBy": null, "handledAt": null, "histories": [{"at": "…", "loginId": "admin02", "from": "UNCHECKED", "to": "CHECKED"}], "playbackAvailable": true}
+  {…목록 필드, "thresholdSnapshot": {…}, "cameraId": null, "actionCode": null, "actionNote": null, "handledBy": null, "handledAt": null, "histories": [{"at": "…", "loginId": "admin02", "from": "UNCHECKED", "to": "CHECKED", "actionCode": null, "actionNote": null}], "playbackAvailable": true}
 - **오류 응답**: 404
 - **비고**: FNC-A-037
 
