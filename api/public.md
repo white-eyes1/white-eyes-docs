@@ -498,7 +498,7 @@
 - **Response**
   200
   {"deletedSessions": 2}
-- **오류 응답**: 404
+- **오류 응답**: 404 NOT_FOUND
 - **비고**: FNC-A-008
 
 ## 관리자 관리(관리자 앱)
@@ -574,7 +574,8 @@
 - **Request**: -
 - **Response**: 204
 - **오류 응답**
-  400 최고 관리자 대상 불가
+  400 INVALID_INPUT (최고 관리자 대상 불가)
+  404 NOT_FOUND (없는 관리자)
   409 INVALID_STATUS
 - **비고**: FNC-A-011
 
@@ -588,7 +589,9 @@
 - **호출 주체**: 브라우저
 - **Request**: -
 - **Response**: 204
-- **오류 응답**: 409 INVALID_STATUS
+- **오류 응답**
+  404 NOT_FOUND (없는 관리자)
+  409 INVALID_STATUS
 - **비고**: FNC-A-011
 
 ### POST /api/v1/admins/{id}/logout — 관리자 강제 로그아웃
@@ -603,7 +606,9 @@
 - **Response**
   200
   {"deletedSessions": 1}
-- **오류 응답**: 400 자기 자신
+- **오류 응답**
+  400 INVALID_INPUT (자기 자신)
+  404 NOT_FOUND (없는 관리자)
 - **비고**: FNC-A-008
 
 ## 구역 관리(관리자 앱)
