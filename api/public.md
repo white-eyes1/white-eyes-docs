@@ -864,7 +864,7 @@
 
 ### GET /api/v1/events/summary — 이벤트 요약
 
-- **설명**: 처리 상태별 건수
+- **설명**: 처리 상태별 건수, 종류별 건수
 - **관련 요구사항 ID**: evt-001
 - **권한**: 관리자 이상
 - **호출 주체**: 브라우저
@@ -873,9 +873,9 @@
   from, to, regionId 또는 zoneId, types(복수), keyword
 - **Response**
   200
-  {"total": 4, "unchecked": 3, "checked": 1, "resolved": 0}
+  {"total": 4, "unchecked": 3, "checked": 1, "resolved": 0, "byType": {"CONGESTION": 2, "SURGE": 1, "CAM_FAULT": 1}}
 - **오류 응답**: -
-- **비고**: FNC-A-036, FNC-C-030. 목록과 같은 조건(상태 제외)
+- **비고**: FNC-A-036, FNC-C-030. 목록과 같은 조건(상태 제외). byType은 세 종류를 항상 넣고 없으면 0(종류 필터를 걸면 고르지 않은 종류는 0)
 
 ### GET /api/v1/events/export — 이벤트 엑셀 다운로드
 
