@@ -457,7 +457,7 @@
 - **Response**
   200
   {"temporaryPassword": "aB3dE5fG7hJ9"}
-- **오류 응답**: 404
+- **오류 응답**: 404 NOT_FOUND
 - **비고**: FNC-A-005. 한 번만 표시
 
 ### POST /api/v1/users/{id}/approve — 사용자 승인
