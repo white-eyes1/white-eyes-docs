@@ -750,7 +750,7 @@
 - **입력 항목**: from, to, regionId 또는 zoneId, types(복수), statuses(복수), keyword, page, size
 - **처리 순서**
   1. 조건으로 조회(지역은 소속 구역 IN), started_at 내림차순. keyword는 캠 이름·구역 이름·소속 구·동 이름 부분 일치
-  2. 각 행에 구역 이름(삭제면 '(삭제됨)' 붙임), 구·동 경로, 캠 이름, 진행 중 여부, 지속 시간 계산
+  2. 각 행에 구역 이름(삭제면 '(삭제됨)' 붙임), 구·동 경로, 캠 이름(캠 이상만, 혼잡·급증은 null), 진행 중 여부, 지속 시간 계산
   3. 요약(GET /api/v1/events/summary): 같은 조건(상태 제외)의 처리 상태별 건수
 - **업무 규칙/검증**: 단계·종류별 색: 혼잡=단계 색, 급증=보라, 캠 이상=회색
 - **정상 결과**: 목록 표시
@@ -769,7 +769,7 @@
 - **입력 항목**: eventId
 - **처리 순서**
   1. event 조회
-  2. 처리 이력 = work_history에서 target_type=EVENT, target_id=eventId 를 시각순으로 조회
+  2. 처리 이력 = work_history에서 target_type=EVENT, target_id=eventId, action=EVENT_STATUS 를 시각순으로 조회
 - **업무 규칙/검증**: -
 - **정상 결과**: 상세 창 표시
 - **예외 상황 및 처리**: 없는 이벤트: 404
@@ -987,7 +987,7 @@
   2. video 요소에 videoUrl, currentTime=seekSec
   3. 좌표 파일 로드(FNC-A-046)
   4. ended 이벤트에 FNC-A-045
-  5. 통계 시간축: GET /api/v1/stats/series(targetType=ZONE, interval=1m, 기본 at 앞뒤 30분)와 그 구간의 이벤트 목록(GET /api/v1/events?zoneId=&from=&to=), 녹화 구간(GET /api/v1/playback/ranges?zoneId=&from=&to=, FNC-A-043 구간 조회)을 받아 1분 평균 인원 선, 최대·최소 띠, 분마다 혼잡 단계, 녹화가 있는 구간, 이벤트 구간을 그림
+  5. 통계 시간축: GET /api/v1/stats/series(targetType=ZONE, interval=1m, 기본 at 앞뒤 30분)와 그 구간의 이벤트 목록(GET /api/v1/events?zoneId=&from=&to=&types=CONGESTION,SURGE, 이벤트는 혼잡·급증만), 녹화 구간(GET /api/v1/playback/ranges?zoneId=&from=&to=, FNC-A-043 구간 조회)을 받아 1분 평균 인원 선, 최대·최소 띠, 분마다 혼잡 단계, 녹화가 있는 구간, 이벤트 구간을 그림
   6. 재생 위치 막대 = 재생 중인 시각(startedAt + currentTime). 막대를 끌거나 그래프를 누르면 그 시각으로 FNC-A-043을 다시 호출해 이동(같은 녹화 안이면 currentTime만 바꿈)
   7. 재생 위치가 속한 1분의 통계(인원·밀집도·최대/최소·단계·유입/유출)를 영상 옆에 표시
 - **업무 규칙/검증**: 시간축 범위 30분/1시간/3시간/오늘, 항목 인원/밀집도/유입·유출. 녹화가 없는 구간은 시간축에 표시하고 그 구간으로 이동하면 '영상 없음'. 이전·다음 이벤트 버튼은 시간축 안 이벤트 시작 시각으로 이동. 재생 속도 1·2·4배
