@@ -20,10 +20,11 @@ spring #41(FNC-A-037 이벤트 상세)을 실제 브라우저(Playwright Chromiu
 - 캠 이상의 최고 단계·값은 `-`(screens.md SCR-A-010과 같게).
 - 혼잡·급증 이벤트는 캠 이름을 보이지 않는다(spring #166 리뷰 반영: `cameraName`은 캠 이상만 값이 있다). 캡처 01·02를 이에 맞춰 다시 찍었다.
 - 처리 이력 한 줄은 `이전 상태 → 이후 상태` 칩을 먼저 보인다(screens.md SCR-A-011, 리뷰 반영).
+- 이력 한 줄에 조치 항목·메모를 담으려고 API 응답 `histories`에 `actionCode`·`actionNote`를 더했다. 리뷰어가 동의해 명세에 반영됐다(docs#67: `public.md` 상세 응답, `features/admin.md` FNC-A-037 처리 순서 2의 `action=EVENT_STATUS`).
 - 처리 이력은 이력이 없으면 '처리 이력이 없습니다'를 보인다(시안에 없는 상태).
+- 레이아웃: 시안은 이벤트 정보와 처리 이력을 2열로 나란히 두었고, 구현은 1열(정보 아래에 이력)이다.
 
 **확인 필요**
-- 이력 한 줄에 조치 항목·메모를 담으려고 API 응답 `histories`에 `actionCode`·`actionNote`를 더했다(명세 예시는 `at, loginId, from, to`). 명세에 한 줄 추가가 필요한지 리뷰어 확인 필요.
 - `playbackAvailable`은 "혼잡·급증이고 발생이 30일 이내"로 계산했다(명세에 계산 기준이 없음). 녹화 파일이 있는지는 다시보기(FNC-A-040·043)가 안내한다.
 
 ## 확인하지 못한 것
