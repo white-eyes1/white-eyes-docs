@@ -732,8 +732,8 @@
   1. 대상: run_requested=1, 삭제되지 않은 캠
   2. 열기 조건: status=ERROR 또는 (status=RUNNING이고 마지막 결과가 CAM_FAULT_TIMEOUT_SEC(60초) 이상 전)
   3. 열린 CAM_FAULT가 없으면 생성(camera_id 포함, threshold_snapshot={"timeoutSec": CAM_FAULT_TIMEOUT_SEC}) 후 알림
-  4. 닫기: 결과가 다시 들어오거나 RUNNING 보고를 받거나 캠이 정지되면 ended_at=현재
-- **업무 규칙/검증**: PREPARING·STOPPED는 검사 안 함. 관리자 앱 시작 직후에는 모든 캠의 마지막 결과 시각을 시작 시각으로 초기화(재시작 직후 오탐 방지)
+  4. 닫기: 결과가 다시 들어오거나 RUNNING 보고를 받거나 캠이 정지되거나 감시 대상 캠이 PREPARING이 되면(재가동) ended_at=현재
+- **업무 규칙/검증**: PREPARING·STOPPED는 검사 안 함. 관리자 앱 시작 직후에는 모든 캠의 마지막 결과 시각을 시작 시각으로 초기화(재시작 직후 오탐 방지). 재시작 직후 첫 점검에서는 이미 열린 캠 이상 이벤트가 있는 캠을 닫지 않음(결과가 다시 들어온 뒤의 점검에서 닫음, 분석 서버가 계속 죽어 있을 때 한 장애가 둘로 나뉘지 않게)
 - **정상 결과**: 이벤트 생성·종료
 - **예외 상황 및 처리**: -
 - **후속 동작**: 알림
