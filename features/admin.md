@@ -705,13 +705,13 @@
 - **사전 조건**: 1분 통계 저장
 - **입력 항목**: 구역, 현재 1분 통계, 10분 전 1분 통계
 - **처리 순서**
-  1. 현재 sample_sec < EVENT_MIN_SAMPLE_SEC(30), 밀집도 < SURGE_MIN_DENSITY(0.2), SURGE_WINDOW_MIN(10분) 전 행이 없거나 sample_sec < EVENT_MIN_SAMPLE_SEC 또는 count_avg=0이면 '조건 미충족'
+  1. 현재 sample_sec < EVENT_MIN_SAMPLE_SEC(30)이면 판정을 건너뜀(FNC-A-033과 같음, below_since도 건드리지 않음). 밀집도 < SURGE_MIN_DENSITY(0.2), SURGE_WINDOW_MIN(10분) 전 행이 없거나 sample_sec < EVENT_MIN_SAMPLE_SEC 또는 count_avg=0이면 '조건 미충족'
   2. 증가율 = (현재−10분 전)÷10분 전×100
   3. 증가율 ≥ SURGE_RATE_PCT(50%):
      - 열린 SURGE 있음 → peak_value(증가율)·peak_count(인원) 최댓값 갱신, below_since=NULL
      - 없음 → 새 이벤트 저장(snapshot: window, rate, minDensity) 후 알림
   4. 조건 미충족 또는 증가율 < SURGE_RATE_PCT이고 열린 이벤트 있음 → FNC-A-033 4번과 같은 방식으로 EVENT_CLOSE_HOLD_MIN 유지 시 종료
-- **업무 규칙/검증**: 최소 인원 = 최소 밀집도 × 구역 면적(자동)
+- **업무 규칙/검증**: 최소 인원 = 최소 밀집도 × 구역 면적(자동). 증가율이 peak_value 상한(999,999.9999)을 넘으면 상한값으로 잘라 저장
 - **정상 결과**: 이벤트 생성·갱신·종료
 - **예외 상황 및 처리**: -
 - **후속 동작**: 알림
