@@ -57,7 +57,7 @@
 | 쿠키 이름 | 사용자 앱 USER_SESSION, 관리자 앱 ADMIN_SESSION | HttpOnly 켬. Secure는 HTTPS 적용(2순위) 때 켬 |
 | 세션 만료 | 30분(환경변수 SESSION_TIMEOUT, 기본 30m) | sec-003. 실시간 화면·미리보기 권한 확인(/admin/api/v1/live/auth)은 세션 마지막 접근 시각을 갱신하지 않음(FNC-A-041) |
 | 세션 주인 이름 | PRINCIPAL_NAME = 그 앱 계정 테이블(user_account / admin_account)의 login_id | 강제 로그아웃·최근 활동 조회 기준. FindByIndexNameSessionRepository로 조회·삭제(SQL 직접 작성 금지 — Redis 전환 대비). 사용자와 관리자는 같은 아이디를 가질 수 있지만 세션 테이블이 달라 섞이지 않음 |
-| 활동 중 판단 | 최근 활동 시각이 30분 이내(환경변수 ACTIVE_WINDOW, 기본 30m) | 최근 활동 시각 = 그 계정 세션들의 LAST_ACCESS_TIME 중 최댓값, 세션이 없으면 계정 테이블의 last_login_at |
+| 활동 중 판단 | 그 계정 세션들의 LAST_ACCESS_TIME 중 최댓값이 30분 이내(환경변수 ACTIVE_WINDOW, 기본 30m). 세션이 없으면 활동 중이 아님 | 최근 활동 시각 = 그 계정 세션들의 LAST_ACCESS_TIME 중 최댓값, 세션이 없으면 계정 테이블의 last_login_at(표시만 하고 활동 중 판단에는 쓰지 않음). 강제 로그아웃(FNC-A-008)·비활성화(FNC-A-011)로 세션이 지워지면 바로 활동 중이 아님. active 필터도 같은 기준 |
 
 ## 입력값 규칙
 
