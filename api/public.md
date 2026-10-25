@@ -231,7 +231,7 @@
   {"units": [15, 16], "values": {"15": [24개, null 가능]}, "min": 0, "max": 310}
 - **오류 응답**
   400 RANGE_TOO_LONG (기간 1년 초과)
-  400 INVALID_INPUT (시각·item·dayType 형식 오류, to ≤ from. `/stats/series`와 같음)
+  400 INVALID_INPUT (시각·dayType 형식 오류, 허용하지 않는 item, to ≤ from. `/stats/series`와 같음)
   404 REGION_NOT_FOUND (없는 지역)
 - **비고**: FNC-C-011
 

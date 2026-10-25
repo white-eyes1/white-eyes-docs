@@ -242,10 +242,10 @@
 - **처리 순서**
   1. 시간별 통계에서 기간·요일 조건에 맞는 행 조회
   2. 단위별·시간대별 평균 계산(count/density는 sample_sec 가중 평균, inflow/outflow는 시간당 평균 합계)
-  3. {units:[id], hours:0~23, values:{id:[24개]}, min, max} 반환
+  3. {units:[id], values:{id:[24개]}, min, max} 반환
 - **업무 규칙/검증**: 히트맵 색은 혼잡 단계 색과 다른 파랑 계열, min~max로 정규화. 기간 최대 1년
 - **정상 결과**: 화면은 슬라이더·재생 버튼으로 시간대를 넘기며 색을 바꿈(재생 간격 1초)
-- **예외 상황 및 처리**: 데이터 없는 칸은 null(회색) / 기간 1년 초과: 400 RANGE_TOO_LONG / 형식 오류·to ≤ from: 400 INVALID_INPUT / 없는 지역: 404 REGION_NOT_FOUND
+- **예외 상황 및 처리**: 데이터 없는 칸은 null(회색) / 기간 1년 초과: 400 RANGE_TOO_LONG / 형식 오류·허용하지 않는 item·to ≤ from: 400 INVALID_INPUT / 없는 지역: 404 REGION_NOT_FOUND
 - **후속 동작**: 히트맵을 끄면 혼잡 단계 색으로 돌아감
 - **관련 요구사항 ID**: hitm-001~003
 - **완료/검수 기준**: 평일/주말 필터 결과가 다르게 나오는지 확인
