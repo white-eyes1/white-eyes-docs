@@ -211,7 +211,10 @@
   200
   [{"fromZoneId": 15, "toZoneId": 16, "direction": "E", "count": 340}]
   (toZoneId=null: 관측 범위 밖)
-- **오류 응답**: 400 INVALID_RANGE
+- **오류 응답**
+  400 INVALID_RANGE (to ≤ from)
+  400 INVALID_INPUT (시각 형식 오류, 칸별 오류)
+  404 REGION_NOT_FOUND (없는 지역)
 - **비고**: FNC-C-010
 
 ### GET /api/v1/map/heatmap — 시간대별 히트맵
@@ -226,7 +229,10 @@
 - **Response**
   200
   {"units": [15, 16], "values": {"15": [24개, null 가능]}, "min": 0, "max": 310}
-- **오류 응답**: 400 기간 1년 초과
+- **오류 응답**
+  400 RANGE_TOO_LONG (기간 1년 초과)
+  400 INVALID_INPUT (시각·dayType 형식 오류, 허용하지 않는 item, to ≤ from. `/stats/series`와 같음)
+  404 REGION_NOT_FOUND (없는 지역)
 - **비고**: FNC-C-011
 
 ### GET /api/v1/meta/levels — 혼잡 단계 기준
@@ -345,7 +351,9 @@
 - **Response**
   200
   [{"hour": 0, "level": 1, "density": 0.05}, … 24개, 없으면 null]
-- **오류 응답**: -
+- **오류 응답**
+  400 INVALID_INPUT (targetType·targetId·date 형식 오류)
+  404 ZONE_NOT_FOUND / REGION_NOT_FOUND (없는 대상)
 - **비고**: FNC-C-018
 
 ### GET /api/v1/dashboard/trend — 이용량 증감
@@ -360,7 +368,9 @@
 - **Response**
   200
   {"weekRate": 12.5, "monthRate": -3.1, "yearRate": null}
-- **오류 응답**: -
+- **오류 응답**
+  400 INVALID_INPUT (targetType·targetId 형식 오류)
+  404 ZONE_NOT_FOUND / REGION_NOT_FOUND (없는 대상. 삭제된 구역 포함, `/compare`와 같음)
 - **비고**: FNC-C-019
 
 ### GET /api/v1/dashboard/visit-pattern — 방문 패턴
@@ -372,10 +382,14 @@
 - **Request**
   Query
   targetType, targetId, from, to
+  (from·to는 날짜 yyyy-MM-dd, 양끝 포함. 둘 다 비우면 어제까지 28일)
 - **Response**
   200
   {"cells": [{"weekday": 1, "hour": 9, "avgCount": 88.1}], "weekdayAvg": [24개], "weekendAvg": [24개]}
-- **오류 응답**: 400 기간 1년 초과
+- **오류 응답**
+  400 INVALID_RANGE (to < from, 기간 1년 초과)
+  400 INVALID_INPUT (날짜 형식 오류, from·to 중 한쪽만)
+  404 ZONE_NOT_FOUND / REGION_NOT_FOUND (없는 대상. 삭제된 구역 포함, `/compare`와 같음)
 - **비고**: FNC-C-028
 
 ### GET /api/v1/dashboard/peak-hours — 피크 타임 TOP 3
@@ -390,7 +404,9 @@
 - **Response**
   200
   [{"rank": 1, "hour": 18, "avgCount": 240.2}]
-- **오류 응답**: -
+- **오류 응답**
+  400 INVALID_INPUT (targetType·targetId·period 형식 오류)
+  404 ZONE_NOT_FOUND / REGION_NOT_FOUND (없는 대상. 삭제된 구역 포함, `/compare`와 같음)
 - **비고**: FNC-C-029
 
 ## 기간 비교(공통)
