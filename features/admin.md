@@ -790,9 +790,9 @@
 - **처리 순서**
   1. 현재 상태가 expectedStatus와 다르면 거부(다른 관리자가 먼저 처리)
   2. 앞으로만 변경 가능(UNCHECKED→CHECKED/RESOLVED, CHECKED→RESOLVED)
-  3. RESOLVED면 actionCode 필수, OTHER면 actionNote 필수
+  3. RESOLVED면 actionCode 필수, OTHER면 actionNote 필수. RESOLVED가 아니면 actionCode·actionNote를 받지 않음(400)
   4. event.status·action_code·action_note·handled_by·handled_at 저장
-  5. 작업 기록(EVENT_STATUS, detail: {from, to, actionCode, actionNote})
+  5. 작업 기록(EVENT_STATUS, target_name: 구역 이름 + 종류(예: 궁동 1구역 혼잡), detail: {from, to, actionCode, actionNote})
   6. 알림 SSE로 미확인 수 갱신
 - **업무 규칙/검증**: 열려 있는(종료 전) 이벤트도 처리 가능
 - **정상 결과**: 상태 변경

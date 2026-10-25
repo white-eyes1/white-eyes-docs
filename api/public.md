@@ -859,10 +859,10 @@
 - **Request**
   Body
   {"expectedStatus": "UNCHECKED", "status": "RESOLVED", "actionCode": "STAFF", "actionNote": "인력 2명 배치"}
-- **Response**: 200 변경된 이벤트
+- **Response**: 200 변경된 이벤트(`GET /api/v1/events/{id}`와 같은 이벤트 상세)
 - **오류 응답**
-  400 항목 누락
-  409 STATUS_CONFLICT
+  400 항목 누락, 조치완료가 아닌데 조치 항목·메모를 보냄
+  409 STATUS_CONFLICT: 기대 상태와 다름("다른 관리자가 먼저 처리했습니다."), 같은 상태·되돌리기("처리 상태는 앞으로만 바꿀 수 있습니다.")
 - **비고**: FNC-A-038
 
 ### GET /api/v1/events/unchecked-count — 미확인 이벤트 수
