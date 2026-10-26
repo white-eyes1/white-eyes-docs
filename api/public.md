@@ -826,12 +826,12 @@
 - **호출 주체**: 브라우저
 - **Request**
   Query
-  from, to, regionId 또는 zoneId, types(복수), statuses(복수), keyword(캠·구역·지역 이름), page, size
+  from, to, regionId 또는 zoneId, types(복수), statuses(복수), keyword(캠·구역·지역 이름), overlap(선택, 기본 false), page, size
 - **Response**
   200 페이지 응답
   items: [{"id": 101, "type": "CONGESTION", "zoneId": 15, "zoneName": "궁동 1구역", "regionPath": "유성구 · 궁동", "cameraName": "궁동1-캠", "zoneDeleted": false, "startedAt": "…", "endedAt": null, "ongoing": true, "durationSec": 600, "peakLevel": 3, "peakValue": 1.64, "peakCount": 48, "status": "UNCHECKED"}]
 - **오류 응답**: -
-- **비고**: FNC-A-036·047. `cameraName`: 캠 이상만 값(이벤트의 캠 이름), 혼잡·급증은 구역 단위 이벤트라 `camera_id`가 없어 null
+- **비고**: FNC-A-036·047. `cameraName`: 캠 이상만 값(이벤트의 캠 이름), 혼잡·급증은 구역 단위 이벤트라 `camera_id`가 없어 null. `overlap`: false(기본)면 `from`~`to`는 발생 시각(started_at) 기준이고, true면 기간 [from, to)와 겹치는 이벤트(발생이 to 앞이고, 종료가 없거나 from 뒤)를 준다 — 발생이 from 앞이어도 기간 안에서 이어진 이벤트를 포함한다(다시보기 시간축, FNC-A-047). 요약(`/summary`)도 같은 조건. 정렬은 항상 발생 시각 내림차순. 잘못된 값은 400
 
 ### GET /api/v1/events/{id} — 이벤트 상세
 

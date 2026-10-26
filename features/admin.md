@@ -747,9 +747,9 @@
   목적: 이벤트 처리 업무
   구현 위치: admin
 - **사전 조건**: 이벤트 목록 화면(SCR-A-010)
-- **입력 항목**: from, to, regionId 또는 zoneId, types(복수), statuses(복수), keyword, page, size
+- **입력 항목**: from, to, regionId 또는 zoneId, types(복수), statuses(복수), keyword, overlap(선택), page, size
 - **처리 순서**
-  1. 조건으로 조회(지역은 소속 구역 IN), started_at 내림차순. keyword는 캠 이름·구역 이름·소속 구·동 이름 부분 일치
+  1. 조건으로 조회(지역은 소속 구역 IN), started_at 내림차순. 기간은 기본이 발생 시각(started_at)이 from 이상 to 미만이고, overlap=true면 [from, to)와 겹치는 이벤트(발생이 to 앞, 종료가 없거나 from 뒤)로 본다(발생이 from 앞이어도 기간 안에서 이어진 이벤트 포함, 다시보기 시간축). keyword는 캠 이름·구역 이름·소속 구·동 이름 부분 일치
   2. 각 행에 구역 이름(삭제면 '(삭제됨)' 붙임), 구·동 경로, 캠 이름(캠 이상만, 혼잡·급증은 null), 진행 중 여부, 지속 시간 계산
   3. 요약(GET /api/v1/events/summary): 같은 조건(상태 제외)의 처리 상태별 건수
 - **업무 규칙/검증**: 단계·종류별 색: 혼잡=단계 색, 급증=보라, 캠 이상=회색
