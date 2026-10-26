@@ -561,7 +561,10 @@
   Body
   {"name": "…", "email": "…", "phone": "…"}
 - **Response**: 200
-- **오류 응답**: 400 / 404
+- **오류 응답**
+  400 INVALID_INPUT (입력값 오류)
+  400 INVALID_INPUT (최고 관리자 대상 불가)
+  404 NOT_FOUND (없는 관리자)
 - **비고**: FNC-A-010
 
 ### POST /api/v1/admins/{id}/reset-password — 관리자 비밀번호 재설정
@@ -576,7 +579,9 @@
 - **Response**
   200
   {"temporaryPassword": "…"}
-- **오류 응답**: 404
+- **오류 응답**
+  400 INVALID_INPUT (최고 관리자 대상 불가)
+  404 NOT_FOUND (없는 관리자)
 - **비고**: FNC-A-010
 
 ### POST /api/v1/admins/{id}/disable — 관리자 비활성화
