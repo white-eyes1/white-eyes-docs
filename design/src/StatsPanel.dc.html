@@ -112,9 +112,9 @@
   <section class="acc"><div class="acc-h">혼잡한 구역 TOP 5<span class="chip off anno">2단계 · FNC-C-030</span></div>
     <div class="acc-b">
       <sc-for list="{{rank}}" as="r" hint-placeholder-count="5">
-        <div class="row"><b style="width: 16px">{{r.no}}</b><span style="flex: 1">{{r.name}}</span><span class="chip {{r.lv}}">{{r.d}}</span></div>
+        <div class="row"><b style="width: 16px">{{r.no}}</b><span style="flex: 1">{{r.name}}</span><span class="muted">{{r.c}}명</span><span class="chip {{r.lv}}">{{r.d}}</span></div>
       </sc-for>
-      <span class="src anno">GET /map/status?unit=ZONE 를 밀집도 순으로 정렬</span>
+      <span class="src anno">GET /map/status?unit=ZONE 를 밀집도 순으로 정렬. 인원은 countAvg 반올림</span>
     </div>
   </section>
 
@@ -156,9 +156,9 @@ class Component extends DCLogic {
       name, in: i, out: o, inW: Math.round((i / 210) * 100) + '%', outW: Math.round((o / 210) * 100) + '%'
     }));
     const rank = [
-      ['은행선화동 3구역', '1.62', 'l3'], ['은행선화동 2구역', '0.82', 'l2'], ['대흥동 1구역', '0.61', 'l1'],
-      ['목동 1구역', '0.44', 'l1'], ['은행선화동 1구역', '0.03', 'l1']
-    ].map(([name, d, lv], i) => ({ no: i + 1, name, d, lv }));
+      ['은행선화동 3구역', 412, '1.62', 'l3'], ['은행선화동 2구역', 186, '0.82', 'l2'], ['대흥동 1구역', 97, '0.61', 'l1'],
+      ['목동 1구역', 58, '0.44', 'l1'], ['은행선화동 1구역', 54, '0.03', 'l1']
+    ].map(([name, c, d, lv], i) => ({ no: i + 1, name, c, d, lv }));
     return { hourly, pattern, dirs, rank };
   }
 }
