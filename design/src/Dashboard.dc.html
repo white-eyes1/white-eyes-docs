@@ -123,7 +123,7 @@
           </a>
           <svg viewBox="0 0 180 24" preserveAspectRatio="none" style="height: 24px; margin: 8px 12px 0" aria-label="최근 10분 인원"><path d="{{c.spark}}" fill="none" stroke="#76a7ff" stroke-width="1.6"></path></svg>
           <div style="display: flex; justify-content: space-between; padding: 8px 12px; font-size: 11px" class="muted"><span>상태 <span class="chip {{c.stCls}}">{{c.st}}</span></span><span>인원 <b style="color: #edf2f8">{{c.count}}</b></span><span>이벤트 <b style="color: #edf2f8">{{c.ev}}</b></span></div>
-          <footer style="display: flex; gap: 6px; padding: 0 12px 12px"><button class="btn secondary sm" data-api="POST /api/v1/manage/cameras/{id}/stop (STOPPED면 분석 시작: /start)" data-fnc="FNC-A-020·021" style="flex: 1">중단</button></footer>
+          <footer style="display: flex; gap: 6px; padding: 0 12px 12px"><button class="btn secondary sm" data-api="POST /api/v1/manage/cameras/{id}/stop (STOPPED면 가동: /start)" data-fnc="FNC-A-020·021" style="flex: 1">정지</button></footer>
         </article>
       </sc-for>
     </div>
