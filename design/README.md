@@ -28,7 +28,7 @@ screens.md의 화면(SCR-…)마다 모양을 정한 시안이다. **동작·데
 | 공통 틀 | `_common-styleguide.html` | 1 | spring #136 |
 | SCR-A-013 관리자 공통 헤더 | `SCR-A-013-admin-header.html` | 1(배지·토스트 2) | spring #136 |
 | SCR-U-004 사용자 공통 헤더 | `SCR-U-004-user-header.html` | 2 | |
-| SCR-C-001 로그인 | `SCR-C-001-login.html`(관리자 앱, 오류 상태), `SCR-C-001-login-user-app.html`(사용자 앱) | 1·2 | |
+| SCR-C-001 로그인 | `SCR-C-001-login.html`(관리자 앱, 오류 상태), `SCR-C-001-login-user-app.html`(사용자 앱, 가입 완료 안내 상태) | 1·2 | |
 | SCR-C-002 비밀번호 변경(강제) | `SCR-C-002-password-forced.html` | 2 | spring #24 |
 | SCR-C-003 통계 메인 | `SCR-C-003-dashboard.html`(캠 패널 접힘), `SCR-C-003-dashboard-deck-expanded.html`(펼침), `SCR-C-003-stats-panel-all.html`(통계 패널 모두 펼침) | 1 + 2·3 | spring #139, #140 |
 | SCR-C-004 통계 그래프 | `SCR-C-004-graph.html` | 2·3 | |

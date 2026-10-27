@@ -28,6 +28,9 @@
       <div>
         <h2 style="font-size: 22px">{{appName}} 로그인</h2>
       </div>
+      <sc-if value="{{showSignupDone}}" hint-placeholder-val="{{ false }}">
+        <p role="status" style="padding: 10px 12px; border: 1px solid #2f7f64; border-radius: 8px; background: #12281f; color: #63d7ae; font-size: 12px">가입 신청이 완료되었습니다. 관리자 승인 후 이용할 수 있습니다.</p>
+      </sc-if>
       <sc-if value="{{showError}}" hint-placeholder-val="{{ true }}">
         <p role="alert" style="padding: 10px 12px; border: 1px solid #6b2a31; border-radius: 8px; background: #2a151a; color: #ffb3b7; font-size: 12px">아이디 또는 비밀번호가 올바르지 않습니다.</p>
       </sc-if>
@@ -41,12 +44,12 @@
   </section>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"app":{"editor":"enum","options":["관리자 앱","사용자 앱"],"default":"관리자 앱"},"showError":{"editor":"boolean","default":true},"$preview":{"width":1440,"height":900}}'>
+<script type="text/x-dc" data-dc-script data-props='{"app":{"editor":"enum","options":["관리자 앱","사용자 앱"],"default":"관리자 앱"},"showError":{"editor":"boolean","default":true},"showSignupDone":{"editor":"boolean","default":false},"$preview":{"width":1440,"height":900}}'>
 class Component extends DCLogic {
   renderVals() {
     const app = this.props.app ?? '관리자 앱';
     const isUserApp = app === '사용자 앱';
-    return { appName: isUserApp ? 'White Eyes' : 'White Eyes 관리자', isUserApp, showError: this.props.showError ?? true };
+    return { appName: isUserApp ? 'White Eyes' : 'White Eyes 관리자', isUserApp, showError: this.props.showError ?? true, showSignupDone: this.props.showSignupDone ?? false };
   }
 }
 </script>
