@@ -458,7 +458,7 @@
   Body
   {"name": "…", "email": "…", "phone": "…"}
 - **Response**: 200 수정된 사용자(목록 한 줄과 같은 모양)
-- **오류 응답**: 400 검증 실패(fieldErrors), 404 NOT_FOUND
+- **오류 응답**: 400 검증 실패(fieldErrors), 404 NOT_FOUND, 409 INVALID_STATUS(탈퇴 계정)
 - **비고**: FNC-A-004. 보낸 필드만 수정. 메일·연락처는 빈 문자열을 보내면 비움(NULL). 이름은 빈 값·공백만이면 400
 
 ### POST /api/v1/users/{id}/reset-password — 사용자 비밀번호 재설정
@@ -473,7 +473,7 @@
 - **Response**
   200
   {"temporaryPassword": "aB3dE5fG7hJ9"}
-- **오류 응답**: 404 NOT_FOUND
+- **오류 응답**: 404 NOT_FOUND, 409 INVALID_STATUS(탈퇴 계정)
 - **비고**: FNC-A-005. 한 번만 표시
 
 ### POST /api/v1/users/{id}/approve — 사용자 승인
