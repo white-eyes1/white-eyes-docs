@@ -191,8 +191,8 @@
   regionId, unit(CHILD 기본: 바로 아래 단위, 동이면 구역 / ZONE: 대상 아래 모든 구역)
 - **Response**
   200
-  {"unitType": "ZONE", "items": [{"id": 15, "name": "궁동 1구역", "centerLat": 36.3621, "centerLng": 127.3449, "countAvg": 120.4, "density": 0.92, "level": 2, "statAt": "2026-10-12T14:03:00+09:00", "todayEventCount": 1, "ongoingEvent": true}]}
-  (centerLat·centerLng는 ZONE일 때만)
+  {"unitType": "ZONE", "items": [{"id": 15, "name": "궁동 1구역", "regionPath": "유성구 · 궁동", "centerLat": 36.3621, "centerLng": 127.3449, "countAvg": 120.4, "density": 0.92, "level": 2, "statAt": "2026-10-12T14:03:00+09:00", "todayEventCount": 1, "ongoingEvent": true}]}
+  (regionPath·centerLat·centerLng는 ZONE일 때만. regionPath는 구역이 속한 '시·군·구 · 읍·면·동' 이름으로 구역 핀 툴팁에 쓴다)
 - **오류 응답**: 404
 - **비고**: FNC-C-009·030. 5분 안에 통계 없으면 level=null
 
