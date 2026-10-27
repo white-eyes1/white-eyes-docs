@@ -899,7 +899,7 @@
 - **처리 순서**
   1. at < 현재−RECORDING_RETENTION_DAYS(기본 30일) → 404 RECORDING_EXPIRED('보관 기간 지남')
   2. 구역의 캠(삭제 포함) 녹화 중 started_at ≤ at 이고 (ended_at > at 또는 ended_at IS NULL) 인 것 중 started_at이 가장 늦은 것
-  3. 없으면 404 RECORDING_NOT_FOUND('영상 없음')
+  3. 없으면: at이 분 시작 시각(초·밀리초가 0)이면 구역의 캠(삭제 포함) 녹화 중 [at, at+1분) 안에서 시작한 가장 이른 것을 고르고 seekSec=0으로 4번과 같은 형식 반환. 그것도 없거나 at이 분 시작 시각이 아니면 404 RECORDING_NOT_FOUND('영상 없음')
   4. {recordingId, videoUrl, boxesUrl, seekSec=at−started_at, startedAt, endedAt} 반환
   [latest=true]
   5. 구역의 캠(삭제 포함) 녹화 중 started_at이 가장 늦은 것(RECORDING_RETENTION_DAYS 이내, 기본 30일), seekSec=0으로 4번과 같은 형식 반환. 없으면 404 RECORDING_NOT_FOUND
@@ -907,7 +907,7 @@
   6. from ≥ to이거나 to−from이 24시간을 넘으면 400 INVALID_INPUT
   7. 구역의 캠(삭제 포함) 녹화 중 started_at < to 이고 (ended_at > from 또는 ended_at IS NULL) 인 것을 조회(RECORDING_RETENTION_DAYS(기본 30일)를 넘은 부분은 제외)
   8. 캠 구분 없이 합쳐서 겹치거나 2초 이하로 떨어진 구간을 하나로 잇고, [from, to] 범위로 잘라 시간순으로 {ranges: [{from, to}]} 반환(없으면 빈 목록)
-- **업무 규칙/검증**: 파일 경로는 응답에 넣지 않음. ended_at이 빈 녹화는 진행 중인 더미 반복 또는 정지 처리 전 녹화이므로 지금 시각까지로 봄. 구간 조회는 구역이 없어도 404가 아니라 빈 목록
+- **업무 규칙/검증**: 파일 경로는 응답에 넣지 않음. 이벤트 시작 시각·1분 통계 점처럼 분 시작 시각은 그 1분 전체를 뜻하므로, 캠 가동 직후 첫 녹화가 그 1분 안에서 시작했으면 그 녹화의 처음으로 보낸다(3번). 분 중간 시각은 녹화가 없는 구간이라 '영상 없음'을 유지한다. ended_at이 빈 녹화는 진행 중인 더미 반복 또는 정지 처리 전 녹화이므로 지금 시각까지로 봄. 구간 조회는 구역이 없어도 404가 아니라 빈 목록
 - **정상 결과**: 재생 정보(구간 조회는 녹화 구간 목록)
 - **예외 상황 및 처리**: 안내 문구 2종(repfocus-002)
 - **후속 동작**: 플레이어가 영상·좌표 파일 요청
