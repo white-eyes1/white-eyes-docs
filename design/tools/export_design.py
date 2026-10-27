@@ -15,7 +15,7 @@ SCREENS = [
     ("AdminHeader", "SCR-A-013-admin-header", {}, 1440),
     ("UserHeader", "SCR-U-004-user-header", {}, 1440),
     ("Login", "SCR-C-001-login", {}, 1440),
-    ("Login", "SCR-C-001-login-user-app", {"app": "사용자 앱", "showError": False}, 1440),
+    ("Login", "SCR-C-001-login-user-app", {"app": "사용자 앱", "showError": False, "showSignupDone": True}, 1440),
     ("Password", "SCR-C-002-password-forced", {}, 1440),
     ("Dashboard", "SCR-C-003-dashboard", {}, 1440),
     ("DashboardExpanded", "SCR-C-003-dashboard-deck-expanded", {}, 1440),
