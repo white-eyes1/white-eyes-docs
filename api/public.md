@@ -191,7 +191,7 @@
   regionId, unit(CHILD 기본: 바로 아래 단위, 동이면 구역 / ZONE: 대상 아래 모든 구역)
 - **Response**
   200
-  {"unitType": "ZONE", "items": [{"id": 15, "name": "궁동 1구역", "regionPath": "유성구 · 궁동", "centerLat": 36.3621, "centerLng": 127.3449, "countAvg": 120.4, "density": 0.92, "level": 2, "statAt": "2026-10-12T14:03:00+09:00", "todayEventCount": 1, "ongoingEvent": true}]}
+  {"unitType": "ZONE", "items": [{"id": 15, "name": "궁동 1구역", "regionPath": "유성구 · 궁동", "centerLat": 36.3621, "centerLng": 127.3449, "countAvg": 120.4, "currentCount": 118, "density": 0.92, "level": 2, "statAt": "2026-10-12T14:03:00+09:00", "todayEventCount": 1, "ongoingEvent": true}]}
   (regionPath·centerLat·centerLng는 ZONE일 때만. regionPath는 구역이 속한 '시·군·구 · 읍·면·동' 이름으로 구역 핀 툴팁에 쓴다)
 - **오류 응답**: 404
 - **비고**: FNC-C-009·030. 5분 안에 통계 없으면 level=null
@@ -289,7 +289,7 @@
 
 ### GET /api/v1/stats/stream — 실시간 통계 스트림
 
-- **설명**: 새 1분 통계를 SSE로 받음
+- **설명**: 현재 인원(5초마다)과 새 1분 통계를 SSE로 받음
 - **관련 요구사항 ID**: stupdate-001
 - **권한**: 사용자 이상(두 앱)
 - **호출 주체**: 브라우저
@@ -300,8 +300,10 @@
   200 text/event-stream
   event: stat
   data: {"statAt": "…", "items": [{"zoneId": 15, "countAvg": 120.4, "density": 0.92, "level": 2}]}
+  event: now
+  data: {"items": [{"zoneId": 15, "currentCount": 118, "at": "…"}]}
 - **오류 응답**: 401
-- **비고**: FNC-C-022. retry 5000, 30초마다 주석 줄
+- **비고**: FNC-C-022. retry 5000, 30초마다 주석 줄. event: now 는 5초마다, 15초 이내의 신선한 값이 있는 구역만 담는다(없으면 items 비어 있어도 보내지 않음)
 
 ### GET /api/v1/stats/export — 통계 엑셀 다운로드
 
@@ -335,7 +337,7 @@
   targetType, targetId
 - **Response**
   200
-  {"statAt": "…", "countAvg": 120.4, "density": 0.92, "level": 2, "inflow": 21, "outflow": 18, "mainDirection": "E", "todayEventCount": 3, "cameraCount": 16, "runningCameraCount": 4, "todayMaxCount": 247}
+  {"statAt": "…", "countAvg": 120.4, "currentCount": 118, "density": 0.92, "level": 2, "inflow": 21, "outflow": 18, "mainDirection": "E", "todayEventCount": 3, "cameraCount": 16, "runningCameraCount": 4, "todayMaxCount": 247}
 - **오류 응답**: 404
 - **비고**: FNC-C-016·017
 
@@ -738,7 +740,7 @@
 - **호출 주체**: 브라우저
 - **Request**: Query / regionId(선택)
 - **Response**
-  200 / [{"id": 7, "zoneId": 15, "zoneName": "궁동 1구역", "regionPath": "유성구 · 궁동", "areaM2": 2500.0, "name": "궁동1-캠", "sourceType": "DUMMY", "sourceUri": "dummy/videos/a.mp4", "status": "RUNNING", "progress": null, "errorMessage": null, "runRequested": true, "stat": {"statAt": "…", "countAvg": 120.4, "density": 0.92, "level": 2}, "todayEventCount": 1, "recent10m": [{"at": "…", "countAvg": 118.0}, … 최대 10개]}]
+  200 / [{"id": 7, "zoneId": 15, "zoneName": "궁동 1구역", "regionPath": "유성구 · 궁동", "areaM2": 2500.0, "name": "궁동1-캠", "sourceType": "DUMMY", "sourceUri": "dummy/videos/a.mp4", "status": "RUNNING", "progress": null, "errorMessage": null, "runRequested": true, "stat": {"statAt": "…", "countAvg": 120.4, "currentCount": 118, "density": 0.92, "level": 2}, "todayEventCount": 1, "recent10m": [{"at": "…", "countAvg": 118.0}, … 최대 10개]}]
   (stat은 5분 안에 통계가 없으면 null)
 - **오류 응답**: -
 - **비고**: FNC-A-022

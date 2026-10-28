@@ -198,6 +198,19 @@
 
 - **인덱스**: PK(zone_id, stat_at) / (stat_at) — 보관 기간(STAT_MINUTE_RETENTION_DAYS) 정리·전체 구역 조회
 
+## zone_now_count
+
+구역별 현재 인원. 5초마다 구역당 1행을 덮어쓰고 이력은 남기지 않는다(통계 아님).
+
+| 컬럼명 | 키 | 타입 | 길이 | DEFAULT | NOT NULL | COMMENT | 비고 |
+|---|---|---|---|---|---|---|---|
+| zone_id | PK, FK | BIGINT | - | - | Y | 구역(zone.id) | 구역당 1행. 구역 삭제 시 함께 지움 |
+| person_count | - | INT | - | - | Y | 가장 최근 초의 인원 | 화면의 '현재 인원'. 1분 평균(zone_stat_minute.count_avg)과 다른 값 |
+| updated_at | - | DATETIME(3) | - | - | Y | 이 인원이 찍힌 초 시각(KST) | NOW_COUNT_FRESH_SEC(15초)보다 오래되면 쓰지 않고 1분 평균으로 되돌림 |
+
+- **인덱스**: PK(zone_id)
+- **주의**: 1분 통계·이벤트 판정·시간별/일별 집계·엑셀은 이 표를 읽지 않는다. 사용자 앱이 admin 메모리를 읽을 수 없어 DB로 공유한다(FNC-A-054).
+
 ## zone_stat_hourly
 
 구역별 시간별 통계. 매 정시에 1분 통계를 묶어 만들고, 시연용 과거 데이터도 여기에 넣는다.
