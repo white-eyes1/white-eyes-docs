@@ -174,7 +174,7 @@ common/src/main/resources/static/js/
 ├── common/   api.js(fetch·CSRF·오류 처리), sse.js(EventSource 연결·재연결), format.js(날짜·숫자 표시)
 ├── map/      map-view.js 등 Leaflet 코드(이 폴더 밖에서 Leaflet을 직접 쓰지 않음)
 ├── chart/    Chart.js 코드
-└── pages/    두 앱이 함께 쓰는 화면의 진입 파일(dashboard.js, stats-graph.js, compare.js …)
+└── pages/    두 앱이 함께 쓰는 화면의 진입 파일(stats-main.js, stats-graph.js …)
 user/src/main/resources/static/js/user/
 └── pages/    사용자 앱 전용 화면 진입 파일(signup.js …)
 admin/src/main/resources/static/js/admin/

@@ -739,7 +739,7 @@
 - **Request**: Query / regionId(선택)
 - **Response**
   200 / [{"id": 7, "zoneId": 15, "zoneName": "궁동 1구역", "regionPath": "유성구 · 궁동", "areaM2": 2500.0, "name": "궁동1-캠", "sourceType": "DUMMY", "sourceUri": "dummy/videos/a.mp4", "status": "RUNNING", "progress": null, "errorMessage": null, "runRequested": true, "stat": {"statAt": "…", "countAvg": 120.4, "density": 0.92, "level": 2}, "todayEventCount": 1, "recent10m": [{"at": "…", "countAvg": 118.0, "density": 0.88, "level": 2}, … 최대 10개]}]
-  (stat은 5분 안에 통계가 없으면 null. recent10m의 level은 그 분의 밀집도를 FNC-C-025로 판정한 값으로, 같은 분 GET /api/v1/stats/series(1m)의 level과 같다)
+  (stat은 5분 안에 통계가 없으면 null. recent10m은 결과가 들어온 초(sample_sec)가 0인 분을 뺀다(GET /api/v1/stats/series에서 빈 점인 분). recent10m의 level은 그 분의 밀집도를 FNC-C-025로 판정한 값으로, 같은 분 GET /api/v1/stats/series(1m)의 level과 같다)
 - **오류 응답**: -
 - **비고**: FNC-A-022
 

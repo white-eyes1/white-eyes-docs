@@ -267,7 +267,7 @@
   5. 항목 계산: countAvg·countMax·countMin(지역은 같은 시각 소속 구역 값의 합 — 최대·최소의 합은 근사치), density=countAvg합÷면적합, 유입/유출(지역은 내부 이동 제외), dwellAvgSec=Σdwell_sum÷Σdwell_count, sampleSec
   6. 각 점에 isDemo 포함
 - **업무 규칙/검증**: 묶을 때 평균은 sample_sec 가중 평균. sample_sec=0인 구간은 점을 비움(끊김 표시). 지역 유입/유출: 방향 d의 이웃이 지역 안에 있으면 제외
-- **정상 결과**: {items:[{at, countAvg, countMax, countMin, density, level, inflow:{N,E,S,W}, outflow:{...}, dwellAvgSec, sampleSec, isDemo}]}
+- **정상 결과**: {items:[{at, countAvg, countMax, countMin, density, level, inflow:{N,E,S,W}, outflow:{...}, dwellAvgSec, sampleSec, isDemo}]}. 통계 그래프(SCR-C-004)는 이 응답 하나로 통합 그래프와 아래 세 칸(혼잡 단계·인원·유입·유출·방향별)을 그림(결정 0016)
 - **예외 상황 및 처리**: 기간 초과: 400 RANGE_TOO_LONG / 없는 대상: 404(삭제된 구역은 없는 대상이 아님)
 - **후속 동작**: 점 클릭 시 FNC-C-013
 - **관련 요구사항 ID**
@@ -471,7 +471,7 @@
 - **처리 순서**
   1. 시간별·일별 통계 조회 시 is_demo 함께 읽음
   2. 묶은 점에 시연용 행이 하나라도 있으면 isDemo=true
-- **업무 규칙/검증**: 그래프는 시연용 구간을 점선·연한 색으로, 화면 위에 '시연용 데이터 포함' 표시
+- **업무 규칙/검증**: 그래프는 시연용 구간을 옅은 배경으로(점선은 밀집도에만, 결정 0016), 화면 위에 '시연용 데이터 포함' 표시
 - **정상 결과**: -
 - **예외 상황 및 처리**: -
 - **후속 동작**: -
