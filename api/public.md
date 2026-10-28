@@ -424,7 +424,7 @@
   200
   {"cells": [{"weekday": 1, "hour": 9, "targetAvg": 120, "baseAvg": 80, "rate": 50.0, "abnormal": true}], "totalRate": 8.2}
 - **오류 응답**: 400 INVALID_RANGE
-- **비고**: FNC-C-020
+- **비고**: FNC-C-020. 기간 비교 화면(SCR-C-005)은 결정 0016으로 없앴고, 대시보드 '비정상 인원 변동'(SCR-C-003)이 이 API를 쓴다
 
 ## 사용자 관리(관리자 앱)
 
@@ -738,8 +738,8 @@
 - **호출 주체**: 브라우저
 - **Request**: Query / regionId(선택)
 - **Response**
-  200 / [{"id": 7, "zoneId": 15, "zoneName": "궁동 1구역", "regionPath": "유성구 · 궁동", "areaM2": 2500.0, "name": "궁동1-캠", "sourceType": "DUMMY", "sourceUri": "dummy/videos/a.mp4", "status": "RUNNING", "progress": null, "errorMessage": null, "runRequested": true, "stat": {"statAt": "…", "countAvg": 120.4, "density": 0.92, "level": 2}, "todayEventCount": 1, "recent10m": [{"at": "…", "countAvg": 118.0}, … 최대 10개]}]
-  (stat은 5분 안에 통계가 없으면 null)
+  200 / [{"id": 7, "zoneId": 15, "zoneName": "궁동 1구역", "regionPath": "유성구 · 궁동", "areaM2": 2500.0, "name": "궁동1-캠", "sourceType": "DUMMY", "sourceUri": "dummy/videos/a.mp4", "status": "RUNNING", "progress": null, "errorMessage": null, "runRequested": true, "stat": {"statAt": "…", "countAvg": 120.4, "density": 0.92, "level": 2}, "todayEventCount": 1, "recent10m": [{"at": "…", "countAvg": 118.0, "density": 0.88, "level": 2}, … 최대 10개]}]
+  (stat은 5분 안에 통계가 없으면 null. recent10m의 level은 그 분의 밀집도를 FNC-C-025로 판정한 값으로, 같은 분 GET /api/v1/stats/series(1m)의 level과 같다)
 - **오류 응답**: -
 - **비고**: FNC-A-022
 

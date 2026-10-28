@@ -21,7 +21,6 @@ SCREENS = [
     ("DashboardExpanded", "SCR-C-003-dashboard-deck-expanded", {}, 1440),
     ("StatsPanel", "SCR-C-003-stats-panel-all", {}, 420),
     ("Graph", "SCR-C-004-graph", {}, 1440),
-    ("Compare", "SCR-C-005-compare", {}, 1440),
     ("ExcelModal", "SCR-C-006-excel", {}, 560),
     ("Users", "SCR-A-001-users", {}, 1440),
     ("UserDetail", "SCR-A-002-user-detail", {}, 600),

@@ -39,7 +39,7 @@ white-eyes-spring/
 │       │   ├── region/         Region·Zone·ZoneNeighbor 엔티티·리포지토리, 지역·구역 목록(FNC-C-008)
 │       │   ├── camera/         Camera 엔티티·리포지토리(조회용)
 │       │   ├── stat/           ZoneStatMinute·Hourly·Daily 엔티티·리포지토리, 지도 현황·흐름·히트맵,
-│       │   │                   그래프·대시보드·기간 비교, 실시간 통계 SSE, 통계 엑셀, 시연용 표시
+│       │   │                   그래프·대시보드·기간 비교 계산, 실시간 통계 SSE, 통계 엑셀, 시연용 표시
 │       │   │                   (FNC-C-009~014·016·018~020·022~024·028·029)
 │       │   ├── level/          혼잡 단계 판정·/meta/levels(FNC-C-025)
 │       │   ├── event/          Event 엔티티·리포지토리, 오늘 이벤트 수(FNC-C-017)
@@ -51,7 +51,7 @@ white-eyes-spring/
 │       │   ├── util/
 │       │   └── constant/
 │       └── resources/
-│           ├── templates/      공통 화면(통계 메인·그래프·기간 비교·내 정보·로그인 등)
+│           ├── templates/      공통 화면(통계 메인·그래프·내 정보·로그인 등)
 │           ├── static/js/      common/(api·sse·format), map/(Leaflet), chart/(Chart.js), pages/
 │           ├── static/css/
 │           └── log4j2-spring.xml
@@ -132,7 +132,7 @@ admin/.../event/
 | 둔다 | 두지 않는다 |
 |---|---|
 | 두 앱이 함께 읽거나 쓰는 테이블의 엔티티·리포지토리: user_account, region, zone, zone_neighbor, camera, zone_stat_minute·hourly·daily, event, work_history | 관리자 앱만 쓰는 테이블의 엔티티: **admin_account, recording** → admin 모듈 |
-| 두 앱의 공통 화면(통계·대시보드·기간 비교·내 정보·로그인)과 그 API | 한 앱에서만 쓰는 화면·API(가입·탈퇴는 user, 운영 화면은 admin) |
+| 두 앱의 공통 화면(통계·대시보드·내 정보·로그인)과 그 API | 한 앱에서만 쓰는 화면·API(가입·탈퇴는 user, 운영 화면은 admin) |
 | 보안·세션·예외·응답 형식·요청 ID 같은 공통 설정 | 예약 작업(관리자 앱에서만 실행), Flyway 마이그레이션(관리자 앱만) |
 
 - **admin_account를 common에 두지 않는 이유**: 사용자 앱 DB 계정에는 admin_account 권한이 없다(conventions.md 'DB 계정'). 엔티티가 common에 있으면 사용자 앱이 시작할 때 JPA 검증(`ddl-auto=validate`)이 그 테이블을 확인하다 실패한다.

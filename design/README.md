@@ -31,8 +31,8 @@ screens.md의 화면(SCR-…)마다 모양을 정한 시안이다. **동작·데
 | SCR-C-001 로그인 | `SCR-C-001-login.html`(관리자 앱, 오류 상태), `SCR-C-001-login-user-app.html`(사용자 앱, 가입 완료 안내 상태) | 1·2 | |
 | SCR-C-002 비밀번호 변경(강제) | `SCR-C-002-password-forced.html` | 2 | spring #24 |
 | SCR-C-003 통계 메인 | `SCR-C-003-dashboard.html`(캠 패널 접힘), `SCR-C-003-dashboard-deck-expanded.html`(펼침), `SCR-C-003-stats-panel-all.html`(통계 패널 모두 펼침) | 1 + 2·3 | spring #139, #140 |
-| SCR-C-004 통계 그래프 | `SCR-C-004-graph.html` | 2·3 | |
-| SCR-C-005 기간 비교 분석 | `SCR-C-005-compare.html` | 2 | |
+| SCR-C-004 통계 그래프 | `SCR-C-004-graph.html` | 2·3 | 그래프 4칸·색은 결정 0016이 우선(시안 갱신 전) |
+| SCR-C-005 기간 비교 분석 | (삭제, 결정 0016) | - | |
 | SCR-C-006 엑셀 다운로드 창 | `SCR-C-006-excel.html` | 2 | |
 | SCR-U-001 회원가입 | `SCR-U-001-signup.html` | 2 | |
 | SCR-U-002 승인 대기 | `SCR-U-002-pending.html` | 2 | |
@@ -44,7 +44,7 @@ screens.md의 화면(SCR-…)마다 모양을 정한 시안이다. **동작·데
 | SCR-A-005 구역 이웃 설정 창 | `SCR-A-005-zone-neighbors.html` | 2 | |
 | SCR-A-006 캠 관리 | `SCR-A-006-cameras.html` | 1(실시간 보기 2, 수정·삭제 3) | spring #138 |
 | SCR-A-007 캠 등록·수정 창 | `SCR-A-007-camera-form.html`(주소 규칙 오류 상태) | 1(수정 3) | spring #138 |
-| SCR-A-008 실시간 보기 창 | `SCR-A-008-live-view.html` | 2 | |
+| SCR-A-008 실시간 보기 창 | `SCR-A-008-live-view.html` | 2 | 영상 아래 그래프·배치는 결정 0016이 우선(시안 갱신 전) |
 | SCR-A-009 다시보기 | `SCR-A-009-playback.html` | 2 | 통계 시간축(repfocus-005) |
 | SCR-A-010 이벤트 로그 | `SCR-A-010-events.html` | 2 | |
 | SCR-A-011 이벤트 상세 창 | `SCR-A-011-event-detail.html`, `SCR-A-011-action.html`(조치 완료 창) | 2 | |
