@@ -266,7 +266,7 @@
 | ended_at | - | DATETIME | - | NULL | N | 종료 시각. 열려 있으면 NULL | 열린 이벤트 찾기 = 중복 방지(evtdet-004). 지속 시간 = ended_at − started_at |
 | peak_level | - | TINYINT | - | NULL | N | 최고 혼잡 단계(2: 주의, 3: 위험). 혼잡 이벤트만 | “주의” 이상으로 오를 때만 이벤트 생성(evtdet-001). 열려 있는 동안 더 오르면 갱신, 단계별 색상(evt-002) |
 | peak_value | - | DECIMAL | 10,4 | NULL | N | 최고 값: 혼잡은 밀집도(명/㎡), 급증은 증가율(%) | 상세 화면 표시(evt-003) |
-| peak_count | - | INT | - | NULL | N | 이벤트 동안 최고 인원(1분 평균 인원의 최댓값). 캠 이상은 NULL | 이벤트 로그의 인원 표시(SCR-A-010). 혼잡·급증 판정(FNC-A-033·034)에서 최고 값과 함께 갱신 |
+| peak_count | - | INT | - | NULL | N | 이벤트 동안 최고 인원(1분 평균 인원의 최댓값). 캠 이상은 NULL | 이벤트 로그의 인원 표시(SCR-A-010)와 이벤트 엑셀(FNC-A-039). 혼잡·급증 판정(FNC-A-033·034)에서 최고 값과 함께 갱신 |
 | below_since | - | DATETIME | - | NULL | N | 기준 아래로 내려간 시각(혼잡: 단계가 '주의' 미만, 급증: 증가율이 기준 미만이거나 검사 조건 미충족). 다시 넘으면 NULL | 이 상태가 일정 시간(예: 5분) 유지되면 닫음(evtdet-005) |
 | threshold_snapshot | - | JSON | - | - | Y | 발생 당시 기준값(혼잡: 단계 경계 밀도, 급증: 비교 시간·증가율·최소 밀집도, 캠 이상: 결과 없음 허용 시간). 설정 파일 값 | 설정을 바꿔 재배포해도 지난 이벤트를 당시 기준으로 해석(evtdet-006) |
 | status | - | VARCHAR | 20 | UNCHECKED | Y | 처리 상태: UNCHECKED(미확인) / CHECKED(확인 중) / RESOLVED(조치완료) | 처리 상태 필터, 미확인 배지 수(evt-005·006) |
