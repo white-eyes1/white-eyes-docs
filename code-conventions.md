@@ -68,6 +68,7 @@
 | 화면(Thymeleaf) 컨트롤러 | `PageController` | `EventPageController` |
 | REST API 컨트롤러 | `ApiController` | `EventApiController` |
 | 내부 API(8082) 컨트롤러 | `InternalController` | `CameraInternalController` |
+| SSE(`SseEmitter`) 컨트롤러 | `StreamController` | `NotificationStreamController` |
 | 서비스 | `Service` | `EventService` |
 | JPA 리포지토리 | `Repository` | `EventRepository` |
 | 외부 호출 클라이언트 | `Client` | `AnalyzerClient` |
@@ -76,12 +77,16 @@
 | 응답 DTO | `Response` | `CameraResponse` |
 | 예외 | `Exception` | `ZoneNotFoundException` |
 
+- 본문 없이 헤더만 돌려주는 파일 전송(`X-Accel-Redirect`)처럼 응답 모양이 달라도 `/api/**` 경로를 맡으면 `ApiController`다. 예: `RecordingFileApiController`.
+
 ### 3-3. 작성 규칙
 - 중괄호는 선언문과 같은 줄에 쓴다. 한 줄짜리 `if`에도 중괄호를 쓴다.
-- 의존성은 생성자 주입 + `private final` 필드로 받는다. 필드 주입(`@Autowired` 필드)은 쓰지 않는다.
+- 의존성은 생성자 주입으로 받는다. 생성자는 Lombok `@RequiredArgsConstructor`로 만들고, 스프링 빈의 인스턴스 필드는 모두 `private final`로 둔다(`final`이 빠진 필드는 생성자에 들어가지 않아 주입되지 않고, 실행 중에 NPE가 난다). 필드 주입(`@Autowired` 필드)은 쓰지 않는다. 생성자를 직접 쓰는 경우는 3-6의 예외뿐이다.
 - 값이 바뀌지 않는 지역 변수·필드는 `final`을 고려한다.
 - DTO는 Java `record`를 기본으로 한다. 엔티티는 `record`로 만들지 않는다.
 - 엔티티에 public setter를 열지 않는다. 상태 변경은 의미 있는 메서드로: `camera.start()`, `event.resolve(actionCode, note, adminId)`.
+  - 함께 바뀌어야 하는 값(예: 처리 상태·처리자·처리 시각)을 한 메서드에서만 바꾸게 해서 일부만 바뀐 데이터가 저장되지 않게 한다. JPA는 트랜잭션 안에서 바뀐 값을 자동으로 UPDATE하므로, 값을 바꾸는 곳이 메서드 이름으로 모여 있어야 찾을 수 있다.
+  - 수정 화면처럼 여러 필드를 바꾸는 경우도 setter 대신 `zone.update(name, …)` 같은 메서드 하나로 바꾼다. 테스트 데이터는 생성자·정적 팩토리로 만든다.
 - 날짜·시각은 `java.time`을 쓴다. 저장은 `LocalDateTime`(KST), API 응답은 `OffsetDateTime`(+09:00)으로 바꿔 내보낸다(conventions.md '시각 형식').
 - `Optional`은 반환값에만 쓴다(필드·매개변수에 쓰지 않음).
 - 문자열 비교는 `"RUNNING".equals(status)`처럼 상수 쪽에서 하거나 Enum으로 비교한다.
@@ -93,6 +98,24 @@ Package → Import → 클래스 선언 → 상수 → 필드 → 생성자 → 
 ### 3-5. JavaDoc
 - 다른 모듈에서 쓰는 public 클래스·메서드(특히 common 모듈)에 쓴다. 단순 getter·private 메서드에는 쓰지 않는다.
 
+### 3-6. Lombok
+아래 표의 어노테이션만 쓴다. 표에 없는 Lombok 어노테이션은 쓰지 않는다(decisions/0017).
+
+| 어노테이션 | 쓰는 곳 |
+|---|---|
+| `@RequiredArgsConstructor` | 스프링 빈(컨트롤러·서비스·클라이언트·스케줄러 등)의 생성자 주입(3-3) |
+| `@Slf4j` | 로거(7-1) |
+| `@Getter` | 엔티티. DTO는 record라 쓰지 않는다 |
+| `@NoArgsConstructor(access = AccessLevel.PROTECTED)` | 엔티티(JPA용 기본 생성자) |
+| `@EqualsAndHashCode`, `@AllArgsConstructor` | 복합키 ID 클래스(`@Embeddable`·`@IdClass`)만 |
+
+- 쓰지 않는 것: `@Setter`·`@Data`(엔티티 setter 금지와 충돌), Lombok `@Value`(DTO는 record), `@Builder`, 복합키 ID 클래스 밖의 `@AllArgsConstructor`, `@Log4j2`·`@Log4j`·`@Log`(7-1), 엔티티의 `@ToString`·`@EqualsAndHashCode`.
+  - 엔티티의 `@ToString`은 연관 필드를 지연 로딩하거나 서로를 계속 불러 무한 재귀가 되고, 비밀번호 해시 같은 값을 로그에 남긴다(7-4).
+  - 엔티티의 `@EqualsAndHashCode`는 모든 필드로 비교하므로 저장 전후로 id가 바뀌면 `HashSet` 등에서 찾지 못한다.
+- 스프링의 `@Value("${…}")`(설정값 주입)는 Lombok `@Value`와 다른 어노테이션이라 이 금지와 상관없다.
+- 생성자를 직접 쓰는 예외: 생성자 매개변수에 `@Value("${…}")`·`@Qualifier`를 붙여야 할 때, 생성자 안에 로직이 있을 때.
+- 이 표는 white-eyes-spring 루트의 `lombok.config`(`lombok.*.flagUsage = error`)로 빌드에서 막는다. `lombok.config`로 막을 수 없는 것(엔티티의 `@ToString`·`@EqualsAndHashCode`, 빈 필드의 `final`)은 아키텍처 테스트로 확인한다. 도입 전까지는 리뷰에서 확인한다.
+
 ## 4. Python 규칙 (white-eyes-flask)
 
 ### 4-1. 기준·도구
@@ -102,7 +125,7 @@ Package → Import → 클래스 선언 → 상수 → 필드 → 생성자 → 
 
 ### 4-2. 이름
 - 변수·함수·모듈·패키지: snake_case / 클래스·Enum: PascalCase / 상수: UPPER_SNAKE_CASE.
-- 모듈 파일 이름은 `{도메인}_{역할}.py`: `camera_controller.py`, `camera_service.py`, `admin_client.py`.
+- 계층 파일(controller·service·client)은 `{도메인}_{역할}.py`: `camera_controller.py`, `camera_service.py`, `admin_client.py`. 그 밖의 모듈은 역할이 드러나는 snake_case 이름으로 쓴다: `detector.py`, `recorder.py`, `result_queue.py`.
 - 모듈 안에서만 쓰는 함수·변수는 이름 앞에 `_`를 붙인다.
 
 ### 4-3. 작성 규칙
@@ -128,7 +151,7 @@ Package → Import → 클래스 선언 → 상수 → 필드 → 생성자 → 
 - `var`를 쓰지 않는다. 기본은 `const`, 다시 대입할 때만 `let`.
 - 비교는 `===`·`!==`.
 - 비동기는 `async`/`await` + `fetch`. 콜백을 겹쳐 쓰지 않는다.
-- API 호출은 공용 모듈 `common/api.js` 한 곳을 거친다. 이 모듈이 CSRF 헤더(`X-CSRF-TOKEN`, conventions.md 'CSRF') 추가, JSON 변환, 오류 응답(`code`·`message`·`fieldErrors`) 처리, 401 시 로그인 화면 이동을 맡는다.
+- 서버 호출은 공용 모듈 `common/api.js` 한 곳을 거친다. JSON API뿐 아니라 좌표 파일·이미지 같은 파일 응답도 api.js의 함수로 받고, 직접 `fetch`하지 않는다(직접 부르면 세션이 끝났을 때 로그인 화면으로 가지 않고 조용히 실패한다). 이 모듈이 CSRF 헤더(`X-CSRF-TOKEN`, conventions.md 'CSRF') 추가, JSON 변환, 오류 응답(`code`·`message`·`fieldErrors`) 처리, 401 시 로그인 화면 이동을 맡는다.
 - 서버에서 받은 값을 화면에 넣을 때는 `textContent`를 쓴다. `innerHTML`에 서버 값이나 사용자 입력을 넣지 않는다(XSS).
 - 템플릿에 인라인 이벤트 속성(`onclick="..."`)을 쓰지 않는다. JS에서 `addEventListener`로 연결한다.
 - Leaflet 코드는 지도 모듈(`map/`)에만 둔다(overview.md '화면 라이브러리'). 그래프(Chart.js)도 `chart/` 모듈에만 둔다.
@@ -147,7 +170,8 @@ Package → Import → 클래스 선언 → 상수 → 필드 → 생성자 → 
 
 ### 7-1. Spring(Java)
 - 의존성: 모든 모듈에서 `spring-boot-starter-logging`(Logback)을 빼고 `spring-boot-starter-log4j2`를 넣는다. Log4j2 버전은 Spring Boot가 관리하는 버전을 그대로 쓴다(직접 올리거나 내리지 않음).
-- 코드에서는 SLF4J API로 쓴다: `private static final Logger log = LoggerFactory.getLogger(EventService.class);` — 실제 출력은 Log4j2가 한다. `org.apache.logging.log4j` 클래스를 코드에서 직접 import하지 않는다.
+- 로거는 Lombok `@Slf4j`로 만든다(필드 이름 `log`). `LoggerFactory.getLogger(...)`로 직접 선언하지 않는다. `@Slf4j`가 만드는 로거는 SLF4J API이고, 실제 출력은 Log4j2가 한다.
+- `org.apache.logging.log4j` 클래스를 코드에서 직접 import하지 않는다. Lombok `@Log4j2`도 Log4j2 API를 직접 쓰게 되므로 쓰지 않는다.
 - 설정 파일: `common/src/main/resources/log4j2-spring.xml` 한 벌을 두 앱이 함께 쓴다. 앱 이름은 `${spring:spring.application.name}`(`white-eyes-user` / `white-eyes-admin`)으로 넣는다.
 - 레벨: 프로젝트 패키지(`com.whiteeyes`)는 환경변수 `LOG_LEVEL`(local·dev `DEBUG`, prod `INFO`), 그 밖의 라이브러리는 `WARN`(Hibernate SQL은 local에서만 `DEBUG`).
 
