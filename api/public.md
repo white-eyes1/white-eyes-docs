@@ -313,12 +313,12 @@
 - **호출 주체**: 브라우저
 - **Request**
   Query
-  scope(ZONE/REGION/ALL), targetId, from, to, interval, items(복수), expand(true: 구역별 펼침)
+  scope(ZONE/REGION/ALL), targetId, from, to, interval, items(복수), sum(지역일 때만. true: 지역 합산 한 줄, 기본 false=소속 구역별 행)
 - **Response**
   200 application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
   Content-Disposition: attachment; filename*=UTF-8''stats_….xlsx
 - **오류 응답**: 400 RANGE_TOO_LONG / TOO_MANY_ROWS / INVALID_INPUT(항목 없음), 404 ZONE_NOT_FOUND / REGION_NOT_FOUND(없는 대상)
-- **비고**: FNC-C-023. 작업 기록 저장
+- **비고**: FNC-C-023. 작업 기록 저장. 지역은 기본 구역별 행이라 구역 수가 많으면 TOO_MANY_ROWS가 날 수 있다
 
 ## 대시보드(공통)
 
