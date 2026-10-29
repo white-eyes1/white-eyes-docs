@@ -198,19 +198,6 @@
 
 - **인덱스**: PK(zone_id, stat_at) / (stat_at) — 보관 기간(STAT_MINUTE_RETENTION_DAYS) 정리·전체 구역 조회
 
-## zone_now_count
-
-구역별 현재 인원. 5초마다 구역당 1행을 덮어쓰고 이력은 남기지 않는다(통계 아님).
-
-| 컬럼명 | 키 | 타입 | 길이 | DEFAULT | NOT NULL | COMMENT | 비고 |
-|---|---|---|---|---|---|---|---|
-| zone_id | PK, FK | BIGINT | - | - | Y | 구역(zone.id) | 구역당 1행. 구역 삭제 시 함께 지움 |
-| person_count | - | INT | - | - | Y | 가장 최근 초의 인원 | 화면의 '현재 인원'. 1분 평균(zone_stat_minute.count_avg)과 다른 값 |
-| updated_at | - | DATETIME(3) | - | - | Y | 이 인원이 찍힌 초 시각(KST) | NOW_COUNT_FRESH_SEC(15초)보다 오래되면 쓰지 않고 1분 평균으로 되돌림 |
-
-- **인덱스**: PK(zone_id)
-- **주의**: 1분 통계·이벤트 판정·시간별/일별 집계·엑셀은 이 표를 읽지 않는다. 사용자 앱이 admin 메모리를 읽을 수 없어 DB로 공유한다(FNC-A-054).
-
 ## zone_stat_hourly
 
 구역별 시간별 통계. 매 정시에 1분 통계를 묶어 만들고, 시연용 과거 데이터도 여기에 넣는다.
@@ -279,7 +266,7 @@
 | ended_at | - | DATETIME | - | NULL | N | 종료 시각. 열려 있으면 NULL | 열린 이벤트 찾기 = 중복 방지(evtdet-004). 지속 시간 = ended_at − started_at |
 | peak_level | - | TINYINT | - | NULL | N | 최고 혼잡 단계(2: 주의, 3: 위험). 혼잡 이벤트만 | “주의” 이상으로 오를 때만 이벤트 생성(evtdet-001). 열려 있는 동안 더 오르면 갱신, 단계별 색상(evt-002) |
 | peak_value | - | DECIMAL | 10,4 | NULL | N | 최고 값: 혼잡은 밀집도(명/㎡), 급증은 증가율(%) | 상세 화면 표시(evt-003) |
-| peak_count | - | INT | - | NULL | N | 이벤트 동안 최고 인원(1분 평균 인원의 최댓값). 캠 이상은 NULL | 이벤트 로그의 인원 표시(SCR-A-010). 혼잡·급증 판정(FNC-A-033·034)에서 최고 값과 함께 갱신 |
+| peak_count | - | INT | - | NULL | N | 이벤트 동안 최고 인원(1분 평균 인원의 최댓값). 캠 이상은 NULL | 이벤트 로그의 인원 표시(SCR-A-010)와 이벤트 엑셀(FNC-A-039). 혼잡·급증 판정(FNC-A-033·034)에서 최고 값과 함께 갱신 |
 | below_since | - | DATETIME | - | NULL | N | 기준 아래로 내려간 시각(혼잡: 단계가 '주의' 미만, 급증: 증가율이 기준 미만이거나 검사 조건 미충족). 다시 넘으면 NULL | 이 상태가 일정 시간(예: 5분) 유지되면 닫음(evtdet-005) |
 | threshold_snapshot | - | JSON | - | - | Y | 발생 당시 기준값(혼잡: 단계 경계 밀도, 급증: 비교 시간·증가율·최소 밀집도, 캠 이상: 결과 없음 허용 시간). 설정 파일 값 | 설정을 바꿔 재배포해도 지난 이벤트를 당시 기준으로 해석(evtdet-006) |
 | status | - | VARCHAR | 20 | UNCHECKED | Y | 처리 상태: UNCHECKED(미확인) / CHECKED(확인 중) / RESOLVED(조치완료) | 처리 상태 필터, 미확인 배지 수(evt-005·006) |

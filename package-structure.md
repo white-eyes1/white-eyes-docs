@@ -39,7 +39,7 @@ white-eyes-spring/
 │       │   ├── region/         Region·Zone·ZoneNeighbor 엔티티·리포지토리, 지역·구역 목록(FNC-C-008)
 │       │   ├── camera/         Camera 엔티티·리포지토리(조회용)
 │       │   ├── stat/           ZoneStatMinute·Hourly·Daily 엔티티·리포지토리, 지도 현황·흐름·히트맵,
-│       │   │                   그래프·대시보드·기간 비교, 실시간 통계 SSE, 통계 엑셀, 시연용 표시
+│       │   │                   그래프·대시보드·기간 비교 계산, 실시간 통계 SSE, 통계 엑셀, 시연용 표시
 │       │   │                   (FNC-C-009~014·016·018~020·022~024·028·029)
 │       │   ├── level/          혼잡 단계 판정·/meta/levels(FNC-C-025)
 │       │   ├── event/          Event 엔티티·리포지토리, 오늘 이벤트 수(FNC-C-017)
@@ -51,7 +51,7 @@ white-eyes-spring/
 │       │   ├── util/
 │       │   └── constant/
 │       └── resources/
-│           ├── templates/      공통 화면(통계 메인·그래프·기간 비교·내 정보·로그인 등)
+│           ├── templates/      공통 화면(통계 메인·그래프·내 정보·로그인 등)
 │           ├── static/js/      common/(api·sse·format), map/(Leaflet), chart/(Chart.js), pages/
 │           ├── static/css/
 │           └── log4j2-spring.xml
@@ -132,7 +132,7 @@ admin/.../event/
 | 둔다 | 두지 않는다 |
 |---|---|
 | 두 앱이 함께 읽거나 쓰는 테이블의 엔티티·리포지토리: user_account, region, zone, zone_neighbor, camera, zone_stat_minute·hourly·daily, event, work_history | 관리자 앱만 쓰는 테이블의 엔티티: **admin_account, recording** → admin 모듈 |
-| 두 앱의 공통 화면(통계·대시보드·기간 비교·내 정보·로그인)과 그 API | 한 앱에서만 쓰는 화면·API(가입·탈퇴는 user, 운영 화면은 admin) |
+| 두 앱의 공통 화면(통계·대시보드·내 정보·로그인)과 그 API | 한 앱에서만 쓰는 화면·API(가입·탈퇴는 user, 운영 화면은 admin) |
 | 보안·세션·예외·응답 형식·요청 ID 같은 공통 설정 | 예약 작업(관리자 앱에서만 실행), Flyway 마이그레이션(관리자 앱만) |
 
 - **admin_account를 common에 두지 않는 이유**: 사용자 앱 DB 계정에는 admin_account 권한이 없다(conventions.md 'DB 계정'). 엔티티가 common에 있으면 사용자 앱이 시작할 때 JPA 검증(`ddl-auto=validate`)이 그 테이블을 확인하다 실패한다.
@@ -142,30 +142,29 @@ admin/.../event/
 ## 5. white-eyes-flask 저장소 구조
 ```
 white-eyes-flask/
-├── pyproject.toml                  Black·isort 설정, 의존성
+├── pyproject.toml                  의존성, Black·isort 설정
 ├── .editorconfig
-├── analyzer/
-│   ├── __init__.py                 create_app(): 설정·로깅·Blueprint 등록, 시작 시 재가동 복구(FNC-S-012)
+├── src/white_eyes_flask/
+│   ├── __init__.py                 main(): `uv run white-eyes-flask` 진입점
+│   ├── app.py                      create_app(): 설정·로깅·Blueprint 등록, 상태 확인 `/analyzer/v1/health`(FNC-S-013), 재가동 복구 연결(FNC-S-012)
 │   ├── config.py                   환경변수 읽기(conventions.md '설정값')
-│   ├── common/                     내부 토큰 검사, 오류 응답, 로깅 설정(요청 ID 필터), 시각·경로 유틸
+│   ├── logging_setup.py            로깅 설정(요청 ID 필터, 7-5)
+│   ├── common/                     오류 응답
 │   ├── camera/                     camera_controller.py(/analyzer/v1/cameras/*), camera_service.py(캠 작업 시작·정지·상태),
-│   │                               camera_job.py(캠마다 스레드 1개)(FNC-S-001·002·012)
+│   │                               camera_job.py(캠마다 스레드 1개), 더미 영상 준비·재생(FNC-S-001·002·009·010),
+│   │                               admin_client.py(관리자 앱 내부 API 호출: 결과 전송·상태 보고·녹화 등록·재가동 복구, FNC-S-006·010·012)
 │   ├── analysis/                   detector.py(YOLO-CROWD), aerial_detector.py(VisDrone YOLOv8m), boxes.py(박스 정리·합치기),
 │   │                               point_tracker.py, tracker.py(캠 추적기), edge_counter.py(유입/유출·체류 시간 계산)(FNC-S-003~005)
 │   ├── live/                       RTSP 읽기·재연결(FNC-S-007)
-│   ├── recording/                  1분 파일 녹화(ffmpeg)·좌표 파일·녹화 등록(FNC-S-008)
-│   ├── dummy/                      분석 준비(캐시 생성)·재생·반복 등록(FNC-S-009·010)
-│   ├── stream/                     MJPEG·스냅샷(FNC-S-011)
-│   ├── report/                     admin_client.py(관리자 앱 내부 API 호출), 1초 결과 전송·재전송 버퍼(FNC-S-006)
-│   └── health/                     상태 확인(FNC-S-013)
+│   ├── recording/                  1분 파일 녹화(ffmpeg)·좌표 파일(FNC-S-008)
+│   └── stream/                     MJPEG·스냅샷(FNC-S-011)
 ├── vendor/yolo_crowd/              YOLO-CROWD 모델 코드(DETECTOR=yolo-crowd일 때만 쓰는 외부 코드, 수정 금지)
 ├── ops/                            녹화 파일 정리·DB 백업 스크립트(FNC-S-014·015, 분석 서버 앱과 따로 실행)
-├── tests/                          analyzer/와 같은 도메인 구조
-└── run.py
+└── tests/                          test_{대상}.py
 ```
 - 가중치 파일(`visdrone-yolov8m.pt`, `yolo-crowd.pt`)·더미 영상·캐시는 저장소에 올리지 않는다. 경로는 환경변수(`YOLO_WEIGHTS`)와 공유 폴더 규칙(conventions.md '공유 폴더 구조')을 따른다.
-- 도메인 안 파일 이름은 `{도메인}_{역할}.py`를 기본으로 한다. 계층이 하나뿐인 작은 도메인(health 등)은 파일 하나로 둔다.
-- 계층 규칙은 3-1·3-2와 같다: controller(Blueprint 라우트)는 요청 검증과 service 호출만, 관리자 앱 호출은 `report/admin_client.py` 한 곳.
+- 파일 이름은 code-conventions.md 4-2를 따른다: 계층 파일(controller·service·client)은 `{도메인}_{역할}.py`, 그 밖의 모듈은 역할이 드러나는 snake_case 이름.
+- 계층 규칙은 3-1·3-2와 같다: controller(Blueprint 라우트)는 요청 검증과 service 호출만 한다. 관리자 앱 호출(주소·`X-Internal-Token` 헤더·시간 제한)은 `camera/admin_client.py` 한 곳에서 하고, 다른 모듈은 이 모듈의 함수를 부른다.
 - 다른 도메인은 그 도메인 service의 공개 함수로만 부른다(`_`로 시작하는 함수·모듈 내부 상태를 가져다 쓰지 않는다).
 
 ## 6. 화면 정적 파일(JS)
@@ -174,7 +173,7 @@ common/src/main/resources/static/js/
 ├── common/   api.js(fetch·CSRF·오류 처리), sse.js(EventSource 연결·재연결), format.js(날짜·숫자 표시)
 ├── map/      map-view.js 등 Leaflet 코드(이 폴더 밖에서 Leaflet을 직접 쓰지 않음)
 ├── chart/    Chart.js 코드
-└── pages/    두 앱이 함께 쓰는 화면의 진입 파일(dashboard.js, stats-graph.js, compare.js …)
+└── pages/    두 앱이 함께 쓰는 화면의 진입 파일(stats-main.js, stats-graph.js …)
 user/src/main/resources/static/js/user/
 └── pages/    사용자 앱 전용 화면 진입 파일(signup.js …)
 admin/src/main/resources/static/js/admin/

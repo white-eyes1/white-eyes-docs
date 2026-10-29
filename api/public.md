@@ -194,7 +194,7 @@
   {"unitType": "ZONE", "items": [{"id": 15, "name": "궁동 1구역", "regionPath": "유성구 · 궁동", "centerLat": 36.3621, "centerLng": 127.3449, "countAvg": 120.4, "currentCount": 118, "density": 0.92, "level": 2, "statAt": "2026-10-12T14:03:00+09:00", "todayEventCount": 1, "ongoingEvent": true}]}
   (regionPath·centerLat·centerLng는 ZONE일 때만. regionPath는 구역이 속한 '시·군·구 · 읍·면·동' 이름으로 구역 핀 툴팁에 쓴다)
 - **오류 응답**: 404
-- **비고**: FNC-C-009·030. 5분 안에 통계 없으면 level=null
+- **비고**: FNC-C-009·030. 5분 안에 통계 없으면 level=null. currentCount(5초마다 갱신되는 그 시점 인원, 지역이면 신선한 구역의 합)는 관리자 앱에서만 채운다. 15초 안의 값이 없거나 사용자 앱이면 null이고 화면은 countAvg를 쓴다(결정 0018)
 
 ### GET /api/v1/map/flows — 이동 흐름
 
@@ -289,7 +289,7 @@
 
 ### GET /api/v1/stats/stream — 실시간 통계 스트림
 
-- **설명**: 현재 인원(5초마다)과 새 1분 통계를 SSE로 받음
+- **설명**: 새 1분 통계를 SSE로 받음. 관리자 앱은 현재 인원도 5초마다 받음
 - **관련 요구사항 ID**: stupdate-001
 - **권한**: 사용자 이상(두 앱)
 - **호출 주체**: 브라우저
@@ -303,7 +303,7 @@
   event: now
   data: {"items": [{"zoneId": 15, "currentCount": 118, "at": "…"}]}
 - **오류 응답**: 401
-- **비고**: FNC-C-022. retry 5000, 30초마다 주석 줄. event: now 는 5초마다, 15초 이내의 신선한 값이 있는 구역만 담는다(없으면 items 비어 있어도 보내지 않음)
+- **비고**: FNC-C-022. retry 5000, 30초마다 주석 줄. event: now 는 관리자 앱에만 있다(사용자 앱은 보내지 않음, 결정 0018). 5초마다, 15초 이내의 신선한 값이 있는 구역만 담는다(없으면 items 비어 있어도 보내지 않음)
 
 ### GET /api/v1/stats/export — 통계 엑셀 다운로드
 
@@ -315,12 +315,12 @@
 - **호출 주체**: 브라우저
 - **Request**
   Query
-  scope(ZONE/REGION/ALL), targetId, from, to, interval, items(복수), expand(true: 구역별 펼침)
+  scope(ZONE/REGION/ALL), targetId, from, to, interval, items(복수), sum(지역일 때만. true: 지역 합산 한 줄, 기본 false=소속 구역별 행)
 - **Response**
   200 application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
   Content-Disposition: attachment; filename*=UTF-8''stats_….xlsx
 - **오류 응답**: 400 RANGE_TOO_LONG / TOO_MANY_ROWS / INVALID_INPUT(항목 없음), 404 ZONE_NOT_FOUND / REGION_NOT_FOUND(없는 대상)
-- **비고**: FNC-C-023. 작업 기록 저장
+- **비고**: FNC-C-023. 작업 기록 저장. 지역은 기본 구역별 행이라 구역 수가 많으면 TOO_MANY_ROWS가 날 수 있다
 
 ## 대시보드(공통)
 
@@ -339,7 +339,7 @@
   200
   {"statAt": "…", "countAvg": 120.4, "currentCount": 118, "density": 0.92, "level": 2, "inflow": 21, "outflow": 18, "mainDirection": "E", "todayEventCount": 3, "cameraCount": 16, "runningCameraCount": 4, "todayMaxCount": 247}
 - **오류 응답**: 404
-- **비고**: FNC-C-016·017
+- **비고**: FNC-C-016·017. currentCount는 관리자 앱에서만 채운다(15초 안의 값이 없거나 사용자 앱이면 null, 결정 0018)
 
 ### GET /api/v1/dashboard/hourly-levels — 시간대별 혼잡 단계
 
@@ -426,7 +426,7 @@
   200
   {"cells": [{"weekday": 1, "hour": 9, "targetAvg": 120, "baseAvg": 80, "rate": 50.0, "abnormal": true}], "totalRate": 8.2}
 - **오류 응답**: 400 INVALID_RANGE
-- **비고**: FNC-C-020
+- **비고**: FNC-C-020. 기간 비교 화면(SCR-C-005)은 결정 0016으로 없앴고, 대시보드 '비정상 인원 변동'(SCR-C-003)이 이 API를 쓴다
 
 ## 사용자 관리(관리자 앱)
 
@@ -740,8 +740,8 @@
 - **호출 주체**: 브라우저
 - **Request**: Query / regionId(선택)
 - **Response**
-  200 / [{"id": 7, "zoneId": 15, "zoneName": "궁동 1구역", "regionPath": "유성구 · 궁동", "areaM2": 2500.0, "name": "궁동1-캠", "sourceType": "DUMMY", "sourceUri": "dummy/videos/a.mp4", "status": "RUNNING", "progress": null, "errorMessage": null, "runRequested": true, "stat": {"statAt": "…", "countAvg": 120.4, "currentCount": 118, "density": 0.92, "level": 2}, "todayEventCount": 1, "recent10m": [{"at": "…", "countAvg": 118.0}, … 최대 10개]}]
-  (stat은 5분 안에 통계가 없으면 null)
+  200 / [{"id": 7, "zoneId": 15, "zoneName": "궁동 1구역", "regionPath": "유성구 · 궁동", "areaM2": 2500.0, "name": "궁동1-캠", "sourceType": "DUMMY", "sourceUri": "dummy/videos/a.mp4", "status": "RUNNING", "progress": null, "errorMessage": null, "runRequested": true, "stat": {"statAt": "…", "countAvg": 120.4, "currentCount": 118, "density": 0.92, "level": 2}, "todayEventCount": 1, "recent10m": [{"at": "…", "countAvg": 118.0, "density": 0.88, "level": 2}, … 최대 10개]}]
+  (stat은 5분 안에 통계가 없으면 null. recent10m은 결과가 들어온 초(sample_sec)가 0인 분을 뺀다(GET /api/v1/stats/series에서 빈 점인 분). recent10m의 level은 그 분의 밀집도를 FNC-C-025로 판정한 값으로, 같은 분 GET /api/v1/stats/series(1m)의 level과 같다. stat.currentCount는 5초마다 갱신되는 그 시점 인원으로, 관리자 앱 API에만 있다. 15초 안의 값이 없으면 null이고 그때 화면은 countAvg를 쓴다. stat이 null이면 목록에는 값이 없고 통계 SSE event: now 가 채운다)
 - **오류 응답**: -
 - **비고**: FNC-A-022
 
@@ -959,7 +959,7 @@
 - **Response**
   200
   {"ranges": [{"from": "…", "to": "…"}]}
-  (구간은 시간순, 서로 겹치거나 2초 이하로 떨어진 것은 하나로 합침. 요청 범위를 벗어난 부분은 자름. 녹화가 없으면 빈 목록)
+  (구간은 시간순, 서로 겹치거나 맞닿은 것만 하나로 합치고 틈이 있으면 나뉨. 요청 범위를 벗어난 부분은 자름. 녹화가 없으면 빈 목록)
 - **오류 응답**
   400 INVALID_INPUT (from ≥ to, 범위가 24시간 초과, 시각 형식 오류)
 - **비고**: FNC-A-043(구간 조회)·FNC-A-047에서 호출. 보관 기간(RECORDING_RETENTION_DAYS, 기본 30일)을 넘은 부분은 구간에 넣지 않음
