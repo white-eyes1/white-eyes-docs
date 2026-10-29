@@ -194,7 +194,7 @@
   {"unitType": "ZONE", "items": [{"id": 15, "name": "궁동 1구역", "regionPath": "유성구 · 궁동", "centerLat": 36.3621, "centerLng": 127.3449, "countAvg": 120.4, "currentCount": 118, "density": 0.92, "level": 2, "statAt": "2026-10-12T14:03:00+09:00", "todayEventCount": 1, "ongoingEvent": true}]}
   (regionPath·centerLat·centerLng는 ZONE일 때만. regionPath는 구역이 속한 '시·군·구 · 읍·면·동' 이름으로 구역 핀 툴팁에 쓴다)
 - **오류 응답**: 404
-- **비고**: FNC-C-009·030. 5분 안에 통계 없으면 level=null. currentCount(5초마다 갱신되는 그 시점 인원, 지역이면 신선한 구역의 합)는 관리자 앱에서만 채운다. 15초 안의 값이 없거나 사용자 앱이면 null이고 화면은 countAvg를 쓴다(결정 0018)
+- **비고**: FNC-C-009·030. 5분 안에 통계 없으면 level=null이다. 단, 1분 통계가 없어도 currentCount는 채워질 수 있다(그때 countAvg·density·level·statAt은 null). currentCount(5초마다 갱신되는 그 시점 인원, 지역이면 신선한 구역의 합)는 관리자 앱에서만 채운다. 15초 안의 값이 없거나 사용자 앱이면 null이고 화면은 countAvg를 쓴다(결정 0018)
 
 ### GET /api/v1/map/flows — 이동 흐름
 
@@ -339,7 +339,7 @@
   200
   {"statAt": "…", "countAvg": 120.4, "currentCount": 118, "density": 0.92, "level": 2, "inflow": 21, "outflow": 18, "mainDirection": "E", "todayEventCount": 3, "cameraCount": 16, "runningCameraCount": 4, "todayMaxCount": 247}
 - **오류 응답**: 404
-- **비고**: FNC-C-016·017. currentCount는 관리자 앱에서만 채운다(15초 안의 값이 없거나 사용자 앱이면 null, 결정 0018)
+- **비고**: FNC-C-016·017. currentCount는 관리자 앱에서만 채운다(15초 안의 값이 없거나 사용자 앱이면 null, 결정 0018). 1분 통계가 없어도 currentCount는 채워질 수 있다. 예(막 가동해 1분 통계가 아직 없음): {"statAt": null, "countAvg": null, "currentCount": 118, "density": null, "level": null, "inflow": null, "outflow": null, "mainDirection": null, "todayEventCount": 0, "cameraCount": 16, "runningCameraCount": 4, "todayMaxCount": null}
 
 ### GET /api/v1/dashboard/hourly-levels — 시간대별 혼잡 단계
 

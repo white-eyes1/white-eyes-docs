@@ -201,8 +201,8 @@
   3. 지역은 소속 구역 값을 합산(설정·규약 시트 '혼잡 단계 판정')
   4. 단계·색 계산
   5. 단위별 오늘 혼잡·급증 이벤트 수와 진행 중 이벤트 여부를 붙여 반환
-- **업무 규칙/검증**: 최근 5분 안에 통계가 없으면 '데이터 없음'(회색)
-- **정상 결과**: 단위별 {id, name, countAvg, density, level, statAt, todayEventCount, ongoingEvent} (+ ZONE이면 centerLat, centerLng)
+- **업무 규칙/검증**: 최근 5분 안에 통계가 없으면 '데이터 없음'(회색). 단, 현재 인원(currentCount)은 예외다: 1분 통계가 없어도 15초 안의 5초 값이 있으면 그 단위에 currentCount만 채워질 수 있다(countAvg·density·level·statAt은 null). 관리자 앱만, 지역은 신선한 구역의 합
+- **정상 결과**: 단위별 {id, name, countAvg, currentCount, density, level, statAt, todayEventCount, ongoingEvent} (+ ZONE이면 centerLat, centerLng)
 - **예외 상황 및 처리**: -
 - **후속 동작**: 실시간 갱신(FNC-C-022)으로 1분마다 다시 칠함
 - **관련 요구사항 ID**
@@ -334,7 +334,7 @@
   4. 오늘 이벤트 수(FNC-C-017) 함께 반환
   5. 대상 아래 캠 수(삭제 제외)와 가동 중(RUNNING) 캠 수
   6. 오늘 최대 인원 = 오늘 1분 통계 count_max의 최댓값(지역은 같은 시각 소속 구역 합의 최댓값)
-- **업무 규칙/검증**: 최근 5분 안에 통계가 없으면 '데이터 없음'. 화면의 '현재 인원' 숫자는 currentCount(관리자 앱에서 5초마다 갱신되는 그 시점 인원)를 쓰고, 없으면(null, 사용자 앱은 항상) countAvg(1분 평균)를 쓴다. 밀집도·혼잡 단계·유입/유출·오늘 최대 인원은 1분 통계 기준 그대로다(5초 인원이 오늘 최대 인원보다 커질 수 있다)
+- **업무 규칙/검증**: 최근 5분 안에 통계가 없으면 '데이터 없음'. 단, 현재 인원은 예외다: 1분 통계가 없어도 currentCount(15초 안의 5초 값)가 있으면 그 숫자를 보이고(statAt은 null), 밀집도·혼잡 단계 등 나머지는 '-'/'데이터 없음'이다. 화면의 '현재 인원' 숫자는 currentCount(관리자 앱에서 5초마다 갱신되는 그 시점 인원)를 쓰고, 없으면(null, 사용자 앱은 항상) countAvg(1분 평균)를 쓴다. 밀집도·혼잡 단계·유입/유출·오늘 최대 인원은 1분 통계 기준 그대로다(5초 인원이 오늘 최대 인원보다 커질 수 있다)
 - **정상 결과**: {statAt, countAvg, currentCount, density, level, inflow합, outflow합, mainDirection, todayEventCount, cameraCount, runningCameraCount, todayMaxCount}
 - **예외 상황 및 처리**: -
 - **후속 동작**: 실시간 갱신으로 관리자 앱은 현재 인원을 5초마다, 나머지는 1분마다 다시 표시(사용자 앱은 모두 1분마다)
