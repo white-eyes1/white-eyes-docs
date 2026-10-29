@@ -103,6 +103,7 @@
 | EVENT_MIN_SAMPLE_SEC | 30 | 1분 통계의 결과 초 수가 이보다 적으면 혼잡·급증 검사 안 함(캠 시작 직후 등 불완전한 1분 제외) |
 | CAM_FAULT_TIMEOUT_SEC | 60 | 가동 중 캠의 결과가 이 시간 이상 없으면 캠 이상(evtdet-003) |
 | MINUTE_CLOSE_GRACE_SEC | 5 | 1분 마감 대기 시간. 14:03 구간은 14:04:05에 마감, 이후 도착한 14:03 결과는 버림 |
+| NOW_COUNT_FRESH_SEC | 15 | 관리자 앱의 현재 인원(메모리 누적기의 가장 최근 초)이 이 시간보다 오래되면 쓰지 않고 1분 평균으로 되돌림(FNC-A-054). 갱신 주기는 통계 SSE의 5초 확인(FNC-C-022) |
 | STAT_MINUTE_RETENTION_DAYS | 90 | 1분 통계 보관(stagg-004) |
 | RECORDING_RETENTION_DAYS | 30 | 녹화 기록 보관(rec-002). 파일은 스토리지 서버가 32일 이상 지난 것(find -mtime +31)을 삭제 |
 | RESULT_RETRY_BUFFER_SEC | 300 | 분석 서버의 전송 실패 결과 보관 한도(vanly-006) |
