@@ -338,8 +338,10 @@
 - **Response**
   200
   {"statAt": "…", "countAvg": 120.4, "currentCount": 118, "density": 0.92, "level": 2, "inflow": 21, "outflow": 18, "mainDirection": "E", "todayEventCount": 3, "cameraCount": 16, "runningCameraCount": 4, "todayMaxCount": 247}
+  200 (막 가동해 1분 통계가 아직 없고 5초 현재 인원만 있을 때)
+  {"statAt": null, "countAvg": null, "currentCount": 118, "density": null, "level": null, "inflow": null, "outflow": null, "mainDirection": null, "todayEventCount": 0, "cameraCount": 16, "runningCameraCount": 4, "todayMaxCount": null}
 - **오류 응답**: 404
-- **비고**: FNC-C-016·017. currentCount는 관리자 앱에서만 채운다(15초 안의 값이 없거나 사용자 앱이면 null, 결정 0018). 1분 통계가 없어도 currentCount는 채워질 수 있다. 예(막 가동해 1분 통계가 아직 없음): {"statAt": null, "countAvg": null, "currentCount": 118, "density": null, "level": null, "inflow": null, "outflow": null, "mainDirection": null, "todayEventCount": 0, "cameraCount": 16, "runningCameraCount": 4, "todayMaxCount": null}
+- **비고**: FNC-C-016·017. currentCount는 관리자 앱에서만 채운다(15초 안의 값이 없거나 사용자 앱이면 null, 결정 0018). 1분 통계가 없어도 currentCount는 채워질 수 있다(위 두 번째 응답 예). 그때 화면은 현재 인원 숫자만 보이고 밀집도·혼잡 단계는 '-'/'데이터 없음'이다
 
 ### GET /api/v1/dashboard/hourly-levels — 시간대별 혼잡 단계
 
