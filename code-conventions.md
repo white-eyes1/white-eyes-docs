@@ -86,7 +86,7 @@
 - DTO는 Java `record`를 기본으로 한다. 엔티티는 `record`로 만들지 않는다.
 - 엔티티에 public setter를 열지 않는다. 상태 변경은 의미 있는 메서드로: `camera.start()`, `event.resolve(actionCode, note, adminId)`.
   - 함께 바뀌어야 하는 값(예: 처리 상태·처리자·처리 시각)을 한 메서드에서만 바꾸게 해서 일부만 바뀐 데이터가 저장되지 않게 한다. JPA는 트랜잭션 안에서 바뀐 값을 자동으로 UPDATE하므로, 값을 바꾸는 곳이 메서드 이름으로 모여 있어야 찾을 수 있다.
-  - 수정 화면처럼 여러 필드를 바꾸는 경우도 setter 대신 `zone.update(name, …)` 같은 메서드 하나로 바꾼다. 테스트 데이터는 생성자·정적 팩토리로 만든다.
+  - 수정 화면처럼 여러 필드를 바꾸는 경우도 setter 대신 `zone.update(name, …)` 같은 메서드 하나로 바꾼다. 테스트 데이터는 생성자·정적 팩토리로 만든다(생성자에 `@Builder`가 있으면 빌더로 만들어도 된다).
 - 날짜·시각은 `java.time`을 쓴다. 저장은 `LocalDateTime`(KST), API 응답은 `OffsetDateTime`(+09:00)으로 바꿔 내보낸다(conventions.md '시각 형식').
 - `Optional`은 반환값에만 쓴다(필드·매개변수에 쓰지 않음).
 - 문자열 비교는 `"RUNNING".equals(status)`처럼 상수 쪽에서 하거나 Enum으로 비교한다.
@@ -108,13 +108,14 @@ Package → Import → 클래스 선언 → 상수 → 필드 → 생성자 → 
 | `@Getter` | 엔티티. DTO는 record라 쓰지 않는다 |
 | `@NoArgsConstructor(access = AccessLevel.PROTECTED)` | 엔티티(JPA용 기본 생성자) |
 | `@EqualsAndHashCode`, `@AllArgsConstructor` | 복합키 ID 클래스(`@Embeddable`·`@IdClass`)만 |
+| `@Builder` | 생성자(주로 `private`, 같은 타입 인자가 많은 엔티티 생성자 등) 또는 record 선언에 붙인다. record가 아닌 클래스 선언에는 붙이지 않는다(decisions/0019) |
 
-- 쓰지 않는 것: `@Setter`·`@Data`(엔티티 setter 금지와 충돌), Lombok `@Value`(DTO는 record), `@Builder`, 복합키 ID 클래스 밖의 `@AllArgsConstructor`, `@Log4j2`·`@Log4j`·`@Log`(7-1), 엔티티의 `@ToString`·`@EqualsAndHashCode`.
+- 쓰지 않는 것: `@Setter`·`@Data`(엔티티 setter 금지와 충돌), Lombok `@Value`(DTO는 record), record가 아닌 클래스 선언의 `@Builder`, 복합키 ID 클래스 밖의 `@AllArgsConstructor`, `@Log4j2`·`@Log4j`·`@Log`(7-1), 엔티티의 `@ToString`·`@EqualsAndHashCode`.
   - 엔티티의 `@ToString`은 연관 필드를 지연 로딩하거나 서로를 계속 불러 무한 재귀가 되고, 비밀번호 해시 같은 값을 로그에 남긴다(7-4).
   - 엔티티의 `@EqualsAndHashCode`는 모든 필드로 비교하므로 저장 전후로 id가 바뀌면 `HashSet` 등에서 찾지 못한다.
 - 스프링의 `@Value("${…}")`(설정값 주입)는 Lombok `@Value`와 다른 어노테이션이라 이 금지와 상관없다.
 - 생성자를 직접 쓰는 예외: 생성자 매개변수에 `@Value("${…}")`·`@Qualifier`를 붙여야 할 때, 생성자 안에 로직이 있을 때.
-- 이 표는 white-eyes-spring 루트의 `lombok.config`(`lombok.*.flagUsage = error`)로 빌드에서 막는다. `lombok.config`로 막을 수 없는 것(엔티티의 `@ToString`·`@EqualsAndHashCode`, 빈 필드의 `final`)은 아키텍처 테스트로 확인한다. 도입 전까지는 리뷰에서 확인한다.
+- 이 표는 white-eyes-spring 루트의 `lombok.config`(`lombok.*.flagUsage = error`)로 빌드에서 막는다. `lombok.config`로 막을 수 없는 것(엔티티의 `@ToString`·`@EqualsAndHashCode`, 빈 필드의 `final`)은 아키텍처 테스트로 확인한다. 도입 전까지는 리뷰에서 확인한다. `@Builder`를 붙인 위치는 둘 다 확인할 수 없어 리뷰에서 본다.
 
 ## 4. Python 규칙 (white-eyes-flask)
 
