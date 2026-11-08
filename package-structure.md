@@ -28,7 +28,7 @@ user ──▶ common ◀── admin
 ## 3. white-eyes-spring 저장소 구조
 ```
 white-eyes-spring/
-├── settings.gradle                 rootProject.name = 'white-eyes-spring', include 'common', 'user', 'admin'
+├── settings.gradle                 rootProject.name = 'white-eyes-spring', include 'common', 'user', 'admin', 'tools'
 ├── build.gradle                    공통 설정(Java 17, Logback 제외·Log4j2, Spotless)
 ├── .editorconfig · .prettierrc · eslint 설정
 │
@@ -73,7 +73,7 @@ white-eyes-spring/
         │   ├── AdminApplication.java
         │   ├── account/        AdminAccount 엔티티·리포지토리, 최고 관리자 초기 등록,
         │   │                   사용자·관리자 관리, 강제 로그아웃(FNC-A-001~011)
-        │   ├── region/         행정구역 적재, 구역 미리보기·등록·수정·이웃·삭제(FNC-A-012~017)
+        │   ├── region/         구역 미리보기·등록·수정·이웃·삭제(FNC-A-013~017)
         │   ├── camera/         캠 등록·수정·가동·정지·상태·삭제, 분석 서버 호출(client/),
         │   │                   상태 보고·가동 대상 목록 내부 API(FNC-A-018~023·025·027)
         │   ├── stat/           분석 결과 수신, 1분·시간별·일별 집계, 보충, 정리(FNC-A-024·028~032)
@@ -81,7 +81,6 @@ white-eyes-spring/
         │   ├── media/          Recording 엔티티·리포지토리, 녹화 등록 내부 API, 실시간 권한 확인,
         │   │                   카드 미리보기, 다시보기·파일 전송(FNC-A-026·041~047)
         │   ├── notification/   관리자 알림 SSE(FNC-A-048)
-        │   ├── demo/           시연용 통계 생성·삭제(FNC-A-051·052) — local·dev 프로필에서만 등록
         │   ├── history/        작업 기록 조회(FNC-A-053)
         │   └── config/         관리자 앱 보안, 세션 테이블 SPRING_SESSION_ADMIN, 쿠키 ADMIN_SESSION,
         │                       내부 포트(8082) 연결, 스케줄러
@@ -89,7 +88,14 @@ white-eyes-spring/
             ├── application.yml (+ application-local.yml, -dev, -prod)
             ├── templates/admin/ 운영 화면(사용자·관리자·구역·캠·이벤트·다시보기·작업 기록)
             ├── static/js/admin/ 관리자 화면 전용 JS
-            └── db/migration/   Flyway 마이그레이션(관리자 앱만 실행)
+            └── db/             Flyway(관리자 앱만 실행): migration/ 스키마, regions/ 행정구역(FNC-A-012,
+                                반복 마이그레이션), mysql/ 사용자 앱 계정 권한(afterMigrate, MySQL만)
+
+tools/                          보조 도구(decisions/0020). common에만 의존, 웹·예약 작업 없음, 운영에 올리지 않음
+    └── src/main/java/com/whiteeyes/tools/
+        ├── ToolsApplication.java   첫 인자가 명령(generate-demo, delete-demo, region-sql)
+        ├── demo/           시연용 통계 생성·삭제(FNC-A-051·052) — local·dev 프로필에서만 실행
+        └── region/         행정구역 경계 → Flyway SQL(region-sql, FNC-A-012). DB에 접속하지 않음
 ```
 - 같은 도메인 이름이 여러 모듈에 있을 수 있다(예: common의 `camera`는 엔티티·조회, admin의 `camera`는 관리 기능). 같은 도메인끼리는 모듈이 달라도 한 기능 영역으로 본다.
 - 앱 이름(`spring.application.name`): 사용자 앱 `white-eyes-user`, 관리자 앱 `white-eyes-admin`. 로그·컨테이너 이름에 그대로 쓴다.

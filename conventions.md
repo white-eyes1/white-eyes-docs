@@ -11,6 +11,7 @@
 |---|---|---|
 | 사용자 앱(user) | Spring Boot, 포트 8080, 컨텍스트 경로 / | 외부 공개. nginx가 / 이하 요청을 전달 |
 | 관리자 앱(admin) | Spring Boot, 웹 포트 8081(컨텍스트 경로 /admin), 내부 통신 포트 8082 | 8082에는 /internal/** 만 연결하고 내부 토큰으로 확인. 포트별 접근 제한(VM별 방화벽)은 2순위 |
+| 보조 도구(tools) | Gradle 모듈, 명령을 실행하고 끝남(웹 서버·포트 없음) | 시연용 통계 생성·삭제(local·dev만), 행정구역 SQL 만들기. 운영(prod)에 올리지 않는다(decisions/0020) |
 | 공통 모듈(common) | Gradle 모듈, 단독 실행 없음 | 엔티티·리포지토리·통계 조회·공통 화면(Thymeleaf 템플릿·정적 파일)·작업 기록 저장·예외 처리·보안 공통 설정 |
 | 분석 서버(analyzer) | Flask, 포트 5000, 경로 /analyzer/v1/** | 관리자 앱(시작·정지 지시)과 웹 서버(실시간 화면)만 접근. WSGI 워커 1개로 실행한다(캠 작업은 프로세스 안의 스레드, 캠 작업 상태를 프로세스 메모리에 둠) |
 | 웹 서버(nginx) | 포트 80 | 외부에서 접근 가능한 유일한 입구 |
@@ -123,7 +124,9 @@
 | EXPORT_MAX_RANGE | 1m: 7일 / 1h: 93일 / 1d 이상: 10년, 예상 행 수 100만 이하 | 엑셀 최대 기간(xlsx-002) |
 | COMPARE_MAX_CHILDREN | 10 | 여러 지역 비교 최대 개수(stagraph-002) |
 | SUPER_ADMIN_LOGIN_ID / SUPER_ADMIN_INITIAL_PASSWORD | (비밀값) | 최고 관리자 최초 등록용(perm-005) |
-| DB_URL / DB_USERNAME / DB_PASSWORD (DB 계정) | (비밀값) 앱마다 다른 DB 계정 | 사용자 앱 계정: admin_account·SPRING_SESSION_ADMIN 권한 없음, 테이블 변경(DDL) 권한 없음. 관리자 앱 계정: 전체 테이블 + Flyway 실행(DDL). 권한 부여(GRANT)는 DB 초기화 스크립트로 환경마다 같게 적용 |
+| DB_URL / DB_USERNAME / DB_PASSWORD (DB 계정) | (비밀값) 앱마다 다른 DB 계정 | 사용자 앱 계정: admin_account·SPRING_SESSION_ADMIN 권한 없음, 테이블 변경(DDL) 권한 없음. 관리자 앱 계정: 전체 테이블 데이터 읽기·쓰기(DDL 없음). 계정 생성은 DB 초기화 스크립트, 사용자 앱 계정의 표 권한은 관리자 앱 시작 때 Flyway(afterMigrate)가 준다 |
+| FLYWAY_DB_USERNAME / FLYWAY_DB_PASSWORD (Flyway 계정) | (비밀값) 관리자 앱만 | 관리자 앱 시작 때 Flyway만 쓴다. 표 변경(DDL)과 사용자 앱 계정 권한 부여(GRANT OPTION). 주지 않으면 관리자 앱 계정을 쓴다(시험) |
+| USER_DB_USERNAME / USER_DB_HOST | white_eyes_user / % | 관리자 앱만. Flyway가 표 권한을 줄 사용자 앱 계정(decisions/0020) |
 | ANALYZER_BASE_URL / ADMIN_INTERNAL_BASE_URL | http://{분석 서버 IP}:5000 / http://{관리자 앱 IP}:8082/admin | 서버 주소는 모두 환경변수(DMZ 전환 대비). 관리자 앱은 컨텍스트 경로가 /admin이라 8082 포트에서도 /admin까지가 기준 주소다. 분석 서버는 여기에 /internal/v1/…을 이어 붙인다 |
 
 ## 공유 폴더 구조(/srv/media)
@@ -158,4 +161,4 @@
 | 엑셀 | Apache POI SXSSF | 스트리밍 작성(대용량 메모리 방지) |
 | 화면 | Leaflet + Leaflet-Geoman(지도·구역 그리기), Chart.js(그래프) | 공통 정적 파일로 두 앱이 함께 사용. 지도 코드는 지도 모듈 한 파일에만 둠 |
 | 분석 서버 | Flask, VisDrone YOLOv8m(ultralytics), PointTracker(직접 구현), OpenCV, ffmpeg(녹화) | GPU 없음 기준. 가중치는 pickle 형식이라 믿을 수 있는 파일만 씀. YOLO-CROWD(YOLOv5 코드 + yolo-crowd.pt, torch 2.6 이상은 torch.load(weights_only=False))는 DETECTOR=yolo-crowd로 고를 수 있게 남김(0001) |
-| DB 마이그레이션 | Flyway | 관리자 앱만 실행(두 앱이 동시에 돌리면 충돌). 사용자 앱은 spring.flyway.enabled=false |
+| DB 마이그레이션 | Flyway | 관리자 앱만 실행(두 앱이 동시에 돌리면 충돌). 사용자 앱은 spring.flyway.enabled=false. 위치: db/migration(스키마), db/regions(행정구역, 반복), db/mysql(사용자 앱 계정 권한, MySQL만) |
