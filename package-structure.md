@@ -158,7 +158,7 @@ white-eyes-flask/
 │   ├── common/                     오류 응답
 │   ├── camera/                     camera_controller.py(/analyzer/v1/cameras/*), camera_service.py(캠 작업 시작·정지·상태),
 │   │                               camera_job.py(캠마다 스레드 1개), 더미 영상 준비·재생(FNC-S-001·002·009·010),
-│   │                               admin_client.py(관리자 앱 내부 API 호출: 결과 전송·상태 보고·녹화 등록·재가동 복구, FNC-S-006·010·012)
+│   │                               admin_client.py(관리자 앱 내부 API 호출: 결과 전송 FNC-S-006, 상태 보고 FNC-S-001, 녹화 등록 FNC-S-008·010, 재시작 복구 FNC-S-012)
 │   ├── analysis/                   detector.py(YOLO-CROWD), aerial_detector.py(VisDrone YOLOv8m), boxes.py(박스 정리·합치기),
 │   │                               point_tracker.py, tracker.py(캠 추적기), edge_counter.py(유입/유출·체류 시간 계산)(FNC-S-003~005)
 │   ├── live/                       RTSP 읽기·재연결(FNC-S-007)
