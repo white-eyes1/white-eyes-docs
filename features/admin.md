@@ -586,7 +586,7 @@
   1. 현재 시각 ≥ 분 끝 + 5초(MINUTE_CLOSE_GRACE_SEC)인 누적기를 마감
   2. 값 계산: count_avg=초별 인원 평균, count_max/min=초별 최대/최소(반올림 정수), density=count_avg÷현재 구역 면적, in/out 방향별 합, dwell_sum_sec·dwell_count, sample_sec=받은 초 수
   3. (zone_id, stat_at) 기준 INSERT … ON DUPLICATE KEY UPDATE
-  4. 이벤트 검사(FNC-A-033·034)
+  4. 이벤트 검사(FNC-A-033·034). 결과 끊김 종료(FNC-A-033 5번)는 마감할 행이 없는 구역도 매 분 검사한다
   5. 누적기 삭제
 - **업무 규칙/검증**: 결과가 하나도 없는 분은 행을 만들지 않음(빈 구간). 날짜·시각은 KST
 - **정상 결과**: zone_stat_minute 1행
@@ -689,14 +689,15 @@
      - 열린 CONGESTION 이벤트 있음 → peak_level·peak_value(밀집도)·peak_count(인원) 최댓값 갱신, below_since=NULL
      - 없음 → 새 이벤트(started_at=stat_at, peak_level, peak_value, peak_count, threshold_snapshot, status=UNCHECKED) 저장 후 알림 SSE
   4. 단계 < 2이고 열린 이벤트 있음 → below_since가 비면 stat_at 기록, 이미 있고 stat_at−below_since ≥ EVENT_CLOSE_HOLD_MIN(5분)이면 ended_at=stat_at
-- **업무 규칙/검증**: 구역·종류당 열린 이벤트는 하나. threshold_snapshot = {warnDensity, dangerDensity} 당시 값
+  5. 결과 끊김 종료: 열린 CONGESTION 이벤트가 있는 구역에서 판정 가능한 분(sample_sec ≥ EVENT_MIN_SAMPLE_SEC)이 기준 시각 뒤로 EVENT_CLOSE_HOLD_MIN 이상 없으면 ended_at = 마지막 판정 가능 분의 stat_at + 1분. 기준 시각 = max(마지막 판정 가능 분의 stat_at, 관리자 앱 시작 시각). 마지막 판정 가능 분이 없거나 started_at보다 앞이면 ended_at = started_at + 1분
+- **업무 규칙/검증**: 구역·종류당 열린 이벤트는 하나. threshold_snapshot = {warnDensity, dangerDensity} 당시 값. 캠 정지·삭제·결과 끊김·구역 삭제로 행이 만들어지지 않아도 5번으로 닫힌다(삭제된 구역 포함). 앱 시작 시각부터 세는 것은 재시작 직후 이벤트가 닫혔다 다시 열려 둘로 나뉘지 않게 하려는 것
 - **정상 결과**: 이벤트 생성·갱신·종료
 - **예외 상황 및 처리**: -
 - **후속 동작**: 새 이벤트면 관리자 화면 알림(FNC-A-048)
 - **관련 요구사항 ID**
   evtdet-001
   evtdet-004~006
-- **완료/검수 기준**: 단계 경계 근처 오르내림에서 이벤트가 하나로 유지
+- **완료/검수 기준**: 단계 경계 근처 오르내림에서 이벤트가 하나로 유지. 열린 이벤트가 있는 구역의 캠을 정지하면 5분 뒤 마지막 결과가 있던 분의 끝 시각으로 종료
 
 ### FNC-A-034 급증 이벤트 판정
 
@@ -713,6 +714,7 @@
      - 열린 SURGE 있음 → peak_value(증가율)·peak_count(인원) 최댓값 갱신, below_since=NULL
      - 없음 → 새 이벤트 저장(snapshot: window, rate, minDensity) 후 알림
   4. 조건 미충족 또는 증가율 < SURGE_RATE_PCT이고 열린 이벤트 있음 → FNC-A-033 4번과 같은 방식으로 EVENT_CLOSE_HOLD_MIN 유지 시 종료
+  5. 결과 끊김 종료: FNC-A-033 5번과 같은 방식(SURGE)
 - **업무 규칙/검증**: 최소 인원 = 최소 밀집도 × 구역 면적(자동). 증가율이 peak_value 상한(999,999.9999)을 넘으면 상한값으로 잘라 저장
 - **정상 결과**: 이벤트 생성·갱신·종료
 - **예외 상황 및 처리**: -

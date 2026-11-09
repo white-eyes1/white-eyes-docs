@@ -100,7 +100,7 @@
 |---|---|---|
 | THRESHOLD_WARN_DENSITY / THRESHOLD_DANGER_DENSITY | 0.7 / 1.5 (명/㎡) | 주의·위험이 시작되는 밀집도. 개발 중 실제 영상으로 조정(evthres-002) |
 | SURGE_WINDOW_MIN / SURGE_RATE_PCT / SURGE_MIN_DENSITY | 10 / 50 / 0.2 | 급증 비교 시간(분)·증가율(%)·최소 밀집도(evthres-003) |
-| EVENT_CLOSE_HOLD_MIN | 5 | 경계 아래로 이 시간 유지되면 혼잡·급증 이벤트 종료(evtdet-005) |
+| EVENT_CLOSE_HOLD_MIN | 5 | 경계 아래로 이 시간 유지되거나, 판정 가능한 결과가 이 시간 끊기면 혼잡·급증 이벤트 종료(evtdet-005, FNC-A-033 5번) |
 | EVENT_MIN_SAMPLE_SEC | 30 | 1분 통계의 결과 초 수가 이보다 적으면 혼잡·급증 검사 안 함(캠 시작 직후 등 불완전한 1분 제외) |
 | CAM_FAULT_TIMEOUT_SEC | 60 | 가동 중 캠의 결과가 이 시간 이상 없으면 캠 이상(evtdet-003) |
 | MINUTE_CLOSE_GRACE_SEC | 5 | 1분 마감 대기 시간. 14:03 구간은 14:04:05에 마감, 이후 도착한 14:03 결과는 버림 |
