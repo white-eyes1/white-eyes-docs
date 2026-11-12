@@ -14,7 +14,7 @@
 ![mysql](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
 ![yolo](https://img.shields.io/badge/YOLOv8-VisDrone-00FFFF?style=for-the-badge&logo=yolo&logoColor=black)
 
-[문서 목차](INDEX.md) · [프로젝트 개요](overview.md) · [수정 규칙](CLAUDE.md) · [이슈](https://github.com/white-eyes1/white-eyes-docs/issues)
+[프로젝트 소개](https://github.com/white-eyes1/white-eyes-introduce) · [문서 목차](INDEX.md) · [프로젝트 개요](overview.md) · [수정 규칙](CLAUDE.md) · [이슈](https://github.com/white-eyes1/white-eyes-docs/issues)
 
 </div>
 
@@ -50,14 +50,15 @@ White Eyes는 높은 고도에서 촬영한 드론·CCTV 영상으로 사람을 
 
 ## 저장소 구성
 
-프로젝트는 네 개의 저장소로 나뉘며, 이 저장소는 나머지 저장소가 따르는 기준 문서다.
+프로젝트는 다섯 개의 공개 저장소로 나뉘며, 이 저장소는 나머지 저장소가 따르는 기준 문서다.
 
 | 저장소 | 역할 |
 |---|---|
 | **white-eyes-docs** (현재) | 명세 원본: 요구사항, 기능, 화면, API, 테이블, 컨벤션 |
 | white-eyes-spring | 사용자 앱, 관리자 앱, 공통 모듈 (Java 17, Spring Boot) |
 | white-eyes-flask | 분석 서버 (Python 3.12, Flask, YOLOv8 + PointTracker) |
-| white-eyes-deploy | 배포 설정 |
+| white-eyes-deploy | local 전체 실행 설정 (docker compose, nginx, MySQL) |
+| [white-eyes-introduce](https://github.com/white-eyes1/white-eyes-introduce) | 프로젝트 소개 (화면, 시스템 구성, 일하는 방식) |
 
 ```mermaid
 flowchart LR
