@@ -54,10 +54,10 @@ White Eyes는 높은 고도에서 촬영한 드론·CCTV 영상으로 사람을 
 
 | 저장소 | 역할 |
 |---|---|
-| **white-eyes-docs** (현재) | 명세 원본: 요구사항, 기능, 화면, API, 테이블, 컨벤션 |
-| white-eyes-spring | 사용자 앱, 관리자 앱, 공통 모듈 (Java 17, Spring Boot) |
-| white-eyes-flask | 분석 서버 (Python 3.12, Flask, YOLOv8 + PointTracker) |
-| white-eyes-deploy | local 전체 실행 설정 (docker compose, nginx, MySQL) |
+| **[white-eyes-docs](https://github.com/white-eyes1/white-eyes-docs)** (현재) | 명세 원본: 요구사항, 기능, 화면, API, 테이블, 컨벤션 |
+| [white-eyes-spring](https://github.com/white-eyes1/white-eyes-spring) | 사용자 앱, 관리자 앱, 공통 모듈 (Java 17, Spring Boot) |
+| [white-eyes-flask](https://github.com/white-eyes1/white-eyes-flask) | 분석 서버 (Python 3.12, Flask, YOLOv8 + PointTracker) |
+| [white-eyes-deploy](https://github.com/white-eyes1/white-eyes-deploy) | local 전체 실행 설정 (docker compose, nginx, MySQL) |
 | [white-eyes-introduce](https://github.com/white-eyes1/white-eyes-introduce) | 프로젝트 소개 (화면, 시스템 구성, 일하는 방식) |
 
 ```mermaid
