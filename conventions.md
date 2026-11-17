@@ -160,5 +160,5 @@
 | 다각형 계산 | JTS(org.locationtech.jts) | 다각형 검증(isValid)·내부 점(getInteriorPoint)·포함 여부 |
 | 엑셀 | Apache POI SXSSF | 스트리밍 작성(대용량 메모리 방지) |
 | 화면 | Leaflet + Leaflet-Geoman(지도·구역 그리기), Chart.js(그래프) | 공통 정적 파일로 두 앱이 함께 사용. 지도 코드는 지도 모듈 한 파일에만 둠 |
-| 분석 서버 | Flask, VisDrone YOLOv8m(ultralytics), PointTracker(직접 구현), OpenCV, ffmpeg(녹화) | GPU 없음 기준. 가중치는 pickle 형식이라 믿을 수 있는 파일만 씀. YOLO-CROWD는 코드에서 제거함(0001) |
+| 분석 서버 | Flask, VisDrone YOLOv8m(ultralytics), PointTracker(직접 구현), OpenCV, ffmpeg(녹화) | GPU 없음 기준. 가중치는 pickle 형식이라 믿을 수 있는 파일만 씀. YOLO-CROWD는 코드에서 제거함(0021) |
 | DB 마이그레이션 | Flyway | 관리자 앱만 실행(두 앱이 동시에 돌리면 충돌). 사용자 앱은 spring.flyway.enabled=false. 위치: db/migration(스키마), db/regions(행정구역, 반복), db/mysql(사용자 앱 계정 권한, MySQL만) |

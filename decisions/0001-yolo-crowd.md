@@ -29,4 +29,4 @@ YOLO-CROWD(YOLOv5s 기반 머리 탐지, 클래스 'people' 1개)를 입력 960,
 - 현재는 팀 안의 시연·학습 목적으로 쓴다. 배포하거나 저장소·가중치를 공개하기 전에 위 항목을 다시 확인한다.
 
 ## 갱신 (2026-10-20): 0015로 대체
-실제 드론 영상(PM이 준 `drone-vids-v1`)과 새로 뽑은 VisDrone 표본으로 다시 재 보니, YOLO-CROWD는 위에서 내려다본 영상에서 사람을 크게 놓치고(사람이 40명 넘게 보이는 장면에서 2명) ByteTrack으로는 추적 번호가 거의 이어지지 않았다. 사람 탐지는 VisDrone YOLOv8m, 추적은 PointTracker로 바꾼다. 근거와 열린 질문은 0015에 있다. 위 내용은 당시 판단으로 남긴다. 코드에는 `DETECTOR=yolo-crowd`로 계속 고를 수 있게 남겨 두었으나, 2026-11-17 라이선스 정리를 위해 white-eyes-flask에서 YOLO-CROWD 코드(`vendor/yolo_crowd/`)와 `DETECTOR=yolo-crowd` 선택지를 제거했다.
+실제 드론 영상(PM이 준 `drone-vids-v1`)과 새로 뽑은 VisDrone 표본으로 다시 재 보니, YOLO-CROWD는 위에서 내려다본 영상에서 사람을 크게 놓치고(사람이 40명 넘게 보이는 장면에서 2명) ByteTrack으로는 추적 번호가 거의 이어지지 않았다. 사람 탐지는 VisDrone YOLOv8m, 추적은 PointTracker로 바꾼다. 근거와 열린 질문은 0015에 있다. 위 내용은 당시 판단으로 남긴다. 코드에는 `DETECTOR=yolo-crowd`로 계속 고를 수 있게 남겨 두었으나, 2026-11-17 PM 결정으로 white-eyes-flask에서 YOLO-CROWD 코드(`vendor/yolo_crowd/`)와 `DETECTOR=yolo-crowd` 선택지를 제거했다(0021).
