@@ -110,7 +110,7 @@
 | RESULT_RETRY_BUFFER_SEC | 300 | 분석 서버의 전송 실패 결과 보관 한도(vanly-006) |
 | LOG_LEVEL | 관리자·사용자 앱 local·dev DEBUG, prod INFO / 분석 서버 INFO | 로그 레벨(code-conventions 7장). Spring은 `com.whiteeyes` 패키지에만 적용하고 그 밖의 라이브러리는 WARN. 분석 서버도 같은 규칙으로 앱 패키지(`white_eyes_flask`)에만 적용하고 ultralytics·torch 같은 라이브러리는 WARNING 이상만 내며(라이브러리가 import하며 자기 로거를 다시 설정해서 불러온 뒤에 다시 누름), 값이 없거나 알 수 없는 이름이면 INFO |
 | ANALYZE_FPS | 5 | 분석 프레임 수(초당). 입력 960은 이 PC에서 초당 2장 정도라 서버에서 느리면 낮춘다(0015) |
-| DETECTOR | visdrone | 탐지 모델: visdrone(VisDrone YOLOv8m) \| yolo-crowd(0001). 알 수 없는 값이면 시작할 때 오류 |
+| DETECTOR | visdrone | 탐지 모델: visdrone(VisDrone YOLOv8m)만 지원. 다른 값이면 시작할 때 오류 |
 | DETECT_CONF / DETECT_IMGSZ / YOLO_WEIGHTS | 0.3 / 960 / visdrone-yolov8m.pt | 탐지 신뢰도 하한·입력 크기·가중치 파일(DETECTOR에 맞는 파일). VisDrone 사진 120장 측정(0015): 입력 960에서 센 수는 실제의 약 65%, 상관계수 0.93(640: 약 47%, 0.87). 960은 이 PC에서 프레임당 약 0.5초라 ANALYZE_FPS 5를 못 맞춤 — 서버에서 느리면 조정 |
 | DETECT_DEDUPE_OVERLAP | 0 | 같은 사람을 둘로 센 박스를 합치는 기준(겹친 넓이 / 작은 박스 넓이). 0이면 합치지 않음(기본). 켜면 밀집 장면에서 서로 다른 두 사람이 합쳐질 수 있음(사진 재현율 53% → 50%). 합쳐서 얻는 이득이 확인되면 켠다(0015) |
 | MEDIA_ROOT | /srv/media | 분석 서버가 공유 폴더를 읽는 기준 경로. DUMMY 영상은 이 아래 dummy/videos/ 에 있음(FNC-S-001 파일 존재 확인). 경로가 이 폴더 밖(링크 포함)을 가리키면 SOURCE_NOT_FOUND |
@@ -160,5 +160,5 @@
 | 다각형 계산 | JTS(org.locationtech.jts) | 다각형 검증(isValid)·내부 점(getInteriorPoint)·포함 여부 |
 | 엑셀 | Apache POI SXSSF | 스트리밍 작성(대용량 메모리 방지) |
 | 화면 | Leaflet + Leaflet-Geoman(지도·구역 그리기), Chart.js(그래프) | 공통 정적 파일로 두 앱이 함께 사용. 지도 코드는 지도 모듈 한 파일에만 둠 |
-| 분석 서버 | Flask, VisDrone YOLOv8m(ultralytics), PointTracker(직접 구현), OpenCV, ffmpeg(녹화) | GPU 없음 기준. 가중치는 pickle 형식이라 믿을 수 있는 파일만 씀. YOLO-CROWD(YOLOv5 코드 + yolo-crowd.pt, torch 2.6 이상은 torch.load(weights_only=False))는 DETECTOR=yolo-crowd로 고를 수 있게 남김(0001) |
+| 분석 서버 | Flask, VisDrone YOLOv8m(ultralytics), PointTracker(직접 구현), OpenCV, ffmpeg(녹화) | GPU 없음 기준. 가중치는 pickle 형식이라 믿을 수 있는 파일만 씀. YOLO-CROWD는 코드에서 제거함(0021) |
 | DB 마이그레이션 | Flyway | 관리자 앱만 실행(두 앱이 동시에 돌리면 충돌). 사용자 앱은 spring.flyway.enabled=false. 위치: db/migration(스키마), db/regions(행정구역, 반복), db/mysql(사용자 앱 계정 권한, MySQL만) |

@@ -14,7 +14,7 @@ FNC-S-003의 상관계수 0.7 기준은 YOLO-CROWD도 새 표본에서 0.78로 �
 ## 결정
 - 탐지: VisDrone YOLOv8m(Ultralytics, 위에서 내려다본 사람 몸 박스). pedestrian·people 두 클래스를 사람 하나로 합친다. 입력 960, 신뢰도 0.3, NMS IoU 0.45, 같은 사람을 둘로 센 박스를 합치는 기능은 기본으로 끈다(`DETECT_DEDUPE_OVERLAP` 0). 합쳐서 얻는 이득(정밀도 등)은 아직 재지 않았고, 확인되면 그때 켠다.
 - 추적: PointTracker. 박스가 겹치는지가 아니라 중심점 거리로 같은 사람을 잇는다(프로토타입 SkyCrowd에서 쓰던 방식을 다시 구현). 번호는 두 번 관측되면 부여한다.
-- YOLO-CROWD는 `DETECTOR=yolo-crowd`로 계속 고를 수 있게 코드에 남긴다.
+- YOLO-CROWD는 `DETECTOR=yolo-crowd`로 계속 고를 수 있게 코드에 남긴다. (2026-11-17 PM 결정으로 white-eyes-flask에서 YOLO-CROWD 코드(`vendor/yolo_crowd/`)와 `DETECTOR=yolo-crowd` 선택지를 제거했다(0021).)
 - 분석 프레임 수(`ANALYZE_FPS`)와 입력 크기는 바꾸지 않았다. 서버(VM)에 올려 느리면 그때 조정한다(PM 안내(2026-10-20): 서버 속도는 엄격하게 재지 않아도 된다).
 
 ## 근거 (2026-10-20 재측정)
